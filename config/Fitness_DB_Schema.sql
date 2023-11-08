@@ -1,0 +1,230 @@
+DROP DATABASE IF EXISTS fitnessDB;
+CREATE DATABASE fitnessDB;
+USE fitnessDB;
+
+CREATE TABLE User (
+    UserID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    CoachID INT UNSIGNED DEFAULT NULL,
+    FirstName VARCHAR(32) NOT NULL,
+    LastName VARCHAR(32) NOT NULL,
+    Email VARCHAR(64) NOT NULL,
+    Password VARCHAR(32) NOT NULL,
+    PhoneNum VARCHAR(16) NOT NULL,
+    Role VARCHAR(16) NOT NULL,
+    Gender VARCHAR(16) NOT NULL,
+    DOB date NOT NULL,
+    Weight INT NOT NULL,
+    Height INT NOT NULL,
+    ActivityLevel VARCHAR(32) NOT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (UserID)
+);
+
+CREATE TABLE Coach (
+    CoachID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    UserID INT UNSIGNED NOT NULL,
+    Specialties VARCHAR(256),
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (CoachID)
+);
+
+ALTER TABLE User ADD
+	CONSTRAINT UserCoachFK 
+        FOREIGN KEY (CoachID)
+        REFERENCES Coach(CoachID)
+        ON DELETE SET NULL;
+
+ALTER TABLE Coach ADD
+	CONSTRAINT CoachUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE CASCADE;
+
+CREATE TABLE Goal (
+    GoalID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED NOT NULL,
+    GoalType VARCHAR(32) NOT NULL,
+    Description TEXT,
+    WeightGoal INT,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (GoalID),
+    CONSTRAINT GoalUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE WaterIntake (
+    WaterID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED NOT NULL,
+    Date DATE NOT NULL,
+    IntakeAmount FLOAT NOT NULL,
+    IntakeUnit VARCHAR(32) NOT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (WaterID),
+    CONSTRAINT WaterUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE FoodIntake (
+    FoodID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED NOT NULL,
+    Date DATE NOT NULL,
+    FoodName VARCHAR(32) NOT NULL,
+    MealType VARCHAR(16) NOT NULL,
+    Calories INT NOT NULL,
+    Protein INT DEFAULT NULL,
+    Carbs INT DEFAULT NULL,
+    Fat INT DEFAULT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (FoodID),
+    CONSTRAINT FoodUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE MentalState (
+    StateID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED NOT NULL,
+    Date DATE NOT NULL,
+    State VARCHAR(32) NOT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (StateID),
+    CONSTRAINT StateUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Exercise (
+    ExerciseID INT UNSIGNED NOT NULL,
+    Name VARCHAR(32) NOT NULL,
+    MuscleGroup VARCHAR(32),
+    Difficulty VARCHAR(32),
+    Type VARCHAR(32),
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (ExerciseID)
+);
+
+CREATE TABLE WorkoutPlan (
+    PlanID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED NOT NULL,
+    ExerciseID INT UNSIGNED,
+    DayOfWeek VARCHAR(16) NOT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (PlanID),
+    CONSTRAINT PlanUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE CASCADE,
+    CONSTRAINT PlanExerciseFK 
+        FOREIGN KEY (ExerciseID) 
+        REFERENCES Exercise(ExerciseID)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE Record (
+    RecordID INT UNSIGNED NOT NULL,
+    PlanID INT UNSIGNED,
+    ExerciseID INT UNSIGNED,
+    Date DATE NOT NULL,
+    Reps INT NOT NULL,
+    Sets INT NOT NULL,
+    Weight FLOAT DEFAULT NULL,
+    Duration INT NOT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (RecordID),
+    CONSTRAINT RecordPlanFK 
+        FOREIGN KEY (PlanID) 
+        REFERENCES WorkoutPlan(PlanID)
+        ON DELETE SET NULL,
+    CONSTRAINT RecordExerciseFK 
+        FOREIGN KEY (ExerciseID) 
+        REFERENCES Exercise(ExerciseID)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE Request (
+    RequestID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED,
+    CoachID INT UNSIGNED,
+    Status VARCHAR(16) NOT NULL,
+    Goals TEXT DEFAULT NULL,
+    Note TEXT DEFAULT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (RequestID),
+    CONSTRAINT RequestUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE SET NULL,
+    CONSTRAINT RequestCoachFK 
+        FOREIGN KEY (CoachID)
+        REFERENCES Coach(CoachID)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE Appointment (
+    AppointmentID INT UNSIGNED NOT NULL,
+    UserID INT UNSIGNED,
+    CoachID INT UNSIGNED,
+    Date DATE NOT NULL,
+    Time TIME NOT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (AppointmentID),
+    CONSTRAINT AppointmentUserFK 
+        FOREIGN KEY (UserID) 
+        REFERENCES User(UserID)
+        ON DELETE SET NULL,
+    CONSTRAINT AppointmentCoachFK 
+        FOREIGN KEY (CoachID)
+        REFERENCES Coach(CoachID)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE Message (
+    MessageID INT UNSIGNED NOT NULL,
+    SenderID INT UNSIGNED,
+    ReceiverID INT UNSIGNED,
+    Content TEXT NOT NULL,
+    LastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (MessageID),
+    CONSTRAINT SenderFK 
+        FOREIGN KEY (SenderID) 
+        REFERENCES User(UserID)
+        ON DELETE SET NULL,
+    CONSTRAINT ReceiverFK 
+        FOREIGN KEY (ReceiverID) 
+        REFERENCES User(UserID)
+        ON DELETE SET NULL
+);
+
+
+INSERT INTO User (CoachID, FirstName, LastName, Email, Password, PhoneNum, Role, Gender, DOB, Weight, Height, ActivityLevel) 
+VALUES (NULL, 'John', 'Doe', 'john.doe@example.com', 'password123', '123-456-7890', 'Client', 'Male', '1990-01-01', 180, 70, 'Moderate');
