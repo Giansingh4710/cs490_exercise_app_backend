@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const connection = require('./database.js')
 
 const cors = require('cors') // needed to test locally
 const corsOptions = { origin: 'http://localhost:3000' } // url from frontend/react
@@ -11,7 +12,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/health-check', (req, res) => {
-  res.json({ status: 'Working!!!' })
+  // res.json({ status: 'Working!!!' })
+  connection.query(
+    'SELECT * from HealthCheck',
+    (err, rows) => {
+      if (err) throw err
+      res.json(rows)
+    }
+  )
 })
 
 module.exports = app

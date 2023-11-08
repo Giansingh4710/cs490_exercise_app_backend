@@ -1,5 +1,5 @@
 const app = require('./app.js')
-const port = 1313;
+const port = process.env.PORT || 1313
 
 app.listen(port, () => {
   const link = `http://127.0.0.1:${port}`
