@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const connection = require('./config/database')
+const register = require('./Routes/Register')
 
 const cors = require('cors') // needed to test locally
 const corsOptions = { origin: 'http://localhost:3000' } // url from frontend/react
@@ -32,5 +33,7 @@ app.get('/api/users', (req, res) => {
     res.json(results)
   })
 })
+
+app.use('/', register)
 
 module.exports = app
