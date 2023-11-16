@@ -42,7 +42,7 @@ const  registerAccount = async function(request, response){
     try {
         await ClientService.registerClient(request.body);
     } catch (error) {
-        response.status(400).send({error_message: error.message});
+        response.status(400).send({error_message: error.message, "Access-Control-Allow-Origin": '*'});
         return;
     }
 

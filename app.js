@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const connection = require('./config/database')
 const register = require('./Routes/Register')
+const login = require('./Routes/login')
 
 
 const bodyParser = require('body-parser');
@@ -39,6 +40,7 @@ app.get('/', (req, res) => {
 // })
 
 app.use('/', register)
+app.use('/', login)
 
 
 
