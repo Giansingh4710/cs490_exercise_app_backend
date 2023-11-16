@@ -25,6 +25,19 @@ class ClientService {
         return clientRepository.updateClient(surveyData, surveyData.Email);
     }
 
+    // check for email and password
+    async checkPassword(clientData){
+        const client = await clientRepository.findByEmail(clientData.Email);
+        if(client == null){
+            throw new Error("User is not registered");
+        }
+        if(client.Password === clientData.Password){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
 
 module.exports = new ClientService();
