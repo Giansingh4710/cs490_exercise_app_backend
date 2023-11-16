@@ -1,11 +1,16 @@
 const express = require('express')
 const app = express()
 const connection = require('./config/database')
+const register = require('./Routes/Register')
+
+
+const bodyParser = require('body-parser');
 
 const cors = require('cors') // needed to test locally
 const corsOptions = { origin: 'http://localhost:3000' } // url from frontend/react
 app.use(cors(corsOptions))
 app.use(express.json()) // needed to get body from POST request
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
   res.send('Hello, this is the backend of your CS490 exercise app!')
@@ -32,5 +37,9 @@ app.get('/api/users', (req, res) => {
     res.json(results)
   })
 })
+
+app.use('/', register)
+
+
 
 module.exports = app
