@@ -1,7 +1,7 @@
 const { DataTypes, Sequelize } = require('sequelize');
 
 // Replace 'your-mysql-database-uri' with your actual MySQL database URI
-const sequelize = new Sequelize('mysql://root:DB1017490!@localhost:3306/fitnessDB');
+const sequelize = new Sequelize(`mysql://dbuser:${process.env.DB_PASSWORD}@45.56.108.221/fitnessDB`);
 
 const Client = sequelize.define('User', {
     UserID: {type: DataTypes.INTEGER, unique: true, allowNull: false, primaryKey: true, autoIncrement: true},
