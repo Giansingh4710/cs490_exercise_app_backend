@@ -24,9 +24,6 @@ class ClientService {
         }
         return clientRepository.updateClient(surveyData, surveyData.Email);
     }
-    
-
-
 
 }
 

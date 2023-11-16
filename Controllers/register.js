@@ -17,7 +17,7 @@ const storeSurvey = async function(request, response){
     try{
         await ClientService.updateClientProfile(request.body);
     }catch(error){
-        response.status(404).send({error_message: error.message, "Access-Control-Allow-Origin": '*'});
+        response.status(404).send({error: error.message, "Access-Control-Allow-Origin": '*'});
         return;
     }
 
@@ -48,7 +48,6 @@ const  registerAccount = async function(request, response){
 
     response.status(201).send({message: "Created: User account created.", "Access-Control-Allow-Origin": '*'});
 }
-
 
 module.exports = {
     storeSurvey,
