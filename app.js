@@ -16,27 +16,27 @@ app.get('/', (req, res) => {
   res.send('Hello, this is the backend of your CS490 exercise app!')
 })
 
-app.get('/health-check', (req, res) => {
-  connection.query('SELECT * from User', (err, rows) => {
-    if (err) throw err
-    res.json(rows)
-  })
-})
+// app.get('/health-check', (req, res) => {
+//   connection.query('SELECT * from User', (err, rows) => {
+//     if (err) throw err
+//     res.json(rows)
+//   })
+// })
 
-app.get('/api/users', (req, res) => {
-  const query = 'SELECT * FROM User'
+// app.get('/api/users', (req, res) => {
+//   const query = 'SELECT * FROM User'
 
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Error executing query:', err)
-      res.status(500).json({
-        error: 'Error retrieving users from the database.',
-      })
-      return
-    }
-    res.json(results)
-  })
-})
+//   connection.query(query, (err, results) => {
+//     if (err) {
+//       console.error('Error executing query:', err)
+//       res.status(500).json({
+//         error: 'Error retrieving users from the database.',
+//       })
+//       return
+//     }
+//     res.json(results)
+//   })
+// })
 
 app.use('/', register)
 
