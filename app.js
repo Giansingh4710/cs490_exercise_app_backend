@@ -3,6 +3,7 @@ const app = express()
 const connection = require('./config/database')
 const register = require('./Routes/Register')
 const login = require('./Routes/login')
+const logActivity = require('./Routes/LogActivity')
 
 
 const bodyParser = require('body-parser');
@@ -16,6 +17,10 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {
   res.send('Hello, this is the backend of your CS490 exercise app!')
 })
+
+app.use('/', register)
+app.use('/', login)
+app.use('/logActivity', logActivity)
 
 // app.get('/health-check', (req, res) => {
 //   connection.query('SELECT * from User', (err, rows) => {
@@ -39,8 +44,6 @@ app.get('/', (req, res) => {
 //   })
 // })
 
-app.use('/', register)
-app.use('/', login)
 
 
 

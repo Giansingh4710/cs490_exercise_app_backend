@@ -12,6 +12,6 @@ class ClientRepository {
     async updateClient(clientData, email){
         Client.update(clientData, {where: {Email: email}});
     }
-  }
+}
   
-  module.exports = new ClientRepository();
+module.exports = new ClientRepository();

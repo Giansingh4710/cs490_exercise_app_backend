@@ -1,7 +1,6 @@
-const { DataTypes, Sequelize } = require('sequelize');
-
-// Replace 'your-mysql-database-uri' with your actual MySQL database URI
-const sequelize = new Sequelize(`mysql://dbuser:${process.env.DB_PASSWORD}@45.56.108.221/fitnessDB`);
+require('dotenv').config()
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
 
 const Client = sequelize.define('User', {
     UserID: {type: DataTypes.INTEGER, unique: true, allowNull: false, primaryKey: true, autoIncrement: true},
@@ -23,6 +22,5 @@ const Client = sequelize.define('User', {
     timestamps: false,
   }
   );
-
 
 module.exports = Client;
