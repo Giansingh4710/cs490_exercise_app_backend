@@ -1,10 +1,14 @@
+const { Error } = require('sequelize');
 const WaterIntake = require('../models/WaterIntake.js');
 
 class WaterIntakeRepository{
 
     async insertWaterIntake(waterIntake){
-        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+waterIntake.Date)
-        WaterIntake.create(waterIntake);
+        try{
+            WaterIntake.create(waterIntake);
+        }catch(error){
+            console.error(error)
+        }
     }
 
 }
