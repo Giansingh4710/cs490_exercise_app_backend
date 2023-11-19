@@ -1,7 +1,7 @@
 const WaterIntakeService = require('../Services/WaterIntakeService.js')
 const moment = require('moment');
 
-const logWaterIntake = async function(request, response, error){
+const logWaterIntake = async function(request, response){
     // check for json errors
     if(!request.is('*/json')){
         console.log("logWaterInput.js: Invalid request format. Please request in JSON format.")
@@ -83,10 +83,6 @@ function hasAllKeys(object, keys){
         }
     }
     return true;
-}
-
-function validateDate(date) {
-
 }
 
 module.exports = { 
