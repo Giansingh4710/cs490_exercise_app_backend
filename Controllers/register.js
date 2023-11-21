@@ -78,7 +78,7 @@ const registerAccount = async function (request, response) {
     }
   } catch (error) {
     response.status(400).send({
-      error_message: error.message,
+      error: error.message,
       "Access-Control-Allow-Origin": "*",
     });
     return;

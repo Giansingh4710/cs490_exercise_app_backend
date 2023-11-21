@@ -18,6 +18,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const corsOptions = { origin: "http://localhost:3000" }; // url from frontend/react
 app.use(cors(corsOptions));
+
 app.use(express.json()); // needed to get body from POST request
 app.use(bodyParser.json());
 
