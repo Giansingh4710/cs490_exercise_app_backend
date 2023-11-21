@@ -1,7 +1,7 @@
 const WaterIntakeService = require('../Services/WaterIntakeService.js')
 const moment = require('moment');
 
-const logWaterIntake = async function(request, response){
+const logWaterIntake = async function(request, response, error){
     // check for json errors
     if(!request.is('*/json')){
         console.log("logWaterInput.js: Invalid request format. Please request in JSON format.")
