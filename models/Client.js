@@ -2,8 +2,7 @@ const { DataTypes, Sequelize } = require("sequelize");
 
 // Replace 'your-mysql-database-uri' with your actual MySQL database URI
 const sequelize = new Sequelize(
-  // `mysql://dbuser:${process.env.DB_PASSWORD}@45.56.108.221/fitnessDB`
-  "mysql://root:password@localhost/fitnessDB"
+  `mysql://dbuser:${process.env.DB_PASSWORD}@45.56.108.221/fitnessDB`
 );
 
 const Client = sequelize.define(
@@ -26,56 +25,56 @@ const Client = sequelize.define(
     FirstName: {
       type: DataTypes.STRING(32),
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: "John",
     },
     LastName: {
       type: DataTypes.STRING(32),
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: "Doe",
     },
-    Password: { type: DataTypes.STRING(32), unique: false, allowNull: true },
+    Password: { type: DataTypes.STRING(32), unique: false, allowNull: false },
     PhoneNum: {
       type: DataTypes.STRING(16),
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: "0000000000",
     },
     Role: {
       type: DataTypes.STRING(16),
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: "role",
     },
     Gender: {
       type: DataTypes.STRING(16),
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: "gender",
     },
     DOB: {
       type: DataTypes.DATEONLY,
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: "0001-01-01",
     },
     Weight: {
       type: DataTypes.INTEGER,
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: -1,
     },
     Height: {
       type: DataTypes.INTEGER,
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: -1,
     },
     ActivityLevel: {
       type: DataTypes.STRING(32),
       unique: false,
-      allowNull: true,
+      allowNull: false,
       defaultValue: "ActivityLevel",
     },
   },
