@@ -1,19 +1,23 @@
-const mysql = require('mysql2')
-require('dotenv').config()
-const connection = mysql.createConnection({
-  host: '45.56.108.221',
-  user: 'dbuser',
-  password: process.env.DB_PASSWORD,
-  database: 'fitnessDB',
-})
+const mysql = require("mysql2");
+require("dotenv").config();
+require("colors");
 
+const connection = mysql.createConnection({
+  // host: "45.56.108.221",
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "fitnessDB",
+});
+
+// call connect method to console connection infomration to the screen
 connection.connect((err) => {
   if (err) {
-    console.error('Error connecting to the database', err)
+    console.error("Error connecting to the database".red, err);
     // throw err
-    return
+    return;
   }
-  console.log('Connected to the database!')
-})
+  console.log("Connected to the database!".blue);
+});
 
-module.exports = connection
+module.exports = connection;

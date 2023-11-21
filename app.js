@@ -1,18 +1,21 @@
+// import express / cors / morgan
 const express = require("express"); // Express.js for building the web server
 const cors = require("cors"); // Cross-Origin Resource Sharing middleware (for handling CORS)
 const morgan = require("morgan"); // Logging middleware (for logging HTTP requests)
 
+// import Error Handling file, and security middleware
 const { NotFoundError } = require("./utils/errors"); // Custom error handling
 const security = require("./middleware/security"); // security middleware (JWT)
 
+// import routes
 const register = require("./Routes/Register");
 const login = require("./Routes/login");
 const auth = require("./Routes/auth");
 
+// create express app
 const app = express();
 
 const bodyParser = require("body-parser");
-
 const corsOptions = { origin: "http://localhost:3000" }; // url from frontend/react
 app.use(cors(corsOptions));
 app.use(express.json()); // needed to get body from POST request

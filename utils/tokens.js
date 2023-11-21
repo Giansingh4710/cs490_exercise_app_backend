@@ -1,4 +1,4 @@
-// import JSON webt token packge and the SECRET_KEY from config file
+// import JSON webtoken packge and the SECRET_KEY from config file
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config/config");
 
@@ -10,7 +10,7 @@ const generateToken = (data) =>
 // create a new user token given the information of the user
 const createUserJwt = (user) => {
   const payload = {
-    email: user.email,
+    email: user.Email,
   };
 
   return generateToken(payload);

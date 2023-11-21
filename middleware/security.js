@@ -1,7 +1,7 @@
 // import jwt, error handling and security key
 const jwt = require("jsonwebtoken");
 const { UnauthorizedError } = require("../utils/errors");
-const { SECRET_KEY } = require("../config");
+const { SECRET_KEY } = require("../config/config");
 
 // extract the json token from request header
 // split the authorization header and assure that the header is Bearer and extract the token
