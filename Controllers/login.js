@@ -1,31 +1,50 @@
-const { validateEmail } = require("../Services/Registration/RegistrationValidation.js");
+const {
+  validateEmail,
+} = require("../Services/Registration/RegistrationValidation.js");
 const ClientService = require("../Services/ClientService.js");
+const { createUserJwt } = require("../utils/tokens.js");
 
-const login = async function(request, response){
-    let passwordVerified = false;
-    console.log(request.body.Email);
-    if(!request.is('json')){
-        response.status(415).send({error: "Unsupported Media Type: Request object should be in json format.", "Access-Control-Allow-Origin": '*'})
-        return;
+const login = async function (request, response) {
+  let passwordVerified = false;
+  if (!request.is("json")) {
+    response.status(415).send({
+      error: "Unsupported Media Type: Request object should be in json format.",
+      "Access-Control-Allow-Origin": "*",
+    });
+    return;
+  }
+  if (!validateEmail(request.body.Email)) {
+    response.status(422).send({
+      error: "Email format is not valid.",
+      "Access-Control-Allow-Origin": "*",
+    });
+    return;
+  }
+
+  try {
+    const client = await ClientService.checkPassword(request.body);
+    if (client) {
+      const token = createUserJwt(client); // create JWT for the user
+      // if a client exists, send the user object, and the token back
+      response.status(200).json({
+        message: "User logged in",
+        user: { id: client.UserID, email: client.Email },
+        token: token,
+      });
+    } else {
+      response.status(401).send({
+        error: "Incorrect Username or Password",
+        "Access-Control-Allow-Origin": "*",
+      });
     }
-    if(!validateEmail(request.body.Email)){
-        response.status(422).send({error: "Email format is not valid.", "Access-Control-Allow-Origin": '*'})
-        return;
-    }
+  } catch (error) {
+    response
+      .status(404)
+      .send({ error: error.message, "Access-Control-Allow-Origin": "*" });
+    return;
+  }
+};
 
-    try{
-        passwordVerified = await ClientService.checkPassword(request.body);
-    }catch(error){
-        response.status(404).send({error: error.message, "Access-Control-Allow-Origin": '*'})
-        return;
-    }
-
-    if(passwordVerified)
-        response.status(200).send({message: "User logged in",  "Access-Control-Allow-Origin": '*'});
-    else
-        response.status(401).send({error: "Incorrect Username or Password",  "Access-Control-Allow-Origin": '*'});
-}
-
-module.exports = { 
-    login
-}
+module.exports = {
+  login,
+};
