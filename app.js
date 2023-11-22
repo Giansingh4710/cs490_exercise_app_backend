@@ -11,6 +11,7 @@ const security = require("./middleware/security"); // security middleware (JWT)
 const register = require("./Routes/Register");
 const login = require("./Routes/login");
 const auth = require("./Routes/auth");
+const logActivity = require("./Routes/LogActivity")
 
 // create express app
 const app = express();

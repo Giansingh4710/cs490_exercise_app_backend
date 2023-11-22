@@ -6,8 +6,6 @@ require("colors");
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  host: "45.56.108.221",
-  user: "dbuser",
   password: process.env.DB_PASSWORD,
   database: 'fitnessDB',
 })
