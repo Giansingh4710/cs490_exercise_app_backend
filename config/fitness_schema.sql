@@ -8,8 +8,9 @@ CREATE TABLE User (
     FirstName VARCHAR(32) NOT NULL,
     LastName VARCHAR(32) NOT NULL,
     Email VARCHAR(64) NOT NULL,
-    Password VARCHAR(32) NOT NULL,
+    Password VARCHAR(64) NOT NULL,
     PhoneNum VARCHAR(16) NOT NULL,
+    Address VARCHAR(128) NOT NULL,
     Role VARCHAR(16) NOT NULL,
     Gender VARCHAR(16) NOT NULL,
     DOB date NOT NULL,
@@ -26,6 +27,8 @@ CREATE TABLE Coach (
     CoachID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     UserID INT UNSIGNED NOT NULL,
     Specialties VARCHAR(256),
+    Goals VARCHAR(256),
+    Cost float,
     LastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
@@ -224,7 +227,3 @@ CREATE TABLE Message (
         REFERENCES User(UserID)
         ON DELETE SET NULL
 );
-
-
-INSERT INTO User (CoachID, FirstName, LastName, Email, Password, PhoneNum, Role, Gender, DOB, Weight, Height, ActivityLevel) 
-VALUES (NULL, 'John', 'Doe', 'john.doe@example.com', 'password123', '123-456-7890', 'Client', 'Male', '1990-01-01', 180, 70, 'Moderate');
