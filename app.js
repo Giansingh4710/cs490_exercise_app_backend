@@ -15,6 +15,8 @@ const auth = require("./Routes/auth");
 // create express app
 const app = express();
 
+require('./Routes/coaches')(app);
+
 const bodyParser = require("body-parser");
 const corsOptions = { origin: "http://localhost:3000" }; // url from frontend/react
 app.use(cors(corsOptions));

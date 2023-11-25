@@ -5,8 +5,8 @@ require("colors");
 const connection = mysql.createConnection({
   host: "45.56.108.221",
   user: "dbuser",
-  password: process.env.DB_PASSWORD,
-  database: "fitnessDB",
+  password: "password",
+  database: "process.env.DB_PASSWORD",
 });
 // call connect method to console connection infomration to the screen
 connection.connect((err) => {
