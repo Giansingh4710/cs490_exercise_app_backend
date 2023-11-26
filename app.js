@@ -11,6 +11,7 @@ const security = require("./middleware/security"); // security middleware (JWT)
 const register = require("./Routes/Register");
 const login = require("./Routes/login");
 const auth = require("./Routes/auth");
+const coaches = require("./Routes/Coaches");
 
 // create express app
 const app = express();
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/", register);
 app.use("/", login);
 app.use("/auth", auth);
+app.use("/Coaches", coaches)
 
 // error handling - not found
 app.use((req, res, next) => {
