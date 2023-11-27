@@ -5,7 +5,7 @@ class CoachRepository{
 
     async getCoachByID(coachID){
         try{
-            const query = "SELECT c.CoachID, FirstName, LastName, Address, Specialties FROM Coach c JOIN User ON c.UserID = User.UserID WHERE c.coachID = ?"
+            const query = "SELECT c.CoachID, FirstName, LastName, City, State, Specialties FROM Coach c JOIN User ON c.UserID = User.UserID WHERE c.coachID = ?"
             const response = connection.promise().query(query, [coachID]);
             return response;
         }catch(error){

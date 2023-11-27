@@ -13,7 +13,8 @@ class CoachService{
                   CoachID: row.CoachID,
                   FirstName: row.FirstName,
                   LastName: row.LastName,
-                  Address: row.Address,
+                  State: row.State,
+                  City: row.City,
                   Specialties: row.Specialties
                 };
               });
