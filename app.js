@@ -11,14 +11,14 @@ const security = require("./middleware/security"); // security middleware (JWT)
 const register = require("./Routes/Register");
 const login = require("./Routes/login");
 const auth = require("./Routes/auth");
+const logActivity = require("./Routes/LogActivity")
+const coaches = require("./Routes/Coaches");
 
 // create express app
 const app = express();
 
-require('./Routes/coaches')(app);
-
 const bodyParser = require("body-parser");
-const corsOptions = { origin: "http://localhost:3000" }; // url from frontend/react
+const corsOptions = { origin: "*",}; // url from frontend/react
 app.use(cors(corsOptions));
 
 app.use(express.json()); // needed to get body from POST request
@@ -38,6 +38,8 @@ app.get("/", (req, res) => {
 app.use("/", register);
 app.use("/", login);
 app.use("/auth", auth);
+app.use('/logActivity', logActivity)
+app.use("/Coaches", coaches)
 
 // error handling - not found
 app.use((req, res, next) => {
