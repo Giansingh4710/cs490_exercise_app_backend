@@ -2,7 +2,6 @@ const WaterIntakeService = require('../Services/WaterIntakeService.js')
 const moment = require('moment');
 
 const logWaterIntake = async function(request, response, error){
-    // check for json errors
     if(!request.is('*/json')){
         console.log("logWaterInput.js: Invalid request format. Please request in JSON format.")
         return response.status(415).send({"Access-Control-Allow-Origin": '*', "status": 415, "error": "Invalid request format. Please request in JSON format."})
@@ -59,21 +58,15 @@ const logWaterIntake = async function(request, response, error){
         data["Date"] = moment().format('YYYY-MM-DD');
     }
 
-    /*  
-        add userID field.
-        adding until session is working
-    */
-    data["UserID"] = 1;
-    
+    data["UserID"] = request.UserID;
     // Insert water input
     try{
         await WaterIntakeService.recordWaterIntake(data);
+        return response.status(200).send({"Access-Control-Allow-Origin": '*', "message": "Water Input Recorded"})
     }catch(error){
         console.log("logActivity.js: Error recording water intake")
         return response.status(500).send({"Access-Control-Allow-Origin": '*', "error": "Error recording water intake", "details": "Error inserting water intake to database"});
     }
-    
-    return response.status(200).send({"Access-Control-Allow-Origin": '*', "message": "Water Input Recorded"})
 }
 
 function hasAllKeys(object, keys){
