@@ -1,5 +1,5 @@
 const { Error } = require('sequelize');
-const connection = require('../config/database')
+const { connection } = require('../config/database')
 
 class CoachRepository{
 

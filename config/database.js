@@ -2,7 +2,6 @@ const mysql = require("mysql2");
 const { Sequelize } = require('sequelize');
 require("dotenv").config();
 require("colors");
-const { Sequelize } = require("sequelize");
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,

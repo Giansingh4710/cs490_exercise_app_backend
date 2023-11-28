@@ -17,8 +17,6 @@ const coaches = require("./Routes/Coaches");
 // create express app
 const app = express();
 
-require('./Routes/coaches')(app);
-
 const bodyParser = require("body-parser");
 const corsOptions = { origin: "*",}; // url from frontend/react
 app.use(cors(corsOptions));
