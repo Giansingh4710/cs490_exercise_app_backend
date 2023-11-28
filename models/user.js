@@ -1,6 +1,7 @@
 // import database, bcrypt, BCRYPT_WORK_FACTOR, and errors
 const db = require("../config/database");
 const { BadRequestError } = require("../utils/errors");
+const { connection } = require("../config/database")
 
 // User class to authenticate users
 class User {
@@ -24,7 +25,7 @@ class User {
     // Make a query to the database to find a matching email to find the user
     const query = `SELECT * FROM User WHERE email = ?`;
 
-    db.query(query, [lowercaseEmail], (err, results) => {
+    connection.query(query, [lowercaseEmail], (err, results) => {
       if (err) {
         // Handle any database errors
         return callback(err);
