@@ -1,13 +1,19 @@
 const mysql = require("mysql2");
 require("dotenv").config();
 require("colors");
+const { Sequelize } = require("sequelize");
 
 const connection = mysql.createConnection({
-  host: "45.56.108.221",
-  user: "dbuser",
-  password: "password",
-  database: "process.env.DB_PASSWORD",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: "fitnessDB",
 });
+
+const sequelize = new Sequelize(
+  `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/fitnessDB`
+);
+
 // call connect method to console connection infomration to the screen
 connection.connect((err) => {
   if (err) {
@@ -18,4 +24,4 @@ connection.connect((err) => {
   console.log("Connected to the database!".blue);
 });
 
-module.exports = connection;
+module.exports = {connection, sequelize};

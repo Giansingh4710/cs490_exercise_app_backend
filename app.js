@@ -18,7 +18,7 @@ const app = express();
 require('./Routes/coaches')(app);
 
 const bodyParser = require("body-parser");
-const corsOptions = { origin: "http://localhost:3000" }; // url from frontend/react
+const corsOptions = { origin: "*",}; // url from frontend/react
 app.use(cors(corsOptions));
 
 app.use(express.json()); // needed to get body from POST request
