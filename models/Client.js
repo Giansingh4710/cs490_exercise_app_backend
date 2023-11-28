@@ -1,9 +1,5 @@
-const { DataTypes, Sequelize } = require("sequelize");
-
-// Replace 'your-mysql-database-uri' with your actual MySQL database URI
-const sequelize = new Sequelize(
-  `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/fitnessDB`
-);
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/database")
 
 const Client = sequelize.define(
   "User",
