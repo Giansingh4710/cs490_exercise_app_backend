@@ -3,10 +3,10 @@ require("dotenv").config();
 require("colors");
 
 const connection = mysql.createConnection({
-  host: "45.56.108.221",
-  user: "dbuser",
-  password: "password",
-  database: "process.env.DB_PASSWORD",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: "fitnessDB",
 });
 // call connect method to console connection infomration to the screen
 connection.connect((err) => {

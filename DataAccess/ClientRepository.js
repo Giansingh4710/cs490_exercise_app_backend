@@ -3,7 +3,7 @@ const { createUserJwt } = require("../utils/tokens");
 
 class ClientRepository {
   async findByEmail(email) {
-    return Client.findOne({ where: { email } });
+    return await Client.findOne({ where: { email } });
   }
 
   async createClient(clientData) {
