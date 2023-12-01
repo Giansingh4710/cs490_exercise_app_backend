@@ -13,6 +13,7 @@ const login = require("./Routes/login");
 const auth = require("./Routes/auth");
 const logActivity = require("./Routes/LogActivity")
 const coaches = require("./Routes/Coaches");
+const requests = require("./Routes/request")
 
 // create express app
 const app = express();
@@ -40,6 +41,7 @@ app.use("/", login);
 app.use("/auth", auth);
 app.use('/logActivity', logActivity)
 app.use("/Coaches", coaches)
+app.use("/Request", requests)
 
 // error handling - not found
 app.use((req, res, next) => {
