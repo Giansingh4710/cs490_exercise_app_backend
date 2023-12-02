@@ -87,7 +87,7 @@ async function searchByName(request, response) {
 
 async function getClientsOfCoach(request, response) {
   try {
-    const coachID = request.params.CoachID;
+    const coachID = request.UserID; // set in ../Services/TokenVerification.js
     const clients = await getClientsOfCoach_DB(coachID);
     return response.status(200).send(clients);
   } catch (error) {
