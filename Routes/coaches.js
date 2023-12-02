@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { verifyToken } = require("../Services/TokenVerification.js");
 const {
   getCoachByID,
   getAllCoaches,
@@ -11,6 +12,6 @@ const {
 router.get("/searchByName", searchByName);
 router.get("/getAllCoaches", getAllCoaches);
 router.get("/:CoachID", getCoachByID);
-router.get("/:CoachID/clients", getClientsOfCoach);
+router.get("/clients", verifyToken, getClientsOfCoach);
 
 module.exports = router;

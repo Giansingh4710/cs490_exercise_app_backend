@@ -51,6 +51,7 @@ async function registerAccount(request, response) {
 
   // verify email is not in use
   try {
+    console.log(request.body)
     const { user, token } = await ClientService.registerClient(request.body);
     //return a user object, and the token if successful and the user exists
     if (user) {
