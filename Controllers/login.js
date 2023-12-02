@@ -1,4 +1,4 @@
-const { validateEmail } = require("../utils/validate.js");
+const { validateEmail } = require("../utils/helper_funcs.js");
 
 const ClientService = require("../Services/ClientService.js");
 const { createUserJwt } = require("../utils/tokens.js");

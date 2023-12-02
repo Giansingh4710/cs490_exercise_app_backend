@@ -1,3 +1,13 @@
+const { getCoachByID_DB } = require("../DataAccess/CoachRepository.js");
+
+async function validCoachID(ID) {
+  const data = await getCoachByID_DB(ID);
+  if (data === undefined) {
+    return false;
+  }
+  return true;
+}
+
 function validateName(name) {
   const nameRegex = new RegExp("^[A-Za-z .-]{2,32}$");
   return nameRegex.test(name);
@@ -10,4 +20,4 @@ function validateEmail(email) {
   return emailRegex.test(email);
 }
 
-module.exports = { validateName, validateEmail };
+module.exports = { validCoachID, validateName, validateEmail };

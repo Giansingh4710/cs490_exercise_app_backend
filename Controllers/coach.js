@@ -1,4 +1,6 @@
-const { getCoachByID_DB } = require("../DataAccess/CoachRepository.js");
+const { getCoachByID_DB, getAllCoaches_DB, searchByName_DB } = require(
+  "../DataAccess/CoachRepository.js",
+);
 
 async function getCoachByID(request, response) {
   const coachIDRegex = new RegExp("^-?[0-9]+$");
@@ -47,4 +49,35 @@ async function getCoachByID(request, response) {
   }
 }
 
-module.exports = { getCoachByID };
+async function getAllCoaches(request, response) {
+  try {
+    const coachData = await getAllCoaches_DB();
+    return response.status(200).send(coachData);
+  } catch (error) {
+    return response.status(500).send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to getAllCoaches from database.",
+      },
+    });
+  }
+}
+
+async function searchByName(request, response) {
+  try {
+    const name = request.query.name
+    const coachData = await searchByName_DB(name);
+    return response.status(200).send(coachData);
+  } catch (error) {
+    return response.status(500).send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to searchByName from database.",
+      },
+    });
+  }
+}
+
+module.exports = { getCoachByID, getAllCoaches, searchByName };

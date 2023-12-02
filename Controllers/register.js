@@ -1,5 +1,5 @@
 const ClientService = require("../Services/ClientService.js");
-const { validateName, validateEmail } = require("../utils/validate.js");
+const { validateName, validateEmail } = require("../utils/helper_funcs.js");
 
 async function storeSurvey(request, response) {
   if (!request.is("json")) {
