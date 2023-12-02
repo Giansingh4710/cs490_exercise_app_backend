@@ -4,7 +4,7 @@ const CoachService = require("../Services/CoachService");
 class RequestService{
 
     async userRequestedCoach(userID, coachID){
-        // try{
+        try{
             const [response, fields] = await RequestRepository.getRequestsByUserID(userID);
 
             if(response.length === 0){
@@ -21,19 +21,20 @@ class RequestService{
             });
             
             for(let row = 0; row < requests.length; row++){
-                if(requests[row] === coachID){
+                if(requests[row].CoachID === coachID){
                     return true;
                 }
             }
             return false;
 
 
-        // }catch(error){
-        //     throw new Error("Error getting data from db");
-        // }
+        }catch(error){
+            throw new Error("Error getting data from db");
+        }
     }
 
     async createRequest(requestData){
+        console.log(requestData);
         try{
             const response = RequestRepository.createRequest(requestData);
             return response;
@@ -44,7 +45,6 @@ class RequestService{
 
     async validCoachID(coachID){
         const coachData = await CoachService.getCoachByID(coachID);
-        console.log(Object.keys(coachData).length);
         if(Object.keys(coachData).length === 0){
             return false;
         }

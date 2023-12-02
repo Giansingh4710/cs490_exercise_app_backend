@@ -12,7 +12,7 @@ const requestCoach = async function(request, response, error){
         return response.status(400).send({"Access-Control-Allow-Origin": '*', "status": 400, "error": "Invalid JSON", "message": "The request body is not well-formed JSON."})
     }
 
-    const requiredFields = ["UserID", "CoachID", "Goals", "Note"]
+    const requiredFields = ["userID", "coachID", "goals", "note"]
     if(!hasAllKeys(request.body, requiredFields)){
         console.log("logWaterInput.js: Missing required fields.")
         return response.status(400).send({"Access-Control-Allow-Origin": '*', "status": 400, "error": "Missing required field", "message": "Request is missing required some field. Required Fields: UserID, CoachID, Goals, Notes"})
@@ -21,7 +21,7 @@ const requestCoach = async function(request, response, error){
     // validate coach and user ID
     const userIDRegex = new RegExp("^-?[0-9]+$")
     
-    if(!userIDRegex.test(request.body.CoachID)){
+    if(!userIDRegex.test(request.body.coachID)){
         return response.status(422).send({
                 error: {
                 status: 422,
@@ -30,7 +30,7 @@ const requestCoach = async function(request, response, error){
             }
         });
     }
-    if(request.body.CoachID < 0){
+    if(request.body.coachID < 0){
         return response.status(422).send({
             error: {
                 status: 422,
@@ -40,7 +40,7 @@ const requestCoach = async function(request, response, error){
         });
     }
 
-    if(!userIDRegex.test(request.body.UserID)){
+    if(!userIDRegex.test(request.body.userID)){
         return response.status(422).send({
                 error: {
                 status: 422,
@@ -49,7 +49,7 @@ const requestCoach = async function(request, response, error){
             }
         });
     }
-    if(request.body.UserID < 0){
+    if(request.body.userID < 0){
         return response.status(422).send({
             error: {
                 status: 422,
@@ -60,7 +60,7 @@ const requestCoach = async function(request, response, error){
     }
 
     // check if passed userID and token userid is the same
-    if(request.body.UserID !== request.UserID){
+    if(request.body.userID !== request.UserID){
         return response.status(401).send({
             error: {
                 status: 401,
@@ -71,7 +71,7 @@ const requestCoach = async function(request, response, error){
     }
     
     // check if coachid is valid
-    if(! await RequestService.validCoachID(request.body.CoachID)){
+    if(! await RequestService.validCoachID(request.body.coachID)){
         return response.status(404).send({
             error: {
                 status: 404,
@@ -82,7 +82,7 @@ const requestCoach = async function(request, response, error){
     }
 
     // check if user has already requested coach
-    if(await RequestService.userRequestedCoach(request.body.UserID, request.body.CoachID)){
+    if(await RequestService.userRequestedCoach(request.body.userID, request.body.coachID)){
         return response.status(422).send({
             error: {
                 status: 422,
@@ -93,27 +93,28 @@ const requestCoach = async function(request, response, error){
     }
 
     requestData = {
-        UserID: request.body.UserID,
-        CoachID: request.body.CoachID,
-        // Status: "Pending",
-        Goals: request.body.Goals,
-        Note: request.body.Note
+        UserID: request.body.userID,
+        CoachID: request.body.coachID,
+        Status: "Pending",
+        Goals: request.body.goals,
+        Note: request.body.note
     }
 
     try{
         const createdRequest = await RequestService.createRequest(requestData);
+        console.log(createdRequest.dataValues);
         responseObject = {
-            RequestID: createdRequest.dataValues.RequestID,
-            UserID: createdRequest.dataValues.UserID,
-            CoachID: createdRequest.dataValues.CoachID,
-            Status: createdRequest.dataValues.Status,
-            Goals: createdRequest.dataValues.Goals,
-            Note: createdRequest.dataValues.Note
+            requestID: createdRequest.dataValues.RequestID,
+            userID: createdRequest.dataValues.UserID,
+            coachID: createdRequest.dataValues.CoachID,
+            status: createdRequest.dataValues.Status,
+            goals: createdRequest.dataValues.Goals,
+            note: createdRequest.dataValues.Note
         }
         
-        response.status(201).send(responseObject);
+        return response.status(201).send(responseObject);
     }catch(error){
-        response.send(500).send({
+        return response.status(500).send({
             error: {
                 status: 500,
                 message: "Server Error",
