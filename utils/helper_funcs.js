@@ -1,6 +1,6 @@
-const { getCoachByID_DB } = require("../DataAccess/CoachRepository.js");
+const { getCoachByID_DB } = require("../DataAccess/coach_db_access.js");
 
-async function validCoachID(ID) {
+async function coachID_exists(ID) {
   const data = await getCoachByID_DB(ID);
   if (data === undefined) {
     return false;
@@ -20,4 +20,4 @@ function validateEmail(email) {
   return emailRegex.test(email);
 }
 
-module.exports = { validCoachID, validateName, validateEmail };
+module.exports = { coachID_exists, validateName, validateEmail };

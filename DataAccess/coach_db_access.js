@@ -1,4 +1,4 @@
-const { connection } = require("../sql_config/database");
+const { connection } = require("../sql_config/database.js");
 
 async function getCoachByID_DB(coachID) {
   const query =
@@ -23,4 +23,11 @@ async function searchByName_DB(name) {
   return res[0];
 }
 
-module.exports = { getCoachByID_DB, getAllCoaches_DB, searchByName_DB };
+async function getClientsOfCoach_DB(coachID) {
+  const query =  "SELECT UserID, FirstName, LastName from User WHERE CoachID = ?"
+  const res = await connection.promise().query(query,[coachID]);
+  return res[0];
+}
+
+
+module.exports = { getCoachByID_DB, getAllCoaches_DB, searchByName_DB,getClientsOfCoach_DB };

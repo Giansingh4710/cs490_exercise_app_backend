@@ -1,4 +1,4 @@
-const { validCoachID } = require("../DataAccess/CoachRepository.js");
+const { coachID_exists } = require("../utils/helper_funcs.js");
 const { createRequest, userRequestedCoach } = require(
   "../DataAccess/RequestRepository.js",
 );
@@ -70,8 +70,7 @@ async function requestCoach(request, response, error) {
     });
   }
 
-  // check if coachid is valid
-  if (!await validCoachID(coachID)) {
+  if (!await coachID_exists(coachID)) {
     return response.status(404).send({
       error: {
         status: 404,
