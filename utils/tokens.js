@@ -1,6 +1,6 @@
 // import JSON webtoken packge and the SECRET_KEY from config file
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = require("../config/config");
+const { SECRET_KEY } = require("../sql_config/config");
 
 // create a token based on the provided data from user and secret key
 // tokens will expire every 24 hours
