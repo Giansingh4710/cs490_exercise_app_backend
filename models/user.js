@@ -1,7 +1,5 @@
-// import database, bcrypt, BCRYPT_WORK_FACTOR, and errors
-const db = require("../config/database");
 const { BadRequestError } = require("../utils/errors");
-const { connection } = require("../config/database")
+const { connection } = require("../sql_config/database.js");
 
 // User class to authenticate users
 class User {

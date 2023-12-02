@@ -1,10 +1,7 @@
-const {
-  validateName,
-  validateEmail,
-} = require("../Services/Registration/RegistrationValidation.js");
 const ClientService = require("../Services/ClientService.js");
+const { validateName, validateEmail } = require("../utils/validate.js");
 
-const storeSurvey = async function (request, response) {
+async function storeSurvey(request, response) {
   if (!request.is("json")) {
     response.status(415).send({
       error: "Unsupported Media Type: Request object should be in json format.",
@@ -30,13 +27,12 @@ const storeSurvey = async function (request, response) {
   }
 
   response.status(200).send({
-    message: "Updated: User survey information updated successfuly",
+    message: "Updated: User survey information updated successfully",
     "Access-Control-Allow-Origin": "*",
   });
-};
+}
 
-const registerAccount = async function (request, response) {
-  // check if request is json
+async function registerAccount(request, response) {
   if (!request.is("json")) {
     response.status(415).send({
       error: "Unsupported Media Type: Request object should be in json format.",
@@ -45,8 +41,6 @@ const registerAccount = async function (request, response) {
     return;
   }
 
-  // validate email and password
-  // password would be hashed cannot validate
   if (!validateEmail(request.body.Email)) {
     response.status(422).send({
       error: "Email format is not valid.",
@@ -58,7 +52,7 @@ const registerAccount = async function (request, response) {
   // verify email is not in use
   try {
     const { user, token } = await ClientService.registerClient(request.body);
-    //return a user object, and the token if successfule and the user exists
+    //return a user object, and the token if successful and the user exists
     if (user) {
       response.status(201).send({
         // message: "Created: User account created.",
@@ -83,9 +77,6 @@ const registerAccount = async function (request, response) {
     });
     return;
   }
-};
+}
 
-module.exports = {
-  storeSurvey,
-  registerAccount,
-};
+module.exports = { storeSurvey, registerAccount };

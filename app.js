@@ -8,18 +8,19 @@ const { NotFoundError } = require("./utils/errors"); // Custom error handling
 const security = require("./middleware/security"); // security middleware (JWT)
 
 // import routes
-const register = require("./Routes/Register");
-const login = require("./Routes/login");
-const auth = require("./Routes/auth");
-const logActivity = require("./Routes/LogActivity")
-const coaches = require("./Routes/Coaches");
-const requests = require("./Routes/request")
+const register = require("./Routes/Register.js");
+const login = require("./Routes/login.js");
+const auth = require("./Routes/auth.js");
+const logActivity = require("./Routes/LogActivity.js");
+const coaches = require("./Routes/coaches.js");
+const requests = require("./Routes/request.js");
+// const clients = require("./Routes/clients.js");
 
 // create express app
 const app = express();
 
 const bodyParser = require("body-parser");
-const corsOptions = { origin: "*",}; // url from frontend/react
+const corsOptions = { origin: "*" }; // url from frontend/react
 app.use(cors(corsOptions));
 
 app.use(express.json()); // needed to get body from POST request
@@ -36,12 +37,13 @@ app.get("/", (req, res) => {
   res.send("Hello, this is the backend of your CS490 exercise app!");
 });
 
-app.use("/", register);
-app.use("/", login);
+app.use("/register", register);
+app.use("/login", login);
 app.use("/auth", auth);
-app.use('/logActivity', logActivity)
-app.use("/Coaches", coaches)
-app.use("/Request", requests)
+app.use("/logActivity", logActivity);
+app.use("/coaches", coaches);
+app.use("/Request", requests);
+// app.use("/clients", clients);
 
 // error handling - not found
 app.use((req, res, next) => {

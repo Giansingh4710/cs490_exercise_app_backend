@@ -1,19 +1,16 @@
-const { Error } = require('sequelize');
-const { connection } = require('../config/database')
+const { connection } = require("../sql_config/database");
 
-class CoachRepository{
-
-    async getCoachByID(coachID){
-        try{
-            const query = "SELECT c.CoachID, FirstName, LastName, City, State, Specialties FROM Coach c JOIN User ON c.UserID = User.UserID WHERE c.coachID = ?"
-            const response = connection.promise().query(query, [coachID]);
-            return response;
-        }catch(error){
-            console.log(error);
-            throw new Error("Error retrieving data from database")
-        }
-    }
-
+async function getCoachByID_DB(coachID) {
+  const query = "SELECT c.CoachID, u.FirstName, u.LastName, u.City, u.State, c.Specialties FROM Coach c JOIN User u ON c.UserID = u.UserID WHERE c.coachID = ?";
+  const res = await connection.promise().query(query, [coachID]);
+  console.log(res[0][0]);
+  return res[0][0];
 }
 
-module.exports = new CoachRepository();
+async function validCoachID(ID) {
+  const query = "SELECT * FROM Coach WHERE CoachID = ?";
+  const res = await connection.promise().query(query, [ID]);
+  return res[0].length > 0;
+}
+
+module.exports = { getCoachByID_DB, validCoachID };
