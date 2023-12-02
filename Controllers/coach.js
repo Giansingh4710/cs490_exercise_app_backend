@@ -1,5 +1,10 @@
-const { getCoachByID_DB, getAllCoaches_DB, searchByName_DB } = require(
-  "../DataAccess/CoachRepository.js",
+const {
+  getCoachByID_DB,
+  getAllCoaches_DB,
+  searchByName_DB,
+  getClientsOfCoach_DB,
+} = require(
+  "../DataAccess/coach_db_access.js",
 );
 
 async function getCoachByID(request, response) {
@@ -66,7 +71,7 @@ async function getAllCoaches(request, response) {
 
 async function searchByName(request, response) {
   try {
-    const name = request.query.name
+    const name = request.query.name;
     const coachData = await searchByName_DB(name);
     return response.status(200).send(coachData);
   } catch (error) {
@@ -80,4 +85,25 @@ async function searchByName(request, response) {
   }
 }
 
-module.exports = { getCoachByID, getAllCoaches, searchByName };
+async function getClientsOfCoach(request, response) {
+  try {
+    const coachID = request.params.CoachID;
+    const clients = await getClientsOfCoach_DB(coachID);
+    return response.status(200).send(clients);
+  } catch (error) {
+    return response.status(500).send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to getClientsOfCoach from database.",
+      },
+    });
+  }
+}
+
+module.exports = {
+  getCoachByID,
+  getAllCoaches,
+  searchByName,
+  getClientsOfCoach,
+};
