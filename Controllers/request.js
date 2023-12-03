@@ -1,6 +1,6 @@
 const RequestService = require("../Services/RequestService");
 
-const requestCoach = async function(request, response, error){
+async function requestCoach(request, response, error){
     
     if(!request.is('*/json')){
         console.log("logWaterInput.js: Invalid request format. Please request in JSON format.")
@@ -124,6 +124,13 @@ const requestCoach = async function(request, response, error){
     }
 }
 
+async function getOpenRequests(request, response, error){
+    // goty UserID for coach from token 
+    const pendingRequests = await RequestService.getPendingRequests(request.UserID);
+    return response.status(200).send(pendingRequests);
+
+}
+
 function hasAllKeys(object, keys){
     for (const key of keys) {
         if (!(key in object)) {
@@ -134,5 +141,6 @@ function hasAllKeys(object, keys){
 }
 
 module.exports = { 
-    requestCoach
+    requestCoach,
+    getOpenRequests
 }
