@@ -43,6 +43,37 @@ class RequestService{
         }
     }
 
+    async getPendingRequests(userID){
+        const [response, fields] = await RequestRepository.getRequestsByUserIDSorted(userID);
+        console.log(response);
+        if(response.length === 0){
+            return {};
+        }
+        const requests = response.map(row => {
+            return {
+                RequestID: row.RequestID,
+                CoachID: row.CoachID,
+                FirstName: row.FirstName,
+                LastName: row.LastName,
+            };
+        });
+        let formattedData = []
+        for(let i = 0; i < requests.length; i++){
+            // console.log(requests);
+            let formattedRequest = {}
+            formattedRequest["requestID"] = requests[i].RequestID;
+            let formattedCoachData = {}
+            formattedCoachData["coachID"] = requests[i].CoachID
+            formattedCoachData["firstName"] = requests[i].FirstName
+            formattedCoachData["lastName"] = requests[i].LastName
+            formattedRequest["coach"] = formattedCoachData;
+            formattedData.push(formattedRequest);
+        }
+        console.log(formattedData)
+        return formattedData;
+
+    }
+
     async validCoachID(coachID){
         const coachData = await CoachService.getCoachByID(coachID);
         if(Object.keys(coachData).length === 0){
