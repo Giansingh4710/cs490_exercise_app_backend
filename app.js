@@ -41,7 +41,7 @@ app.use("/login", login);
 app.use("/auth", auth);
 app.use("/logActivity", logActivity);
 app.use("/coaches", coaches);
-app.use("/Request", requests);
+app.use("/request", requests);
 
 // error handling - not found
 app.use((req, res, next) => {

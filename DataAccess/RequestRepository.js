@@ -21,6 +21,26 @@ async function getRequestsByUserID(UserID) {
   }
 }
 
+async function getRequestsByUserIDSorted(userID) {
+  try {
+    const query = `
+            SELECT 
+                Request.RequestID,
+                Request.UserID,
+                Request.CoachID,
+                User.FirstName,
+                User.LastName
+            FROM Request
+            JOIN Coach ON Request.CoachID = Coach.CoachID
+            JOIN User ON Coach.UserID = User.UserID
+            WHERE Request.UserID = ? ORDER BY User.FirstName ASC;`;
+
+    return connection.promise().query(query, [userID]);
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function userRequestedCoach(userID, coachID) {
   try {
     const [response, fields] = await getRequestsByUserID(
@@ -42,7 +62,7 @@ async function userRequestedCoach(userID, coachID) {
 
     for (let row = 0; row < requests.length; row++) {
       if (requests[row].CoachID === coachID) {
-        return true;
+        return true; //idk if this is what you meant to do.
       }
     }
     return false;
@@ -51,4 +71,42 @@ async function userRequestedCoach(userID, coachID) {
   }
 }
 
-module.exports = { createRequest, userRequestedCoach };
+async function getPendingRequests(userID) {
+  const [response, fields] = await getRequestsByUserIDSorted(userID);
+  console.log(response);
+  if (response.length === 0) {
+    return {};
+  }
+  const requests = response.map((row) => {
+    return {
+      RequestID: row.RequestID,
+      CoachID: row.CoachID,
+      FirstName: row.FirstName,
+      LastName: row.LastName,
+    };
+  });
+  let formattedData = [];
+  for (let i = 0; i < requests.length; i++) {
+    let formattedRequest = {};
+    formattedRequest["requestID"] = requests[i].RequestID;
+    let formattedCoachData = {};
+    formattedCoachData["coachID"] = requests[i].CoachID;
+    formattedCoachData["firstName"] = requests[i].FirstName;
+    formattedCoachData["lastName"] = requests[i].LastName;
+    formattedRequest["coach"] = formattedCoachData;
+    formattedData.push(formattedRequest);
+  }
+  console.log(formattedData);
+  return formattedData;
+}
+
+async function validCoachID(coachID) {
+  // this exists in ../utils/helper_funcs.js as coachID_exists
+  const coachData = await CoachService.getCoachByID(coachID);
+  if (Object.keys(coachData).length === 0) {
+    return false;
+  }
+  return true;
+}
+
+module.exports = { createRequest, userRequestedCoach, getPendingRequests };

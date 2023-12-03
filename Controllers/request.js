@@ -1,20 +1,20 @@
 const { coachID_exists } = require("../utils/helper_funcs.js");
-const { createRequest, userRequestedCoach } = require(
+const { createRequest, userRequestedCoach, getPendingRequests } = require(
   "../DataAccess/RequestRepository.js",
 );
 
-async function requestCoach(request, response, error) {
-  if (!request.is("*/json")) {
-    return response.status(415).send({
+async function requestCoach(req, res, err) {
+  if (!req.is("*/json")) {
+    return res.status(415).send({
       "Access-Control-Allow-Origin": "*",
       "status": 415,
       "error": "Invalid request format. Please request in JSON format.",
     });
   }
 
-  if (error instanceof SyntaxError) {
-    console.log(error);
-    return response.status(400).send({
+  if (err instanceof SyntaxError) {
+    console.log(err);
+    return res.status(400).send({
       "Access-Control-Allow-Origin": "*",
       "status": 400,
       "error": "Invalid JSON",
@@ -23,9 +23,9 @@ async function requestCoach(request, response, error) {
   }
 
   const requiredFields = ["userID", "coachID", "goals", "note"];
-  if (!hasAllKeys(request.body, requiredFields)) {
+  if (!hasAllKeys(req.body, requiredFields)) {
     console.log("logWaterInput.js: Missing required fields.");
-    return response.status(400).send({
+    return res.status(400).send({
       error: {
         status: 400,
         message: "Missing required field",
@@ -36,12 +36,13 @@ async function requestCoach(request, response, error) {
     });
   }
 
+  // why do the regex check. Like we send to database anyway and that won't give any results anyways
   const id_regex = new RegExp("^-?[0-9]+$");
-  const coachID = request.body.coachID;
-  const userID = request.body.userID;
+  const coachID = req.body.coachID;
+  const userID = req.body.userID;
 
   if (!id_regex.test(coachID) || !id_regex.test(userID)) {
-    return response.status(422).send({
+    return res.status(422).send({
       error: {
         status: 422,
         message: "Bad Request",
@@ -50,7 +51,7 @@ async function requestCoach(request, response, error) {
     });
   }
   if (coachID < 0 || userID < 0) {
-    return response.status(422).send({
+    return res.status(422).send({
       error: {
         status: 422,
         message: "Bad Request",
@@ -60,8 +61,8 @@ async function requestCoach(request, response, error) {
   }
 
   // check if passed userID and token userid is the same
-  if (userID !== request.UserID) {
-    return response.status(401).send({
+  if (userID !== req.UserID) {
+    return res.status(401).send({
       error: {
         status: 401,
         message: "Unauthorized",
@@ -71,7 +72,7 @@ async function requestCoach(request, response, error) {
   }
 
   if (!await coachID_exists(coachID)) {
-    return response.status(404).send({
+    return res.status(404).send({
       error: {
         status: 404,
         message: "Not Found",
@@ -82,7 +83,7 @@ async function requestCoach(request, response, error) {
 
   // check if user has already requested coach
   if (await userRequestedCoach(userID, coachID)) {
-    return response.status(422).send({
+    return res.status(422).send({
       error: {
         status: 422,
         message: "Unprocessable content",
@@ -95,8 +96,8 @@ async function requestCoach(request, response, error) {
     UserID: userID,
     CoachID: coachID,
     Status: "Pending",
-    Goals: request.body.goals,
-    Note: request.body.note,
+    Goals: req.body.goals,
+    Note: req.body.note,
   };
 
   try {
@@ -111,13 +112,26 @@ async function requestCoach(request, response, error) {
       note: createdRequest.dataValues.Note,
     };
 
-    return response.status(201).send(responseObject);
+    return res.status(201).send(responseObject);
   } catch (error) {
-    return response.status(500).send({
+    return res.status(500).send({
       error: {
         status: 500,
-        message: "Server Error",
-        details: "Error accessing database.",
+        message: "Server Error while trying to requestCoach",
+      },
+    });
+  }
+}
+
+async function getOpenRequests(req, response, error) {
+  try {
+    const pendingRequests = await getPendingRequests(req.UserID);
+    return response.status(200).send(pendingRequests);
+  } catch (error) {
+    return res.status(500).send({
+      error: {
+        status: 500,
+        message: "Server Error while trying to getOpenRequests",
       },
     });
   }
@@ -132,4 +146,7 @@ function hasAllKeys(object, keys) {
   return true;
 }
 
-module.exports = { requestCoach };
+module.exports = {
+  requestCoach,
+  getOpenRequests,
+};

@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const { verifyToken } = require("../Services/TokenVerification.js");
+const { verifyToken, fakeVerifyToken } = require(
+  "../Services/TokenVerification.js",
+);
 const {
   getCoachByID,
   getAllCoaches,
@@ -11,7 +13,7 @@ const {
 
 router.get("/searchByName", searchByName);
 router.get("/getAllCoaches", getAllCoaches);
-router.get("/:CoachID", getCoachByID);
-router.get("/clients", verifyToken, getClientsOfCoach);
+router.get("/clients", verifyToken, getClientsOfCoach); // get all clients of a coach
+router.get("/:CoachID", getCoachByID); // this needs to be last because it will catch all the other routes
 
 module.exports = router;
