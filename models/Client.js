@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/database")
+const { sequelize } = require("../sql_config/database.js");
 
 const Client = sequelize.define(
   "User",
@@ -77,7 +77,7 @@ const Client = sequelize.define(
   {
     tableName: "User",
     timestamps: false,
-  }
+  },
 );
 
 module.exports = Client;

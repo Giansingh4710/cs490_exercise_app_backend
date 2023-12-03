@@ -3,9 +3,7 @@ const router = express.Router();
 
 const { storeSurvey, registerAccount } = require("../Controllers/register.js");
 
-router.post("/register", registerAccount);
+router.post("/", registerAccount);
+router.post("/initalSurvey", storeSurvey);
 
-router.post("/register/initalSurvey", storeSurvey)
-
-
-module.exports = router
+module.exports = router;
