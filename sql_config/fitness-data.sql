@@ -1,7 +1,6 @@
 -- Dumping data for User table
 INSERT INTO User VALUES 
-    (0, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$TVerixEiF2tqdsMnt7K.hehheTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '000-000-0000', 'NULL', 'NULL', 'NULL', 'Admin', 'NULL', '2000-01-01', 0, 0, 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (1, NULL, 'Elliot', 'Livens', 'elivens0@google.com.br', '$2a$04$TVwvixEiF2tqdsMnt7K.hehmwTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '300-860-5685', '2 Straubel Way', 'Chattanooga', 'Tennessee', 'Client', 'Male', '2000-05-11', 267, 67, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$eAfFmHlzVc4He97tXcyAPuDMCGbHeAPC8bHYuuqRhcE36JmrC.IMi', '000-000-0000', '323 MLK Blvd', 'Newark', 'New Jersey', 'Admin', 'Male', '2000-01-01', 150, 70, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (2, NULL, 'Celka', 'Giblin', 'cgiblin1@taobao.com', '$2a$04$8VxUXP1p0MOhDhik6GUe3uwbFsfQlqFTRMLsqOUwyxrupfFDH668i', '911-719-7901', '17590 Mallory Drive', 'Conroe', 'Texas', 'Client', 'Female', '1999-01-13', 159, 64, 'High', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (3, NULL, 'Barret', 'Nuth', 'bnuth2@yolasite.com', '$2a$04$z83KQmExXLh336wuDdVdm.geVtlNsMfMxjC.SnpB3SYoPm5Ed2P3.', '287-895-6161', '4561 Heffernan Center', 'Las Cruces', 'New Mexico', 'Client', 'Male', '1991-01-04', 134, 77, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (4, NULL, 'Aimee', 'Stilliard', 'astilliard3@dmoz.org', '$2a$04$QmcbGrFXQBJvOCnxC6AV9eFZTn2nfr73.QIYDWO4kvmYUlrnxfIfW', '435-475-8724', '26753 Messerschmidt Trail', 'Carson City', 'Nevada', 'Coach', 'Female', '1964-01-08', 255, 74, 'Low', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
