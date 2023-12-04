@@ -1,4 +1,3 @@
--- Active: 1699117412849@@127.0.0.1@3306@fitnessdb
 -- Dumping data for User table
 insert into User (UserID, CoachID, FirstName, LastName, Email, Password, PhoneNum, Street, City, State, Role, Gender, DOB, Weight, Height, ActivityLevel, Created, LastUpdate) values (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$eAfFmHlzVc4He97tXcyAPuDMCGbHeAPC8bHYuuqRhcE36JmrC.IMi', '000-000-0000', '323 MLK Blvd', 'Newark', 'New Jersey', 'Admin', 'Male', '2000-01-01', 150, 70, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 insert into User (UserID, CoachID, FirstName, LastName, Email, Password, PhoneNum, Street, City, State, Role, Gender, DOB, Weight, Height, ActivityLevel, Created, LastUpdate) values (2, NULL, 'Moselle', 'Penn', 'mpenn1@diigo.com', '$2a$04$y/ueG394hADKKFUyTjLRP.4vFjWqdJUfyiHZIDszAe9tE8QJtgmHq', '904-267-8144', '38406 Springs Alley', 'Jacksonville', 'Florida', 'Client', 'Female', '1981-05-04', 261, 71, 'Low', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
