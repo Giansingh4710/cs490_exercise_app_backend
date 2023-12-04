@@ -4,11 +4,11 @@ require("dotenv").config();
 require("colors");
 
 const connection = mysql.createConnection({
-  host:"localhost",
-  user:"root",
-  password:"a9fc6ef13j",
-  database:"fitnessDB",
-})
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: "fitnessDB",
+});
 
 const sequelize = new Sequelize(
   `mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/fitnessDB`
