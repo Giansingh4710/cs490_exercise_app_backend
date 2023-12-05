@@ -25,16 +25,15 @@ async function getRequestsByUserIDSorted(userID) {
   try {
     const query = `
             SELECT 
-                Request.RequestID,
-                Request.UserID,
-                Request.CoachID,
-                User.FirstName,
-                User.LastName
-            FROM Request
-            JOIN Coach ON Request.CoachID = Coach.CoachID
-            JOIN User ON Coach.UserID = User.UserID
-            WHERE Request.UserID = ? ORDER BY User.FirstName ASC;`;
-
+            Request.RequestID,
+            Request.UserID,
+            Request.CoachID,
+            User.FirstName,
+            User.LastName
+        FROM Request
+        JOIN Coach ON request.CoachID = Coach.CoachID
+        JOIN User ON Coach.UserID = User.UserID
+        WHERE Request.UserID = ? AND Request.Status = 'Pending' ORDER BY User.FirstName ASC;`;
     return connection.promise().query(query, [userID]);
   } catch (error) {
     throw error;
