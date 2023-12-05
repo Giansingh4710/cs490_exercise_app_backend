@@ -1,5 +1,10 @@
 const { coachID_exists } = require("../utils/helper_funcs.js");
-const { createRequest, userRequestedCoach, getPendingRequests } = require(
+const {
+  createRequest,
+  userRequestedCoach,
+  getPendingRequests,
+  unansweredRequestsByCoach_DB,
+} = require(
   "../DataAccess/RequestRepository.js",
 );
 
@@ -123,15 +128,29 @@ async function requestCoach(req, res, err) {
   }
 }
 
-async function getOpenRequests(req, response, error) {
+async function getOpenRequests(req, res, err) {
   try {
     const pendingRequests = await getPendingRequests(req.UserID);
-    return response.status(200).send(pendingRequests);
+    return res.status(200).send(pendingRequests);
   } catch (error) {
     return res.status(500).send({
       error: {
         status: 500,
         message: "Server Error while trying to getOpenRequests",
+      },
+    });
+  }
+}
+
+async function unansweredRequestsByCoach(req, res, err) {
+  try {
+    const pendingRequests = await unansweredRequestsByCoach_DB(req.UserID);
+    return res.status(200).send(pendingRequests);
+  } catch (error) {
+    return res.status(500).send({
+      error: {
+        status: 500,
+        message: "Server Error while trying to get unansweredRequestsByCoach",
       },
     });
   }
@@ -149,4 +168,5 @@ function hasAllKeys(object, keys) {
 module.exports = {
   requestCoach,
   getOpenRequests,
+  unansweredRequestsByCoach,
 };

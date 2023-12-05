@@ -27,7 +27,7 @@ async function verifyToken(req, res, next) {
 async function fakeVerifyToken(req, res, next) {
   //for testing purposes, to test out routes that require a token
   try {
-    req.UserID = 2;
+    req.UserID = 1;
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token.", "error": error });
