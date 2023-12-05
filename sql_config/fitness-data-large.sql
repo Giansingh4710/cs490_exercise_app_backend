@@ -1141,97 +1141,97 @@ insert into MentalState (StateID, UserID, Date, State, Created, LastUpdate) valu
 
 -- Dumping data for Chest Exercises
 INSERT INTO Exercise VALUES
-    (1, 'Push-up', 'Chest', 'Beginner', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 'Diamond Push Up', 'Chest', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 'Bench Press', 'Chest', 'Advanced', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (4, 'Dumbbell Chest Fly', 'Chest', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (5, 'Incline Dumbbell Press', 'Chest', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (6, 'Incline Machine Press', 'Chest', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (7, 'Cable Crossover', 'Chest', 'Advanced', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (8, 'Chest Dip', 'Chest', 'Advanced', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (9, 'Machine Fly', 'Chest', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (10, 'Decline Bench Press', 'Chest', 'Advanced', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (1, 'Push-up', 'Chest', 'Beginner', 'Bodyweight', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 'Diamond Push Up', 'Chest', 'Intermediate', 'Bodyweight', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 'Bench Press', 'Chest', 'Advanced', 'Bench Press', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 'Dumbbell Chest Fly', 'Chest', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 'Incline Dumbbell Press', 'Chest', 'Intermediate', 'Dumbells', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 'Incline Machine Press', 'Chest', 'Intermediate', 'Bench Press', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, 'Cable Crossover', 'Chest', 'Advanced', 'Cables', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, 'Chest Dip', 'Chest', 'Advanced', 'Machine', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, 'Machine Fly', 'Chest', 'Intermediate', 'Machine', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, 'Decline Bench Press', 'Chest', 'Advanced', 'Bench Press', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Dumping data for Back Exercises
 INSERT INTO Exercise VALUES
-    (11, 'Bent-over Rows', 'Back', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (12, 'Seated Cable Rows', 'Back', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (13, 'Single Arm Dumbbell Row', 'Back', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (14, 'Cable Pull-Overs', 'Back', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (15, 'Conventional Deadlift', 'Back', 'Advanced', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (16, 'Sumo Deadlift', 'Back', 'Advanced', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (17, 'Pull-ups', 'Back', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (18, 'Lat Pulldowns', 'Back', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (19, 'Rack Pulls', 'Back', 'Advanced', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (20, 'Trap Bar Deadlift', 'Back', 'Advanced', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (11, 'Bent-over Rows', 'Back', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (12, 'Seated Cable Rows', 'Back', 'Intermediate', 'Cables', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (13, 'Single Arm Dumbbell Row', 'Back', 'Intermediate', 'Dumbells', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (14, 'Cable Pull-Overs', 'Back', 'Intermediate', 'Cables', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (15, 'Conventional Deadlift', 'Back', 'Advanced', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (16, 'Sumo Deadlift', 'Back', 'Advanced', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (17, 'Pull-ups', 'Back', 'Intermediate', 'Other', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (18, 'Lat Pulldowns', 'Back', 'Intermediate', 'Machine', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (19, 'Rack Pulls', 'Back', 'Advanced', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (20, 'Trap Bar Deadlift', 'Back', 'Advanced', 'Other', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Dumping data for Bicep Exercises
 INSERT INTO Exercise VALUES
-    (21, 'Hammer Curl', 'Bicep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (22, 'Bicep Curl', 'Bicep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (23, 'Concentration Curl', 'Bicep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (24, 'High Cable Curl', 'Bicep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (25, 'Preacher Curl', 'Bicep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (26, 'EZ Bar Curl', 'Bicep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (27, 'Cable Rope Hammer Curl', 'Bicep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (21, 'Hammer Curl', 'Bicep', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (22, 'Bicep Curl', 'Bicep', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (23, 'Concentration Curl', 'Bicep', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (24, 'High Cable Curl', 'Bicep', 'Intermediate', 'Cables', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (25, 'Preacher Curl', 'Bicep', 'Intermediate', 'Machine', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (26, 'EZ Bar Curl', 'Bicep', 'Intermediate', 'Other', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (27, 'Cable Rope Hammer Curl', 'Bicep', 'Intermediate', 'Cables', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Dumping data for Tricep Exercises
 INSERT INTO Exercise VALUES
-    (28, 'Overhead Tricep Extensions', 'Tricep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (29, 'Push-downs', 'Tricep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (30, 'Bench Dips', 'Tricep', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (31, 'Close Grip Push Up', 'Tricep', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (32, 'Skull Crusher', 'Tricep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (33, 'Machine Tricep Extension', 'Tricep', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (34, 'Close Grip Bench Press', 'Tricep', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (28, 'Overhead Tricep Extensions', 'Tricep', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (29, 'Push-downs', 'Tricep', 'Intermediate', 'Other', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (30, 'Bench Dips', 'Tricep', 'Intermediate', 'Bench Press', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (31, 'Close Grip Push Up', 'Tricep', 'Intermediate', 'Bodyweight', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (32, 'Skull Crusher', 'Tricep', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (33, 'Machine Tricep Extension', 'Tricep', 'Intermediate', 'Machine', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (34, 'Close Grip Bench Press', 'Tricep', 'Intermediate', 'Bench Press', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Dumping data for Shoulder Exercises
 INSERT INTO Exercise VALUES
-    (35, 'Shoulder Press', 'Shoulder', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (36, 'Lateral Raise', 'Shoulder', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (37, 'Dumbbell Front Raise', 'Shoulder', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (38, 'Face Pull', 'Shoulder', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (39, 'Arnold Press', 'Shoulder', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (40, 'Barbell Military Press', 'Shoulder', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (41, 'Barbell Upright Row', 'Shoulder', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (42, 'Barbell Overhead Press', 'Shoulder', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (43, 'Pull-up', 'Shoulder', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (35, 'Shoulder Press', 'Shoulder', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (36, 'Lateral Raise', 'Shoulder', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (37, 'Dumbbell Front Raise', 'Shoulder', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (38, 'Face Pull', 'Shoulder', 'Intermediate', 'Dumbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (39, 'Arnold Press', 'Shoulder', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (40, 'Barbell Military Press', 'Shoulder', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (41, 'Barbell Upright Row', 'Shoulder', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (42, 'Barbell Overhead Press', 'Shoulder', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (43, 'Scapular Pull-up', 'Shoulder', 'Intermediate', 'Other', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Dumping data for Leg Exercises
 INSERT INTO Exercise VALUES
-    (44, 'Bulgarian Split Squats', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (45, 'Leg Press', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (46, 'Romanian Deadlift', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (47, 'Reverse Lunges', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (48, 'Leg Extension', 'Leg', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (49, 'Side lunge', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (50, 'Box Jump', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (51, 'Bodyweight Squat', 'Leg', 'Beginner', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (52, 'Barbell Squat', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (53, 'Goblet Squat', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (54, 'Hamstring Curl', 'Leg', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (55, 'Step-up', 'Leg', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (56, 'Calf-raises', 'Leg', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (44, 'Bulgarian Split Squats', 'Leg', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (45, 'Leg Press', 'Leg', 'Intermediate', 'Machines', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (46, 'Romanian Deadlift', 'Leg', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (47, 'Reverse Lunges', 'Leg', 'Intermediate', 'Dumbells', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (48, 'Leg Extension', 'Leg', 'Intermediate', 'Machine', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (49, 'Side lunge', 'Leg', 'Intermediate', 'Dumbells', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (50, 'Box Jump', 'Leg', 'Intermediate', 'Other', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (51, 'Bodyweight Squat', 'Leg', 'Beginner', 'Bodyweight', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (52, 'Barbell Squat', 'Leg', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (53, 'Goblet Squat', 'Leg', 'Intermediate', 'Bodyweight', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (54, 'Hamstring Curl', 'Leg', 'Intermediate', 'Machine', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (55, 'Step-up', 'Leg', 'Intermediate', 'Other', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (56, 'Calf-raises', 'Leg', 'Intermediate', 'Machine', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Dumping data for Abdominal Exercises
 INSERT INTO Exercise VALUES
-    (57, 'Ab wheel rollout', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (58, 'Arms-high partial sit up', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (59, 'Barbell Russian Twist', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (60, 'Leg Raises', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (61, 'Flutter Kick', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (62, 'Russian Twist', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (63, 'Mountain Climber', 'Abdominal', 'Intermediate', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (64, 'Superman', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (65, 'Plank', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (66, 'Side Plank', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (67, 'Star Plank', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (68, 'Knee Raises', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (69, 'Crunches', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (70, 'Side Crunches', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (71, 'Reverse Crunches', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (72, 'V-ups', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (73, 'Sit-ups', 'Abdominal', 'Intermediate', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (57, 'Ab wheel rollout', 'Abdominal', 'Intermediate', 'Other', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (58, 'Arms-high partial sit up', 'Abdominal', 'Intermediate', 'Other', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (59, 'Barbell Russian Twist', 'Abdominal', 'Intermediate', 'Barbell', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (60, 'Leg Raises', 'Abdominal', 'Intermediate', 'Other', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (61, 'Flutter Kick', 'Abdominal', 'Intermediate', 'Other', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (62, 'Russian Twist', 'Abdominal', 'Intermediate', 'Other', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (63, 'Mountain Climber', 'Abdominal', 'Intermediate', 'Bodyweight', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (64, 'Superman', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (65, 'Plank', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (66, 'Side Plank', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (67, 'Star Plank', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (68, 'Knee Raises', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (69, 'Crunches', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (70, 'Side Crunches', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (71, 'Reverse Crunches', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (72, 'V-ups', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (73, 'Sit-ups', 'Abdominal', 'Intermediate', 'Bodyweight', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Dumping data for WorkoutPlan table
 insert into WorkoutPlan (PlanID, UserID, ExerciseID, DayOfWeek, Created, LastUpdate) values (1, 92, 73, 'Thursday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

@@ -179,6 +179,7 @@ CREATE TABLE Exercise (
     Name VARCHAR(32) NOT NULL,
     MuscleGroup VARCHAR(32),
     Difficulty VARCHAR(32),
+    Equipment VARCHAR(32),
     Type VARCHAR(32),
     -- Add timestamp columns for creation and last update
     Created TIMESTAMP NOT NULL
