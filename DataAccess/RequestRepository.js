@@ -100,6 +100,30 @@ async function getPendingRequests(userID) {
   return formattedData;
 }
 
+async function unansweredRequestsByCoach_DB(coachID) {
+  const query = `
+    SELECT 
+      R.RequestID,
+      R.UserID,
+      U.FirstName,
+      U.LastName
+    FROM Request R
+    JOIN User U ON R.UserID = U.UserID
+    WHERE R.Status = "Pending" AND R.CoachID = ?`;
+
+  const res = await connection.promise().query(query, [coachID]);
+  return res[0].map((row) => {
+    return {
+      RequestID: row.RequestID,
+      "User": {
+        UserID: row.UserID,
+        FirstName: row.FirstName,
+        LastName: row.LastName,
+      },
+    };
+  });
+}
+
 async function validCoachID(coachID) {
   // this exists in ../utils/helper_funcs.js as coachID_exists
   const coachData = await CoachService.getCoachByID(coachID);
@@ -109,4 +133,9 @@ async function validCoachID(coachID) {
   return true;
 }
 
-module.exports = { createRequest, userRequestedCoach, getPendingRequests };
+module.exports = {
+  createRequest,
+  userRequestedCoach,
+  getPendingRequests,
+  unansweredRequestsByCoach_DB,
+};
