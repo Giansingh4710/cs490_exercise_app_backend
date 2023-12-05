@@ -126,8 +126,18 @@ async function requestCoach(request, response, error){
 
 async function getOpenRequests(request, response, error){
     // goty UserID for coach from token 
-    const pendingRequests = await RequestService.getPendingRequests(request.UserID);
-    return response.status(200).send(pendingRequests);
+    try{
+        const pendingRequests = await RequestService.getPendingRequests(request.UserID);
+        return response.status(200).send(pendingRequests);
+    }catch(error){
+        return response.status(500).send({
+            error: {
+            status: 500,
+            message: "Server Error",
+            details: "Error accessing database."
+        }
+    })
+    }
 
 }
 
