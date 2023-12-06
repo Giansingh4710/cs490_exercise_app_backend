@@ -1,6 +1,6 @@
 const clientRepository = require("../DataAccess/ClientRepository");
 const bcrypt = require("bcrypt");
-const { BCRYPT_WORK_FACTOR } = require("../sql_config/database.js");
+const { BCRYPT_WORK_FACTOR } = require("../sql_config/config.js");
 
 class ClientService {
   // register client
