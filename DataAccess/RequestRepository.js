@@ -99,18 +99,21 @@ async function getPendingRequests(userID) {
   return formattedData;
 }
 
-async function unansweredRequestsByCoach_DB(coachID) {
+async function unansweredRequestsByCoach_DB(userID) {
   const query = `
     SELECT 
-      R.RequestID,
-      R.UserID,
-      U.FirstName,
-      U.LastName
-    FROM Request R
-    JOIN User U ON R.UserID = U.UserID
-    WHERE R.Status = "Pending" AND R.CoachID = ?`;
+          R.RequestID,
+          R.UserID,
+          U.FirstName,
+          U.LastName
+        FROM Request R
+        JOIN User U ON R.UserID = U.UserID
+        WHERE R.Status = "Pending" AND 
+        R.CoachID in (
+          SELECT CoachID From Coach WHERE UserID=?
+        );`
 
-  const res = await connection.promise().query(query, [coachID]);
+  const res = await connection.promise().query(query, [userID]);
   return res[0].map((row) => {
     return {
       RequestID: row.RequestID,
