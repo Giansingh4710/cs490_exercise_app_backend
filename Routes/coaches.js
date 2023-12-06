@@ -9,11 +9,13 @@ const {
   getAllCoaches,
   searchByName,
   getClientsOfCoach,
+  getSpecializations,
 } = require("../Controllers/coach.js");
 
 router.get("/searchByName", searchByName);
 router.get("/getAllCoaches", getAllCoaches);
 router.get("/clients", verifyToken, getClientsOfCoach); // get all clients of a coach
+router.get("/specializations", getSpecializations); // Get specializations of available coaches
 router.get("/:CoachID", getCoachByID); // this needs to be last because it will catch all the other routes
 
 module.exports = router;

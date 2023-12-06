@@ -2,6 +2,7 @@ const {
   getCoachByID_DB,
   getAllCoaches_DB,
   searchByName_DB,
+  getSpecializations_DB,
   getClientsOfCoach_DB,
 } = require(
   "../DataAccess/coach_db_access.js",
@@ -85,6 +86,21 @@ async function searchByName(request, response) {
   }
 }
 
+async function getSpecializations(request, response) {
+  try {
+    const specData = await getSpecializations_DB();
+    return response.status(200).send(specData);
+  } catch (error) {
+    return response.status(500).send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to getSpecializations from database.",
+      },
+    });
+  }
+}
+
 async function getClientsOfCoach(request, response) {
   try {
     const coachID = request.UserID; // set in ../Services/TokenVerification.js
@@ -105,5 +121,6 @@ module.exports = {
   getCoachByID,
   getAllCoaches,
   searchByName,
+  getSpecializations,
   getClientsOfCoach,
 };
