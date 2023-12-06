@@ -111,7 +111,8 @@ async function unansweredRequestsByCoach_DB(userID) {
         WHERE R.Status = "Pending" AND 
         R.CoachID in (
           SELECT CoachID From Coach WHERE UserID=?
-        );`
+        )
+        ORDER BY CONCAT(U.FirstName,U.LastName) ASC;`
 
   const res = await connection.promise().query(query, [userID]);
   return res[0].map((row) => {
