@@ -10,6 +10,6 @@ const { requestCoach, getOpenRequests, unansweredRequestsByCoach } = require(
 // why would the path for requesting coach be /request? shouldn't it be /request/coach?
 router.post("/", verifyToken, requestCoach);
 router.get("/openClientRequest", verifyToken, getOpenRequests);
-router.get("/openCoachRequests", fakeVerifyToken, unansweredRequestsByCoach);
+router.get("/openCoachRequests", verifyToken, unansweredRequestsByCoach);
 
 module.exports = router;
