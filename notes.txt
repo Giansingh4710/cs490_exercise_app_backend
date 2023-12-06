@@ -1,0 +1,11 @@
+1) Services folder : Needed?
+2) DataAccess folder : 
+  files named repo: can I change that to make it more accutate like requestsDB
+  no try except in DB files, because the functions that call db will throw error
+  getPendingRequests clean up less code like in unansweredRequestsByCoach_DB
+
+3) routes name should start lowercase?
+
+4) Servic/TokenVerification: can we move that to util/helper_func
+    also made fakeVerifyToken
+

@@ -25,16 +25,15 @@ async function getRequestsByUserIDSorted(userID) {
   try {
     const query = `
             SELECT 
-                Request.RequestID,
-                Request.UserID,
-                Request.CoachID,
-                User.FirstName,
-                User.LastName
-            FROM Request
-            JOIN Coach ON Request.CoachID = Coach.CoachID
-            JOIN User ON Coach.UserID = User.UserID
-            WHERE Request.UserID = ? ORDER BY User.FirstName ASC;`;
-
+            Request.RequestID,
+            Request.UserID,
+            Request.CoachID,
+            User.FirstName,
+            User.LastName
+        FROM Request
+        JOIN Coach ON request.CoachID = Coach.CoachID
+        JOIN User ON Coach.UserID = User.UserID
+        WHERE Request.UserID = ? AND Request.Status = 'Pending' ORDER BY User.FirstName ASC;`;
     return connection.promise().query(query, [userID]);
   } catch (error) {
     throw error;
@@ -100,6 +99,33 @@ async function getPendingRequests(userID) {
   return formattedData;
 }
 
+async function unansweredRequestsByCoach_DB(userID) {
+  const query = `
+    SELECT 
+          R.RequestID,
+          R.UserID,
+          U.FirstName,
+          U.LastName
+        FROM Request R
+        JOIN User U ON R.UserID = U.UserID
+        WHERE R.Status = "Pending" AND 
+        R.CoachID in (
+          SELECT CoachID From Coach WHERE UserID=?
+        );`
+
+  const res = await connection.promise().query(query, [userID]);
+  return res[0].map((row) => {
+    return {
+      RequestID: row.RequestID,
+      "User": {
+        UserID: row.UserID,
+        FirstName: row.FirstName,
+        LastName: row.LastName,
+      },
+    };
+  });
+}
+
 async function validCoachID(coachID) {
   // this exists in ../utils/helper_funcs.js as coachID_exists
   const coachData = await CoachService.getCoachByID(coachID);
@@ -109,4 +135,9 @@ async function validCoachID(coachID) {
   return true;
 }
 
-module.exports = { createRequest, userRequestedCoach, getPendingRequests };
+module.exports = {
+  createRequest,
+  userRequestedCoach,
+  getPendingRequests,
+  unansweredRequestsByCoach_DB,
+};
