@@ -1,6 +1,25 @@
 const express = require("express"); // Express.js for building the web server
 const cors = require("cors"); // Cross-Origin Resource Sharing middleware (for handling CORS)
 const morgan = require("morgan"); // Logging middleware (for logging HTTP requests)
+const swaggerJsdoc = require('swagger-jsdoc')
+const swaggerUI = require('swagger-ui-express')
+
+// swagger documention setup
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Express API for JSONPlaceholder',
+    version: '1.0.0',
+  },
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./Routes/*.js'],
+};
+
+const swaggerSpec = swaggerJsdoc(options);
 
 const { NotFoundError } = require("./utils/errors"); // Custom error handling
 
@@ -83,6 +102,7 @@ app.get("/", (req, res) => {
   res.send(sendItem.concat(all_routes_to_show.join("<br/>")));
 });
 
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use("/register", register);
 app.use("/login", login);
 app.use("/auth", auth);
