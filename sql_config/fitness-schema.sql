@@ -8,90 +8,90 @@ USE fitnessDB;
 -- Table structure for User table
 CREATE TABLE User (
     -- Create primary and foreign key columns
-    UserID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    CoachID INT UNSIGNED DEFAULT NULL,
+    userID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    coachID INT UNSIGNED DEFAULT NULL,
     -- Create user data columns
-    FirstName VARCHAR(32),
-    LastName VARCHAR(32),
-    Email VARCHAR(64) NOT NULL,
-    Password VARCHAR(64) NOT NULL,
-    PhoneNum VARCHAR(16),
-    Street VARCHAR(64),
-    City VARCHAR(32),
-    State VARCHAR(32),
-    Role VARCHAR(16),
-    Gender VARCHAR(16),
-    DOB date,
-    Weight INT,
-    Height INT,
-    ActivityLevel VARCHAR(32),
+    firstname VARCHAR(32),
+    lastname VARCHAR(32),
+    email VARCHAR(256) NOT NULL UNIQUE,
+    password VARCHAR(64) NOT NULL,
+    phoneNum VARCHAR(16),
+    street VARCHAR(64),
+    city VARCHAR(32),
+    state VARCHAR(32),
+    role VARCHAR(16),
+    gender VARCHAR(16),
+    dob date,
+    weight INT,
+    height INT,
+    activityLevel VARCHAR(32),
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key
-    PRIMARY KEY (UserID)
+    PRIMARY KEY (userID)
 );
 
 
 -- Table structure for Coach table
 CREATE TABLE Coach (
     -- Create primary and foreign key columns
-    CoachID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED NOT NULL,
+    coachID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED NOT NULL,
     -- Create coach data columns
-    Specialties VARCHAR(256),
-    Cost float,
+    specialties VARCHAR(256),
+    cost float,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key
-    PRIMARY KEY (CoachID)
+    PRIMARY KEY (coachID)
 );
 
 
--- Define FK constraint on User table for CoachID
+-- Define FK constraint on User table for coachID
 ALTER TABLE User ADD
 	CONSTRAINT UserCoachFK 
-        FOREIGN KEY (CoachID)
-        REFERENCES Coach(CoachID)
+        FOREIGN KEY (coachID)
+        REFERENCES Coach(coachID)
         ON DELETE SET NULL;
 
--- Define FK constraint on Coach table for UserID
+-- Define FK constraint on Coach table for userID
 ALTER TABLE Coach ADD
 	CONSTRAINT CoachUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE CASCADE;
 
 
 -- Table structure for Goal table
 CREATE TABLE Goal (
     -- Create primary and foreign key columns
-    GoalID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED NOT NULL,
+    goalID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED NOT NULL,
     -- Create goal data columns
-    GoalType VARCHAR(32) NOT NULL,
-    Description TEXT,
-    WeightGoal INT,
-    DailyWater FLOAT,
-    DailyCalories INT,
+    goalType VARCHAR(32) NOT NULL,
+    description TEXT,
+    weightGoal INT,
+    dailyWater FLOAT,
+    dailycalories INT,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraint
-    PRIMARY KEY (GoalID),
+    PRIMARY KEY (goalID),
     CONSTRAINT GoalUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE CASCADE
 );
 
@@ -99,23 +99,23 @@ CREATE TABLE Goal (
 -- Table structure for WaterIntake table
 CREATE TABLE WaterIntake (
     -- Create primary and foreign key columns
-    WaterID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED NOT NULL,
+    waterID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED NOT NULL,
     -- Create water intake data columns
-    Date DATE NOT NULL,
-    IntakeAmount FLOAT NOT NULL,
-    IntakeUnit VARCHAR(32) NOT NULL,
+    date DATE NOT NULL,
+    intakeAmount FLOAT NOT NULL,
+    intakeUnit VARCHAR(32) NOT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraint
-    PRIMARY KEY (WaterID),
+    PRIMARY KEY (waterID),
     CONSTRAINT WaterUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE CASCADE
 );
 
@@ -123,50 +123,50 @@ CREATE TABLE WaterIntake (
 -- Table structure for FoodIntake table
 CREATE TABLE FoodIntake (
     -- Create primary and foreign key columns
-    FoodID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED NOT NULL,
+    foodID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED NOT NULL,
     -- Create food intake data columns
-    Date DATE NOT NULL,
-    FoodName VARCHAR(32) NOT NULL,
-    MealType VARCHAR(16) NOT NULL,
-    Calories INT NOT NULL,
-    Protein INT DEFAULT NULL,
-    Carbs INT DEFAULT NULL,
-    Fat INT DEFAULT NULL,
+    date DATE NOT NULL,
+    foodname VARCHAR(32) NOT NULL,
+    mealType VARCHAR(16) NOT NULL,
+    calories INT NOT NULL,
+    protein INT DEFAULT NULL,
+    carbs INT DEFAULT NULL,
+    fat INT DEFAULT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraint
-    PRIMARY KEY (FoodID),
+    PRIMARY KEY (foodID),
     CONSTRAINT FoodUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE CASCADE
 );
 
 
--- Table structure for MentalState table
-CREATE TABLE MentalState (
+-- Table structure for Mentalstate table
+CREATE TABLE Mentalstate (
     -- Create primary and foreign key columns
-    StateID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED NOT NULL,
+    stateID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED NOT NULL,
     -- Create mental state data columns
-    Date DATE NOT NULL,
-    State VARCHAR(32) NOT NULL,
+    date DATE NOT NULL,
+    state VARCHAR(32) NOT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraint
-    PRIMARY KEY (StateID),
-    CONSTRAINT StateUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+    PRIMARY KEY (stateID),
+    CONSTRAINT stateUserFK 
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE CASCADE
 );
 
@@ -174,47 +174,47 @@ CREATE TABLE MentalState (
 -- Table structure for Exercise table
 CREATE TABLE Exercise (
     -- Create primary key column
-    ExerciseID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    exerciseID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     -- Create exercise data columns
-    Name VARCHAR(32) NOT NULL,
-    MuscleGroup VARCHAR(32),
-    Difficulty VARCHAR(32),
-    Equipment VARCHAR(32),
-    Type VARCHAR(32),
+    name VARCHAR(32) NOT NULL,
+    muscleGroup VARCHAR(32),
+    difficulty VARCHAR(32),
+    equipment VARCHAR(32),
+    type VARCHAR(32),
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key
-    PRIMARY KEY (ExerciseID)
+    PRIMARY KEY (exerciseID)
 );
 
 
 -- Table structure for WorkoutPlan table
 CREATE TABLE WorkoutPlan (
     -- Create primary and foreign key columns
-    PlanID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED NOT NULL,
-    ExerciseID INT UNSIGNED,
+    planID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED NOT NULL,
+    exerciseID INT UNSIGNED,
     -- Create workout plan data column
-    DayOfWeek VARCHAR(16) NOT NULL,
+    dayOfWeek VARCHAR(16) NOT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraints
-    PRIMARY KEY (PlanID),
+    PRIMARY KEY (planID),
     CONSTRAINT PlanUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE CASCADE,
     CONSTRAINT PlanExerciseFK 
-        FOREIGN KEY (ExerciseID) 
-        REFERENCES Exercise(ExerciseID)
+        FOREIGN KEY (exerciseID) 
+        REFERENCES Exercise(exerciseID)
         ON DELETE SET NULL
 );
 
@@ -222,30 +222,30 @@ CREATE TABLE WorkoutPlan (
 -- Table structure for Record table
 CREATE TABLE Record (
     -- Create primary and foreign key columns
-    RecordID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    PlanID INT UNSIGNED,
-    ExerciseID INT UNSIGNED,
+    recordID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    planID INT UNSIGNED,
+    exerciseID INT UNSIGNED,
     -- Create record data columns
-    Date DATE NOT NULL,
-    Reps INT NOT NULL,
-    Sets INT NOT NULL,
-    Weight FLOAT DEFAULT NULL,
-    Duration INT NOT NULL,
+    date DATE NOT NULL,
+    reps INT NOT NULL,
+    sets INT NOT NULL,
+    weight FLOAT DEFAULT NULL,
+    duration INT NOT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraints
     PRIMARY KEY (RecordID),
     CONSTRAINT RecordPlanFK 
-        FOREIGN KEY (PlanID) 
-        REFERENCES WorkoutPlan(PlanID)
+        FOREIGN KEY (planID) 
+        REFERENCES WorkoutPlan(planID)
         ON DELETE SET NULL,
     CONSTRAINT RecordExerciseFK 
-        FOREIGN KEY (ExerciseID) 
-        REFERENCES Exercise(ExerciseID)
+        FOREIGN KEY (exerciseID) 
+        REFERENCES Exercise(exerciseID)
         ON DELETE SET NULL
 );
 
@@ -253,28 +253,28 @@ CREATE TABLE Record (
 -- Table structure for Request table
 CREATE TABLE Request (
     -- Create primary and foreign key columns
-    RequestID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED,
-    CoachID INT UNSIGNED,
+    requestID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED,
+    coachID INT UNSIGNED,
     -- Create request data columns
-    Status VARCHAR(16) NOT NULL,
-    Goals TEXT DEFAULT NULL,
-    Note TEXT DEFAULT NULL,
+    status VARCHAR(16) NOT NULL,
+    goals TEXT DEFAULT NULL,
+    note TEXT DEFAULT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraints
     PRIMARY KEY (RequestID),
     CONSTRAINT RequestUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE SET NULL,
     CONSTRAINT RequestCoachFK 
-        FOREIGN KEY (CoachID)
-        REFERENCES Coach(CoachID)
+        FOREIGN KEY (coachID)
+        REFERENCES Coach(coachID)
         ON DELETE SET NULL
 );
 
@@ -282,27 +282,27 @@ CREATE TABLE Request (
 -- Table structure for Appointment table
 CREATE TABLE Appointment (
     -- Create primary and foreign key columns
-    AppointmentID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    UserID INT UNSIGNED,
-    CoachID INT UNSIGNED,
+    appointmentID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED,
+    coachID INT UNSIGNED,
     -- Create appointment data columns
-    Date DATE NOT NULL,
-    Time TIME NOT NULL,
+    date DATE NOT NULL,
+    time TIME NOT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraints
-    PRIMARY KEY (AppointmentID),
-    CONSTRAINT AppointmentUserFK 
-        FOREIGN KEY (UserID) 
-        REFERENCES User(UserID)
+    PRIMARY KEY (appointmentID),
+    CONSTRAINT appointmentUserFK 
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
         ON DELETE SET NULL,
-    CONSTRAINT AppointmentCoachFK 
-        FOREIGN KEY (CoachID)
-        REFERENCES Coach(CoachID)
+    CONSTRAINT appointmentCoachFK 
+        FOREIGN KEY (coachID)
+        REFERENCES Coach(coachID)
         ON DELETE SET NULL
 );
 
@@ -310,25 +310,25 @@ CREATE TABLE Appointment (
 -- Table structure for Message table
 CREATE TABLE Message (
     -- Create primary and foreign key columns
-    MessageID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    SenderID INT UNSIGNED,
-    ReceiverID INT UNSIGNED,
+    messageID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    senderID INT UNSIGNED,
+    receiverID INT UNSIGNED,
     -- Create message data column
-    Content TEXT NOT NULL,
+    content TEXT NOT NULL,
     -- Add timestamp columns for creation and last update
-    Created TIMESTAMP NOT NULL
+    created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
-    LastUpdate TIMESTAMP NOT NULL
+    lastUpdate TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
     -- Define primary key and foreign key constraints
-    PRIMARY KEY (MessageID),
+    PRIMARY KEY (messageID),
     CONSTRAINT SenderFK 
-        FOREIGN KEY (SenderID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (senderID) 
+        REFERENCES User(userID)
         ON DELETE SET NULL,
     CONSTRAINT ReceiverFK 
-        FOREIGN KEY (ReceiverID) 
-        REFERENCES User(UserID)
+        FOREIGN KEY (receiverID) 
+        REFERENCES User(userID)
         ON DELETE SET NULL
 );
