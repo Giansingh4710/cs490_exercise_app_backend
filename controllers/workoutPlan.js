@@ -1,4 +1,4 @@
-const { getUsersOfCoach_DB } = require("../DataAccess/coach_db_access");
+const { getUsersOfCoach_DB } = require("../dataAccess/coach_db_access");
 const { getWorkoutPlan_DB } = require("../dataAccess/workout_plan_db");
 
 async function getWorkoutPlan(req, res){
