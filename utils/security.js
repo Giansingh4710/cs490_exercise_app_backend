@@ -27,7 +27,7 @@ async function requireAuthedUser(req, res, next) {
     req.userID = rows[0].userID;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid token.", "error": error });
+    return res.status(401).json({ message: "Invalid token.", "error": error});
   }
 }
 

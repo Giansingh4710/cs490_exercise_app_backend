@@ -1,8 +1,9 @@
 const {
-  findUsersByEmail,
+  findUserByEmail,
   createUser,
   updateUser,
 } = require("../dataAccess/user_db");
+const { createUserJwt } = require("../utils/security.js");
 const { BCRYPT_WORK_FACTOR } = require("../sql_config/config.js");
 const bcrypt = require("bcrypt");
 const { validateName, validateEmail } = require("../utils/helper_funcs.js");
@@ -15,7 +16,7 @@ async function registerAccount(req, res) {
       throw new Error(`${req.body.email}: is not valid email format`);
     }
 
-    const rows = await findUsersByEmail(req.body.email);
+    const rows = await findUserByEmail(req.body.email);
     if (rows.length > 0) {
       errorStatusCode = 500;
       throw new Error(`${req.body.email}: is already registered`);
@@ -26,7 +27,12 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
-    return res.status(201).send(userObj);
+
+    const token = createUserJwt(req.body.email); // generate a new JWT for the user
+
+    const userID = userObj.insertId;
+    return res.status(201).send({ user: { "email": req.body.email, "userID": userID }, token: token });
+
   } catch (error) {
     return res.status(errorStatusCode).send({
       error: error.message,

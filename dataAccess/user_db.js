@@ -1,7 +1,7 @@
 const { connection } = require("../sql_config/database.js");
-const { createUserJwt } = require("../utils/security.js");
+// const { createUserJwt } = require("../utils/security.js");
 
-async function findUsersByEmail(email) {
+async function findUserByEmail(email) {
   const query = "SELECT * FROM User WHERE email = ?";
   const [rows, _] = await connection.promise().query(query, [email]);
   return rows;
@@ -13,10 +13,12 @@ async function createUser({ email, hashedPass }) {
     email,
     hashedPass,
   ]);
-  const token = createUserJwt(email); // generate a new JWT for the user
 
-  const userID = insertInfoObj.insertId;
-  return { user: { "email": email, "userID": userID }, token: token };
+  return insertInfoObj;
+  // const token = createUserJwt(email); // generate a new JWT for the user
+
+  // const userID = insertInfoObj.insertId;
+  // return { user: { "email": email, "userID": userID }, token: token };
 }
 
 async function updateUser(data, email) {
@@ -60,7 +62,7 @@ async function updateUser(data, email) {
 }
 
 module.exports = {
-  findUsersByEmail,
+  findUserByEmail,
   createUser,
   updateUser,
 };
