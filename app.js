@@ -10,6 +10,7 @@ const auth = require("./routes/auth.js");
 const logActivity = require("./routes/logActivity.js");
 const coaches = require("./routes/coaches.js");
 const requests = require("./routes/request.js");
+const workoutPlan = require("./routes/workoutPlan.js");
 
 const app = express();
 
@@ -88,6 +89,7 @@ app.use("/auth", auth);
 app.use("/logActivity", logActivity);
 app.use("/coaches", coaches);
 app.use("/request", requests);
+app.use("/workoutPlan", workoutPlan);
 
 // error handling - not found
 app.use((req, res, next) => {
