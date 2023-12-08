@@ -1,7 +1,7 @@
 const { connection } = require("../sql_config/database.js");
 // const { createUserJwt } = require("../utils/security.js");
 
-async function findUserByEmail(email) {
+async function findUsersByEmail(email) {
   const query = "SELECT * FROM User WHERE email = ?";
   const [rows, _] = await connection.promise().query(query, [email]);
   return rows;
@@ -62,7 +62,7 @@ async function updateUser(data, email) {
 }
 
 module.exports = {
-  findUserByEmail,
+  findUsersByEmail,
   createUser,
   updateUser,
 };
