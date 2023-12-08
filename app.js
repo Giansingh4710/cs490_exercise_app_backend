@@ -101,6 +101,7 @@ app.get("/", (req, res) => {
   res.send(sendItem.concat(all_routes_to_show.join("<br/>")));
 });
 
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use("/register", register);
 app.use("/login", login);
 app.use("/auth", auth);
