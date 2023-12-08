@@ -4,7 +4,6 @@ async function createMessage_DB(messageData, senderID){
 
     const query = "INSERT INTO Message(SenderID, ReceiverID, Content) VALUES(?, ?, ?)";
     const res = await connection.promise().query(query, [senderID, messageData.receiverID, messageData.content])
-    console.log(res[0]);
     return res[0];
 }
 

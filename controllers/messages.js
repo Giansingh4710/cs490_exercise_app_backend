@@ -31,6 +31,12 @@ async function storeMessage(req, res){
     }
 }
 
+async function getMessages(req, res){
+    
+
+}
+
 module.exports = {
-    storeMessage
+    storeMessage,
+    getMessages
 }
