@@ -34,6 +34,15 @@ async function getMessages(req, res){
     // set default values for limit and offset
     const limit = req.query.limit ? parseInt(req.query.limit) : 30;
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
+
+    if(limit < 0 || offset < 0){
+        return res.status(400).send({
+            error: {
+                status: 400,
+                message: "Limit and offset must be nonnegative"
+            }
+        })
+    }
     
     try{
         const messages = await getMessages_DB(req.params.userID, req.userID, limit, offset);
