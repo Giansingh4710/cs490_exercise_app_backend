@@ -49,7 +49,6 @@ async function addExercise(req, res){
     // verifying userID in request is a client of the coach
     if(req.body.userID != null){
         const coachData = await getCoachIDFromUserID_DB(req.userID);
-        // console.log(coachData);
         if(coachData.length == 0){
             return res.status(403).send({
                 error: {
@@ -77,7 +76,10 @@ async function addExercise(req, res){
 
     try{
         const insertedExercise = await addExercise_DB(req.body);
-        return res.status(201).send(insertedExercise);
+        return res.status(201).send({
+            status: 201,
+            message: "Exercise added to workout"
+        });
     }catch(error){
         return res.status(500).send({
             "error": {
