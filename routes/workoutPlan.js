@@ -5,7 +5,8 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 );
 
 const {
-    getWorkoutPlan
+    getWorkoutPlan,
+    addExercise
 } = require("../controllers/workoutPlan.js");
 
 // if supplying userID in query params, then coach trying to access view workout plan
@@ -34,6 +35,6 @@ const {
  */
 router.get("/:userID?", requireAuthedUser, getWorkoutPlan);
 
-
+router.post("/addExercise", requireAuthedUser, addExercise);
 
 module.exports = router;

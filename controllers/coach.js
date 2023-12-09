@@ -4,7 +4,7 @@ const {
   searchCoachByName_DB,
   getUsersOfCoach_DB,
 } = require(
-  "../DataAccess/coach_db_access.js",
+  "../dataAccess/coach_db_access.js",
 );
 
 async function getCoachByID(req, res) {

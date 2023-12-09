@@ -30,9 +30,16 @@ async function getUsersOfCoach_DB(coachID) {
   return res[0];
 }
 
+async function getCoachIDFromUserID_DB(userID){
+  const query = "SELECT * FROM Coach WHERE UserID = ?";
+  const res = await connection.promise().query(query, [userID]);
+  return res[0];
+}
+
 module.exports = {
   getCoachsByID_DB,
   getAllCoaches_DB,
   searchCoachByName_DB,
   getUsersOfCoach_DB,
+  getCoachIDFromUserID_DB,
 };
