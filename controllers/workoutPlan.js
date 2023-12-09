@@ -24,7 +24,6 @@ async function getWorkoutPlan(req, res){
                 }
             })
         }
-
         userID = req.params.userID;
     }   
 
@@ -44,9 +43,8 @@ async function getWorkoutPlan(req, res){
 }
 
 async function addExercise(req, res){
-    console.log("userID:_____________"+req.body.userID);
     let userID = req.userID;
-    
+
     // if userID included in request body -> coach adding exercise
     // verifying userID in request is a client of the coach
     if(req.body.userID != null){
@@ -63,7 +61,6 @@ async function addExercise(req, res){
         const coachID = coachData[0].CoachID;
     
         let clients = await getUsersOfCoach_DB(coachID);
-        // console.log(clients);
         clients = clients.filter((client) => {
             return client.userID == req.body.userID});
     
@@ -75,7 +72,6 @@ async function addExercise(req, res){
                 }
             })
         }
-
         userID = req.body.userID;
     }
 
