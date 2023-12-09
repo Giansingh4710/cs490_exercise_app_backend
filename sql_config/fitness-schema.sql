@@ -181,6 +181,7 @@ CREATE TABLE Exercise (
     difficulty VARCHAR(32),
     equipment VARCHAR(32),
     type VARCHAR(32),
+    metric VARCHAR(16),
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
@@ -198,8 +199,12 @@ CREATE TABLE WorkoutPlan (
     planID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     userID INT UNSIGNED NOT NULL,
     exerciseID INT UNSIGNED,
-    -- Create workout plan data column
+    -- Create workout plan data columns
     dayOfWeek VARCHAR(16) NOT NULL,
+    reps INT NOT NULL,
+    sets INT NOT NULL,
+    weight FLOAT DEFAULT NULL,
+    duration INT DEFAULT NULL,
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
@@ -230,7 +235,7 @@ CREATE TABLE Record (
     reps INT NOT NULL,
     sets INT NOT NULL,
     weight FLOAT DEFAULT NULL,
-    duration INT NOT NULL,
+    duration INT DEFAULT NULL,
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
