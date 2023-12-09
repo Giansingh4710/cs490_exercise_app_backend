@@ -1,7 +1,7 @@
 const { connection } = require("../sql_config/database");
 
 async function getWorkoutPlan_DB(userID){
-    const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=?;"
+    const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=?"
     const [res, _] = await connection.promise().query(query, [userID]);
     let response = {}
     res.forEach(element => {
@@ -21,6 +21,13 @@ async function getWorkoutPlan_DB(userID){
     return response;
 }
 
+async function addExercise_DB(data){
+    const query = "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek) VALUES(?, ?, ?)"
+    const [res, _] = await connection.promise().query(query, [data.userID, data.exerciseID, data.dayOfWeek]);
+    return res;
+}
+
 module.exports = {
-    getWorkoutPlan_DB
+    getWorkoutPlan_DB,
+    addExercise_DB
 }
