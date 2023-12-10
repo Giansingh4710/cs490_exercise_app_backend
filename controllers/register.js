@@ -3,6 +3,7 @@ const {
   createUser,
   updateUser,
 } = require("../dataAccess/user_db");
+const { createUserJwt } = require("../utils/security.js");
 const { BCRYPT_WORK_FACTOR } = require("../sql_config/config.js");
 const bcrypt = require("bcrypt");
 const { validateName, validateEmail } = require("../utils/helper_funcs.js");
@@ -26,7 +27,23 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
-    return res.status(201).send(userObj);
+    
+    // adding user data to res.locals.user for frontend
+    const newUserData = await findUsersByEmail(req.body.email);
+
+    const token = createUserJwt(req.body.email); // generate a new JWT for the user
+    return res.status(201).send(
+      {
+        user: {
+          id: newUserData.userID,
+          email: newUserData.email,
+          role: newUserData.role
+        },
+        token: token,
+        message: "User registered"
+      }
+      );
+
   } catch (error) {
     return res.status(errorStatusCode).send({
       error: error.message,
@@ -34,7 +51,6 @@ async function registerAccount(req, res) {
     });
   }
 }
-
 
 async function storeSurvey(req, res) {
   try {
