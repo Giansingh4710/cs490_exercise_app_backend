@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { findUserByEmail } = require("../dataAccess/user_db.js");
+const { findUsersByEmail } = require("../dataAccess/user_db.js");
 const { SECRET_KEY } = require("../sql_config/config");
 
 function getTokenFromHeader(req) {
@@ -23,7 +23,7 @@ async function requireAuthedUser(req, res, next) {
   try {
     const token = getTokenFromHeader(req);
     const { email } = jwt.verify(token, SECRET_KEY);
-    const rows = await findUserByEmail(email);
+    const rows = await findUsersByEmail(email);
     req.userID = rows[0].userID;
     next();
   } catch (error) {

@@ -5,7 +5,7 @@ const {
   getSpecializations_DB,
   getUsersOfCoach_DB,
 } = require(
-  "../DataAccess/coach_db_access.js",
+  "../dataAccess/coach_db_access.js",
 );
 
 async function getCoachByID(req, res) {
@@ -100,10 +100,17 @@ async function getSpecializations(request, response) {
   }
 }
 
+async function getCoachIDFromUserID_DB(userID){
+  const query = "SELECT * FROM Coach WHERE UserID = ?";
+  const res = await connection.promise().query(query, [userID]);
+  return res[0];
+}
+
 module.exports = {
   getCoachByID,
   getAllCoaches,
   searchByName,
   getSpecializations,
   getClientsOfCoach,
+  getCoachIDFromUserID_DB
 };

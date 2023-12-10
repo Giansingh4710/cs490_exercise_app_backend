@@ -12,7 +12,7 @@ const login = async function (req, res) {
     console.log(req.body.email)
     const [user] = await findUsersByEmail(req.body.email);
     console.log(user);
-    const encryptedPassword = user.password; // camelcase
+    const encryptedPassword = user.password;
     const isMatch = await bcrypt.compare(req.body.password, encryptedPassword);
     if (!isMatch) {
       throw new Error(
@@ -22,7 +22,7 @@ const login = async function (req, res) {
     const token = createUserJwt(user.email); // create JWT for the user
     return res.status(200).json({
       message: "User logged in",
-      user: { id: user.userID, email: user.email }, // camelcase
+      user: { id: user.userID, email: user.email },
       token: token,
     });
   } catch (error) {
