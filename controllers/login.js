@@ -9,9 +9,8 @@ const login = async function (req, res) {
     if (!validateEmail(req.body.email)) {
       throw new Error(`${req.body.email}: is not valid email format`);
     }
-    console.log(req.body.email)
+    
     const [user] = await findUsersByEmail(req.body.email);
-    console.log(user);
     const encryptedPassword = user.password;
     const isMatch = await bcrypt.compare(req.body.password, encryptedPassword);
     if (!isMatch) {
@@ -20,6 +19,10 @@ const login = async function (req, res) {
       );
     }
     const token = createUserJwt(user.email); // create JWT for the user
+
+    // setting user data for frontend
+    res.locals.user = {userID: user.userID, email: user.email, role: user.role}
+
     return res.status(200).json({
       message: "User logged in",
       user: { id: user.userID, email: user.email },

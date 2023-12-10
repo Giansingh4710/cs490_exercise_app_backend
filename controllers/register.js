@@ -27,12 +27,15 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
+    
+    // adding user data to res.locals.user for frontend
+    const newUserData = await findUsersByEmail(req.body.email);
+    res.locals.user = {userID: newUserData.userID, email: newUserData.email, role: newUserData.role}
 
-  const token = createUserJwt(req.body.email); // generate a new JWT for the user
-  const userID = userObj.insertId;
-  return res.status(201).send({ user: { "email": req.body.email, "userID": userID }, token: token });
+    const token = createUserJwt(req.body.email); // generate a new JWT for the user
+    const userID = newUserData.userID;
+    return res.status(201).send({ user: { "email": newUserData.email, "userID": userID, role: newUserData.role}, token: token });
 
-    // return res.status(201).send(userObj);
   } catch (error) {
     return res.status(errorStatusCode).send({
       error: error.message,
@@ -40,7 +43,6 @@ async function registerAccount(req, res) {
     });
   }
 }
-
 
 async function storeSurvey(req, res) {
   try {
