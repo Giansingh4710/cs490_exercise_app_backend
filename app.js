@@ -16,7 +16,7 @@ const swaggerDefinition = {
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: ['./Routes/*.js'],
+  apis: ['./routes/*.js'],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
@@ -30,6 +30,7 @@ const logActivity = require("./routes/logActivity.js");
 const coaches = require("./routes/coaches.js");
 const requests = require("./routes/request.js");
 const messages = require("./routes/messages.js");
+const exercises = require("./routes/exercises.js");
 
 const app = express();
 
@@ -110,6 +111,7 @@ app.use("/logActivity", logActivity);
 app.use("/coaches", coaches);
 app.use("/request", requests);
 app.use("/messages", messages)
+app.use("/exercises", exercises);
 
 // error handling - not found
 app.use((req, res, next) => {

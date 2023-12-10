@@ -1,12 +1,11 @@
-const { findUsersByEmail } = require("../dataAccess/user_db.js");
 async function authMe(req, res, next) {
   try {
-    const { email } = res.locals.user;
-    const [user] = await findUsersByEmail(email);
+    const user = res.locals.user;
     return res.status(200).send({
       user: {
         id: user.userID,
         email: user.email,
+        role: user.role
       },
     });
   } catch (error) {
