@@ -9,19 +9,20 @@ const login = async function (req, res) {
     if (!validateEmail(req.body.email)) {
       throw new Error(`${req.body.email}: is not valid email format`);
     }
-
+    console.log(req.body.email)
     const [user] = await findUsersByEmail(req.body.email);
-    const encryptedPassword = user.password;
+    console.log(user);
+    const encryptedPassword = user.password; // camelcase
     const isMatch = await bcrypt.compare(req.body.password, encryptedPassword);
     if (!isMatch) {
       throw new Error(
         `Password does not match the one with email: ${req.body.email}`,
       );
     }
-    const token = createUserJwt(user); // create JWT for the user
+    const token = createUserJwt(user.email); // create JWT for the user
     return res.status(200).json({
       message: "User logged in",
-      user: { id: user.userID, email: user.email },
+      user: { id: user.userID, email: user.email }, // camelcase
       token: token,
     });
   } catch (error) {

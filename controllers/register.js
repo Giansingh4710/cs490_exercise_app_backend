@@ -3,6 +3,7 @@ const {
   createUser,
   updateUser,
 } = require("../dataAccess/user_db");
+const { createUserJwt } = require("../utils/security.js");
 const { BCRYPT_WORK_FACTOR } = require("../sql_config/config.js");
 const bcrypt = require("bcrypt");
 const { validateName, validateEmail } = require("../utils/helper_funcs.js");
@@ -26,7 +27,12 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
-    return res.status(201).send(userObj);
+
+  const token = createUserJwt(req.body.email); // generate a new JWT for the user
+  const userID = userObj.insertId;
+  return res.status(201).send({ user: { "email": req.body.email, "userID": userID }, token: token });
+
+    // return res.status(201).send(userObj);
   } catch (error) {
     return res.status(errorStatusCode).send({
       error: error.message,
