@@ -25,6 +25,7 @@ async function requireAuthedUser(req, res, next) {
     const { email } = jwt.verify(token, SECRET_KEY);
     const rows = await findUserByEmail(email);
     req.userID = rows[0].userID;
+    res.locals.user = {userID: rows[0].userID, email: rows[0].email, role: rows[0].role}
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token.", "error": error });
