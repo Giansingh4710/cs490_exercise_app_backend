@@ -27,8 +27,54 @@ const { logWaterIntake } = require("../controllers/logActivity.js");
  *                              type: string
  *                              description: Unit of water
  *                              example: fl oz
- * 
- * 
+ *      responses:
+ *          200:
+ *              description: Water intake logged successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  example: "Water Input Recorded"
+ *                              info:
+ *                                  type: object
+ *                                  properties:
+ *                                      fieldCount:
+ *                                          type: integer
+ *                                          example: 5
+ *                                      affectedRows:
+ *                                          type: integer
+ *                                          example: 1
+ *                                      insertId:
+ *                                          type: integer
+ *                                          example: 250
+ *                                      info:
+ *                                          type: string
+ *                                          example: ""
+ *                                      serverStatus:
+ *                                          type: integer
+ *                                          example: 2
+ *                                      warningStatus:
+ *                                          type: integer
+ *                                          exmaple: 0
+ *                                      changedRows:
+ *                                          type: integer              
+ *                                          example: 0
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: string
+ *                                  example: Invalid Date Format
+ *                              details: 
+ *                                  type: string
+ *                                  example: "Error logging water intake"                             
  */
 router.post("/logWaterIntake", requireAuthedUser, logWaterIntake);
 
