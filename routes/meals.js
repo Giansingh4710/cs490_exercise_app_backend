@@ -5,7 +5,7 @@ const {requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
 
-const { getMeals } = require("../controllers/meals.js")
+const { getMeals, deleteMeal } = require("../controllers/meals.js")
 
 /**
  *  @swagger
@@ -56,5 +56,7 @@ const { getMeals } = require("../controllers/meals.js")
  *                                            example: Error getting meals from database
  */
 router.get("/", requireAuthedUser, getMeals);
+
+router.delete("/:mealID", requireAuthedUser, deleteMeal)
 
 module.exports = router;
