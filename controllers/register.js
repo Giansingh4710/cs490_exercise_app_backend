@@ -4,7 +4,7 @@ const {
   updateUser,
 } = require("../dataAccess/user_db");
 const { createUserJwt } = require("../utils/security.js");
-const { BCRYPT_WORK_FACTOR } = require("../sql_config/config.js");
+const { BCRYPT_WORK_FACTOR } = require("../sql_config/database.js");
 const bcrypt = require("bcrypt");
 const { validateName, validateEmail } = require("../utils/helper_funcs.js");
 
@@ -23,29 +23,28 @@ async function registerAccount(req, res) {
     }
 
     const hashedPass = await bcrypt.hash(req.body.password, BCRYPT_WORK_FACTOR);
-    const userObj = await createUser({
+    const insertInfoObj = await createUser({
       email: req.body.email,
       hashedPass: hashedPass,
     });
-    
+
+    const userID = insertInfoObj.insertId;
     // adding user data to res.locals.user for frontend
-    const newUserData = await findUsersByEmail(req.body.email);
-
+    // const newUserData = await findUsersByEmail(req.body.email);
     const token = createUserJwt(req.body.email); // generate a new JWT for the user
-    return res.status(201).send(
-      {
-        user: {
-          id: newUserData.userID,
-          email: newUserData.email,
-          role: newUserData.role
-        },
-        token: token,
-        message: "User registered"
-      }
-      );
-
+    res.status(201)
+    res.send({
+      user: {
+        id: userID,
+        email: req.body.email,
+        //role: newUserData.role // we not inserting a role
+      },
+      token: token,
+      message: "User registered"
+    });
   } catch (error) {
-    return res.status(errorStatusCode).send({
+    res.status(errorStatusCode);
+    res.send({
       error: error.message,
       message: "Unable to create user and registerAccount",
     });
@@ -55,12 +54,14 @@ async function registerAccount(req, res) {
 async function storeSurvey(req, res) {
   try {
     const updateResult = await updateUser(req.body, req.body.email); //might be wrong. Not tested
-    return res.status(200).send({
+    res.status(200);
+    res.send({
       message: "Updated: User survey information updated successfully",
       updateResult: updateResult,
     });
   } catch (error) {
-    return res.status(404).send({
+    res.status(404);
+    res.send({
       error: error.message,
       message: "Unable to update user and storeSurvey",
     });
