@@ -21,6 +21,16 @@ async function getSpecializations_DB() {
   return res[0];
 }
 
+
+async function getCities_DB() {
+  const query =
+    `SELECT State, GROUP_CONCAT(DISTINCT city SEPARATOR ', ') AS Cities
+    FROM User WHERE role = 'coach'
+    GROUP BY state ORDER BY state ASC`;
+  const res = await connection.promise().query(query); //res[0]=rows, res[1]=fields
+  return res[0];
+}
+
 async function searchByName_DB(name) {
   const query = `SELECT c.CoachID, u.firstName, u.lastName 
       FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
@@ -36,5 +46,11 @@ async function getClientsOfCoach_DB(coachID) {
   return res[0];
 }
 
-
-module.exports = { getCoachByID_DB, getAllCoaches_DB, getSpecializations_DB, searchByName_DB, getClientsOfCoach_DB };
+module.exports = {
+  getCoachsByID_DB,
+  getAllCoaches_DB,
+  getCities_DB,
+  getSpecializations_DB,
+  searchByName_DB,
+  getClientsOfCoach_DB,
+};

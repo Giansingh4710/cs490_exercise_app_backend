@@ -3,6 +3,7 @@ const {
   getAllCoaches_DB,
   searchByName_DB,
   getSpecializations_DB,
+  getCities_DB,
   getClientsOfCoach_DB,
 } = require(
   "../DataAccess/coach_db_access.js",
@@ -117,10 +118,26 @@ async function getClientsOfCoach(request, response) {
   }
 }
 
+async function getCities(request, response) {
+  try {
+    const locData = await getCities_DB();
+    return response.status(200).send(locData);
+  } catch (error) {
+    return response.status(500).send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to get states and cities from database.",
+      },
+    });
+  }
+}
+
 module.exports = {
   getCoachByID,
   getAllCoaches,
   searchByName,
   getSpecializations,
+  getCities,
   getClientsOfCoach,
 };
