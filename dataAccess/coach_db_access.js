@@ -1,16 +1,15 @@
-const { createConnection } = require("../sql_config/database.js");
-const connection = createConnection();
+const { connection } = require("../sql_config/database.js");
 
-async function getCoachsByID_DB(coachID) {
+async function getCoachByID_DB(coachID) {
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
-  const [rows, _] = await connection.promise().query(query, [coachID]);
-  return rows;
+    "SELECT c.CoachID, u.FirstName, u.LastName, u.City, u.State, c.Specialties FROM Coach c JOIN User u ON c.UserID = u.UserID WHERE c.coachID = ?";
+  const res = await connection.promise().query(query, [coachID]);
+  return res[0][0];
 }
 
 async function getAllCoaches_DB() {
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName FROM Coach c INNER JOIN User u WHERE u.userID = c.coachID GROUP BY c.coachID ORDER BY c.coachID";
+    "SELECT c.CoachID, u.firstName, u.lastName FROM Coach c INNER JOIN User u WHERE u.UserID = c.CoachID GROUP BY c.CoachID ORDER BY c.CoachID";
   const res = await connection.promise().query(query); //res[0]=rows, res[1]=fields
   return res[0];
 }
@@ -22,26 +21,20 @@ async function getSpecializations_DB() {
   return res[0];
 }
 
-async function searchCoachByName_DB(name) {
-  const query = `SELECT c.coachID, u.firstName, u.lastName 
-      FROM Coach c INNER JOIN User u ON u.userID = c.coachID 
+async function searchByName_DB(name) {
+  const query = `SELECT c.CoachID, u.firstName, u.lastName 
+      FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
       WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE '%${name}%' 
-      GROUP BY c.coachID ORDER BY c.coachID`;
+      GROUP BY c.CoachID ORDER BY c.CoachID`;
   const res = await connection.promise().query(query); //res[0]=rows, res[1]=fields
   return res[0];
 }
 
-async function getUsersOfCoach_DB(coachID) {
-  const query =
-    "SELECT userID, firstName, lastName from User WHERE coachID = ?";
-  const res = await connection.promise().query(query, [coachID]);
+async function getClientsOfCoach_DB(coachID) {
+  const query =  "SELECT UserID, FirstName, LastName from User WHERE CoachID = ?"
+  const res = await connection.promise().query(query,[coachID]);
   return res[0];
 }
 
-module.exports = {
-  getCoachsByID_DB,
-  getAllCoaches_DB,
-  getSpecializations_DB,
-  searchCoachByName_DB,
-  getUsersOfCoach_DB,
-};
+
+module.exports = { getCoachByID_DB, getAllCoaches_DB, getSpecializations_DB, searchByName_DB, getClientsOfCoach_DB };
