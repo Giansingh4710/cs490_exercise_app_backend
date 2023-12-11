@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { findUserByEmail } = require("../dataAccess/user_db.js");
-const { SECRET_KEY } = require("../sql_config/config");
+const { SECRET_KEY } = require("../sql_config/database.js");
 
 function getTokenFromHeader(req) {
   if (req.headers?.authorization) {

@@ -2,8 +2,8 @@ const {
   findUsersByEmail,
   createUser,
   updateUser,
-} = require("../dataAccess/user_db");
-const { BCRYPT_WORK_FACTOR } = require("../sql_config/config.js");
+} = require("../dataAccess/user_db.js");
+const { BCRYPT_WORK_FACTOR } = require("../sql_config/database.js");
 const bcrypt = require("bcrypt");
 const { validateName, validateEmail } = require("../utils/helper_funcs.js");
 
@@ -26,25 +26,28 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
-    return res.status(201).send(userObj);
+    res.status(201);
+    res.send(userObj);
   } catch (error) {
-    return res.status(errorStatusCode).send({
+    res.status(errorStatusCode);
+    res.send({
       error: error.message,
       message: "Unable to create user and registerAccount",
     });
   }
 }
 
-
 async function storeSurvey(req, res) {
   try {
     const updateResult = await updateUser(req.body, req.body.email); //might be wrong. Not tested
-    return res.status(200).send({
+    res.status(200);
+    res.send({
       message: "Updated: User survey information updated successfully",
       updateResult: updateResult,
     });
   } catch (error) {
-    return res.status(404).send({
+    res.status(404);
+    res.send({
       error: error.message,
       message: "Unable to update user and storeSurvey",
     });

@@ -1,4 +1,5 @@
-const { connection } = require("../sql_config/database.js");
+const { createConnection } = require("../sql_config/database.js");
+const connection = createConnection();
 
 async function getCoachsByID_DB(coachID) {
   const query =

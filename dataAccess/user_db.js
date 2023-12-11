@@ -1,5 +1,7 @@
-const { connection } = require("../sql_config/database.js");
+const { createConnection } = require("../sql_config/database.js");
 const { createUserJwt } = require("../utils/security.js");
+
+const connection = createConnection();
 
 async function findUsersByEmail(email) {
   const query = "SELECT * FROM User WHERE email = ?";
