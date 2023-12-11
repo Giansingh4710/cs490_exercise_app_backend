@@ -1,6 +1,5 @@
 const moment = require("moment");
-const { hasAllKeys } = require("../utils/helper_funcs.js");
-const { insertDailySurvey, dailySurveyIsCompleted } = require("../dataAccess/log_activity_db.js");
+const { insertDailySurvey_DB, dailySurveyIsCompleted_DB } = require("../dataAccess/log_activity_db.js");
 
 async function recordDailySurvey(req, res){
     const date = moment().format("YYYY-MM-DD");
@@ -13,7 +12,7 @@ async function recordDailySurvey(req, res){
 
     // transactions used to ensure all parts of daily survey are inserted together
     try{
-        if(await dailySurveyIsCompleted(req.userID, date)){
+        if(await dailySurveyIsCompleted_DB(req.userID, date)){
             return res.status(400).send({
                 error: {
                     status: 400,
@@ -22,7 +21,7 @@ async function recordDailySurvey(req, res){
                 }
             });
         }
-        await insertDailySurvey(req.body, req.userID, date);
+        await insertDailySurvey_DB(req.body, req.userID, date);
         return res.status(201).send({
             status: 201,
             message: "Daily survey recorded",
