@@ -20,11 +20,12 @@ async function getMeals_DB(userID, date){
 }
 
 async function deleteMeal_DB(userID, mealID){
-    const query = "DELETE FROM FoodIntake WHERE userID= ? AND mealID = ?"
+    const query = "DELETE FROM FoodIntake WHERE userID = ? AND foodID = ?"
     const[res, _] = await connection.promise().query(query, [userID, mealID])
     return res;
 }
 
 module.exports = {
-    getMeals_DB
+    getMeals_DB,
+    deleteMeal_DB
 }
