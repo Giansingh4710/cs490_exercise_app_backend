@@ -20,14 +20,14 @@ async function insertMentalState_DB({userID, state, date}){
 
 // waiting on goal progress table to created in DB
 async function insertGoalProgress_DB({userID, weight, date}){
-    const query = "INSERT INTO GoalProgress(userID, weight, date) VALUES (?, ?, ?)";
+    const query = "INSERT INTO WeightProgress(userID, weight, date) VALUES (?, ?, ?)";
     const [insertData, _] = await connection.promise().query(query, [userID, weight, date])
     return insertData;
 }
 
 async function dailySurveyIsCompleted_DB(userID, date){
     // only checking insert of goal progress b/c daily survey is inserted using a transaction
-    const query = "SELECT * FROM GoalProgress WHERE userID = ? AND date = ?";
+    const query = "SELECT * FROM WeightProgress WHERE userID = ? AND date = ?";
     const [surveyData, _] = await connection.promise().query(query, [userID, date])
     return surveyData.length >= 1;
 }
