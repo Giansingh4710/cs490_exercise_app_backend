@@ -2,6 +2,7 @@ const {
   getCoachsByID_DB,
   getAllCoaches_DB,
   searchCoachByName_DB,
+  getSpecializations_DB,
   getUsersOfCoach_DB,
 } = require(
   "../DataAccess/coach_db_access.js",
@@ -84,9 +85,25 @@ async function getClientsOfCoach(req, res) {
   }
 }
 
+async function getSpecializations(request, response) {
+  try {
+    const specData = await getSpecializations_DB();
+    return response.status(200).send(specData);
+  } catch (error) {
+    return response.status(500).send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to getSpecializations from database.",
+      },
+    });
+  }
+}
+
 module.exports = {
   getCoachByID,
   getAllCoaches,
   searchByName,
+  getSpecializations,
   getClientsOfCoach,
 };

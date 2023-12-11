@@ -1,6 +1,4 @@
 const { createConnection } = require("../sql_config/database.js");
-const { createUserJwt } = require("../utils/security.js");
-
 const connection = createConnection();
 
 async function findUsersByEmail(email) {
@@ -15,10 +13,10 @@ async function createUser({ email, hashedPass }) {
     email,
     hashedPass,
   ]);
-  const token = createUserJwt(email); // generate a new JWT for the user
-
-  const userID = insertInfoObj.insertId;
-  return { user: { "email": email, "userID": userID }, token: token };
+  return insertInfoObj;
+  // const token = createUserJwt(email); // generate a new JWT for the user
+  // const userID = insertInfoObj.insertId;
+  // return { user: { "email": email, "userID": userID }, token: token };
 }
 
 async function updateUser(data, email) {

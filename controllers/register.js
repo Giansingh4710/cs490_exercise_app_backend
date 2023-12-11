@@ -2,7 +2,8 @@ const {
   findUsersByEmail,
   createUser,
   updateUser,
-} = require("../dataAccess/user_db.js");
+} = require("../dataAccess/user_db");
+const { createUserJwt } = require("../utils/security.js");
 const { BCRYPT_WORK_FACTOR } = require("../sql_config/database.js");
 const bcrypt = require("bcrypt");
 const { validateName, validateEmail } = require("../utils/helper_funcs.js");
@@ -22,12 +23,25 @@ async function registerAccount(req, res) {
     }
 
     const hashedPass = await bcrypt.hash(req.body.password, BCRYPT_WORK_FACTOR);
-    const userObj = await createUser({
+    const insertInfoObj = await createUser({
       email: req.body.email,
       hashedPass: hashedPass,
     });
-    res.status(201);
-    res.send(userObj);
+
+    const userID = insertInfoObj.insertId;
+    // adding user data to res.locals.user for frontend
+    // const newUserData = await findUsersByEmail(req.body.email);
+    const token = createUserJwt(req.body.email); // generate a new JWT for the user
+    res.status(201)
+    res.send({
+      user: {
+        id: userID,
+        email: req.body.email,
+        //role: newUserData.role // we not inserting a role
+      },
+      token: token,
+      message: "User registered"
+    });
   } catch (error) {
     res.status(errorStatusCode);
     res.send({

@@ -2,6 +2,9 @@ const { storeSurvey, registerAccount } = require("../controllers/register.js");
 
 jest.mock("../dataAccess/user_db.js");
 jest.mock("../sql_config/database.js");
+jest.mock("../utils/security.js");
+
+const security_file = require("../utils/security.js");
 const db_file = require("../dataAccess/user_db.js");
 const bcrypt = require("bcrypt");
 
@@ -65,19 +68,25 @@ describe("add new user by registerAccount", () => {
       },
     );
 
-    const theCreatedUser = {
-      user: { "email": "bob@bob.com", "userID": 2 },
-      token: "token",
-    };
+    const userID = 2;
+    const token = "token";
 
     bcrypt.hash = async () => "fakeHash";
     db_file.createUser.mockImplementationOnce((obj) => {
-      return theCreatedUser;
+      return { insertId: userID };
     });
-
+    security_file.createUserJwt.mockImplementationOnce(() => token);
     await registerAccount(req, res);
+
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.send).toHaveBeenCalledWith(theCreatedUser);
+    expect(res.send).toHaveBeenCalledWith({
+      user: {
+        id: userID,
+        email: req.body.email,
+      },
+      token: token,
+      message: "User registered",
+    });
   });
 
   it("wrong email 422 error", async () => {
@@ -90,7 +99,7 @@ describe("add new user by registerAccount", () => {
     });
   });
 
-  it("User alreday exists 500 error", async () => {
+  it("User already exists 500 error", async () => {
     req.body.email = "bob@bob.com";
     db_file.findUsersByEmail.mockImplementationOnce(
       (email) => {
