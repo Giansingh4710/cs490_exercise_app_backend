@@ -1,15 +1,16 @@
 -- Dumping data for User table
 INSERT INTO User VALUES 
-    (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$eAfFmHlzVc4He97tXcyAPuDMCGbHeAPC8bHYuuqRhcE36JmrC.IMi', '000-000-0000', '323 MLK Blvd', 'Newark', 'New Jersey', 'Admin', 'Male', '2000-01-01', 150, 70, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, NULL, 'Celka', 'Giblin', 'cgiblin1@taobao.com', '$2a$04$8VxUXP1p0MOhDhik6GUe3uwbFsfQlqFTRMLsqOUwyxrupfFDH668i', '911-719-7901', '17590 Mallory Drive', 'Conroe', 'Texas', 'Client', 'Female', '1999-01-13', 159, 64, 'High', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, NULL, 'Barret', 'Nuth', 'bnuth2@yolasite.com', '$2a$04$z83KQmExXLh336wuDdVdm.geVtlNsMfMxjC.SnpB3SYoPm5Ed2P3.', '287-895-6161', '4561 Heffernan Center', 'Las Cruces', 'New Mexico', 'Client', 'Male', '1991-01-04', 134, 77, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (4, NULL, 'Aimee', 'Stilliard', 'astilliard3@dmoz.org', '$2a$04$QmcbGrFXQBJvOCnxC6AV9eFZTn2nfr73.QIYDWO4kvmYUlrnxfIfW', '435-475-8724', '26753 Messerschmidt Trail', 'Carson City', 'Nevada', 'Coach', 'Female', '1964-01-08', 255, 74, 'Low', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (5, NULL, 'Dario', 'Glashby', 'dglashby4@yahoo.co.jp', '$2a$04$jAC5RWidZ11hSlqAbBHO8.ZPuw8hDR10bhj3XIkr/zAl5jDIHp9Xe', '913-828-7103', '83 Northridge Park', 'Raleigh', 'North Carolina', 'Client', 'Male', '1999-10-16', 218, 73, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (6, NULL, 'Belicia', 'Gaynor', 'bgaynor5@lycos.com', '$2a$04$GA0wYica9BtwRZclzOnVMeDZ397gzJJxSKViyyFpB52NK7CPYMbnW', '503-279-5847', '46990 Alpine Lane', 'Norfolk', 'Virginia', 'Client', 'Female', '1962-10-30', 90, 74, 'High', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (7, NULL, 'Onida', 'Joscelyn', 'ojoscelyn6@fema.gov', '$2a$04$Z85CzStpYklxL7GmGDZSVOTYezuH8GpkgzWcjUMCyJgX.EqYEqpT2', '125-688-7554', '7214 Fairfield Place', 'Louisville', 'Kentucky', 'Client', 'Female', '2003-02-20', 123, 72, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (8, NULL, 'Britt', 'Whye', 'bwhye7@arstechnica.com', '$2a$04$ek8/pdpsFQ//nL.f2vE8ouVQsCmep2hfk20oLwd3ovBH7xyEqzVd2', '757-933-7375', '382 Pearson Alley', 'Omaha', 'Nebraska', 'Coach', 'Female', '1990-01-25', 189, 70, 'Low', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (9, NULL, 'Otto', 'Lownsbrough', 'olownsbrough8@aol.com', '$2a$04$SAbb3LQcFnufN3UZxqAgQOr8sxKybtLY/iReP9xyCI8L25UwMgAVa', '211-210-5039', '03923 Dryden Crossing', 'Melbourne', 'Florida', 'Client', 'Male', '1990-11-03', 233, 69, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (10, NULL, 'Dewie', 'Pembery', 'dpembery9@redcross.org', '$2a$04$f3DGXpfKPSwVnEidIkh4/.ojp/1MlPd08nrHJGEi9t1pClmf0ITHy', '302-318-5130,390', '390 Fairfield Lane', 'Ridgely', 'Maryland', 'Client', 'Male', '1987-01-15', 229, 67, 'High', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$TVerixEiF2tqdsMnt7K.hehheTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '000-000-0000', 'NULL', 'NULL', 'NULL', 'Admin', 'NULL', '2000-01-01', 0, 0, 'NULL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, NULL, 'Elliot', 'Livens', 'elivens0@google.com.br', '$2a$04$TVwvixEiF2tqdsMnt7K.hehmwTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '300-860-5685', '2 Straubel Way', 'Chattanooga', 'Tennessee', 'Client', 'Male', '2000-05-11', 267, 67, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, NULL, 'Celka', 'Giblin', 'cgiblin1@taobao.com', '$2a$04$8VxUXP1p0MOhDhik6GUe3uwbFsfQlqFTRMLsqOUwyxrupfFDH668i', '911-719-7901', '17590 Mallory Drive', 'Conroe', 'Texas', 'Client', 'Female', '1999-01-13', 159, 64, 'High', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, NULL, 'Barret', 'Nuth', 'bnuth2@yolasite.com', '$2a$04$z83KQmExXLh336wuDdVdm.geVtlNsMfMxjC.SnpB3SYoPm5Ed2P3.', '287-895-6161', '4561 Heffernan Center', 'Las Cruces', 'New Mexico', 'Client', 'Male', '1991-01-04', 134, 77, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, NULL, 'Aimee', 'Stilliard', 'astilliard3@dmoz.org', '$2a$04$QmcbGrFXQBJvOCnxC6AV9eFZTn2nfr73.QIYDWO4kvmYUlrnxfIfW', '435-475-8724', '26753 Messerschmidt Trail', 'Carson City', 'Nevada', 'Coach', 'Female', '1964-01-08', 255, 74, 'Low', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, NULL, 'Dario', 'Glashby', 'dglashby4@yahoo.co.jp', '$2a$04$jAC5RWidZ11hSlqAbBHO8.ZPuw8hDR10bhj3XIkr/zAl5jDIHp9Xe', '913-828-7103', '83 Northridge Park', 'Raleigh', 'North Carolina', 'Client', 'Male', '1999-10-16', 218, 73, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, NULL, 'Belicia', 'Gaynor', 'bgaynor5@lycos.com', '$2a$04$GA0wYica9BtwRZclzOnVMeDZ397gzJJxSKViyyFpB52NK7CPYMbnW', '503-279-5847', '46990 Alpine Lane', 'Norfolk', 'Virginia', 'Client', 'Female', '1962-10-30', 90, 74, 'High', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, NULL, 'Onida', 'Joscelyn', 'ojoscelyn6@fema.gov', '$2a$04$Z85CzStpYklxL7GmGDZSVOTYezuH8GpkgzWcjUMCyJgX.EqYEqpT2', '125-688-7554', '7214 Fairfield Place', 'Louisville', 'Kentucky', 'Client', 'Female', '2003-02-20', 123, 72, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, NULL, 'Britt', 'Whye', 'bwhye7@arstechnica.com', '$2a$04$ek8/pdpsFQ//nL.f2vE8ouVQsCmep2hfk20oLwd3ovBH7xyEqzVd2', '757-933-7375', '382 Pearson Alley', 'Omaha', 'Nebraska', 'Coach', 'Female', '1990-01-25', 189, 70, 'Low', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, NULL, 'Otto', 'Lownsbrough', 'olownsbrough8@aol.com', '$2a$04$SAbb3LQcFnufN3UZxqAgQOr8sxKybtLY/iReP9xyCI8L25UwMgAVa', '211-210-5039', '03923 Dryden Crossing', 'Melbourne', 'Florida', 'Client', 'Male', '1990-11-03', 233, 69, 'Moderate', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (11, NULL, 'Dewie', 'Pembery', 'dpembery9@redcross.org', '$2a$04$f3DGXpfKPSwVnEidIkh4/.ojp/1MlPd08nrHJGEi9t1pClmf0ITHy', '302-318-5130,390', '390 Fairfield Lane', 'Ridgely', 'Maryland', 'Client', 'Male', '1987-01-15', 229, 67, 'High', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 -- Dumping data for Coach table
@@ -30,6 +31,19 @@ INSERT INTO Goal VALUES
     (8, 10, 'Muscle building', 'nisl ut volutpat sapien arcu sed augue aliquam', 176, 13.5, 2325, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (9, 7, 'Weight gain', 'nisl aenean lectus pellentesque eget', 175, 14, 2550, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (10, 7, 'Stamina building', 'nulla ac enim in tempor turpis nec euismod', 125, 10.5, 2000, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Dumping data for WeightProgress table
+INSERT INTO WeightProgress VALUES
+    (1, 4, 150, '2023-08-28', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 4, 149, '2023-11-09', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 6, 110, '2023-11-01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 8, 164, '2023-10-06', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 4, 240, '2023-07-19', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 7, 85, '2023-01-05', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, 7, 190, '2023-08-28', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, 10, 278, '2023-07-19', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, 2, 212, '2023-07-19', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, 3, 187, '2023-03-18', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 -- Dumping data for WaterIntake table
@@ -75,28 +89,27 @@ INSERT INTO MentalState VALUES
 
 
 -- Dumping data for Exercise table
-INSERT INTO Exercise (Name, MuscleGroup, Difficulty, Equipment, Type, Created, LastUpdate)
-VALUES
-    ('Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Bench press', 'Chest', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Bicep curls', 'Arms', 'Beginner', 'Dumbbells', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Tricep dips', 'Triceps', 'Intermediate', 'Barbell', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Squats', 'Legs', 'Intermediate', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Exercise VALUES
+    (1, 'Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 'Bench press', 'Chest', 'Intermediate', 'Bench Press', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 'Bicep curls', 'Arms', 'Beginner', 'Dmubells', 'Isolation', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 'Tricep dips', 'Triceps', 'Intermediate', 'Bodyweight', 'Reps', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 'Squats', 'Legs', 'Intermediate', 'Bodyweight', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 'Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 -- Dumping data for WorkoutPlan table
 INSERT INTO WorkoutPlan VALUES
-    (1, 8, 1, 'Tuesday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 8, 3, 'Thursday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 2, 4, 'Friday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (4, 2, 5, 'Sunday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (5, 1, 3, 'Thursday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (6, 5, 5, 'Sunday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (7, 3, 3, 'Thursday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (8, 1, 1, 'Tuesday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (9, 7, 5, 'Sunday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (10, 8, 1, 'Tuesday', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (1, 8, 1, 'Tuesday', 9, 3, 140, 45, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 8, 3, 'Thursday', 11, 6, 301, 20, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 2, 4, 'Friday', 16, 6, 119, 54, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 2, 5, 'Sunday', 8, 3, 140, 30, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 1, 3, 'Thursday', 8, 3, 194, 14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 5, 5, 'Sunday', 19, 5, 194, 14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, 3, 3, 'Thursday', 9, 5, 195, 12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, 1, 1, 'Tuesday', 13, 2, 207, 59, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, 7, 5, 'Sunday', 13, 1, 189, 33, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, 8, 1, 'Tuesday', 15, 8, 26, 32, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 -- Dumping data for Record table
