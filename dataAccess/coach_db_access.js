@@ -14,6 +14,13 @@ async function getAllCoaches_DB() {
   return res[0];
 }
 
+async function getSpecializations_DB() {
+  const query =
+    `SELECT DISTINCT specialties FROM Coach`;
+  const res = await connection.promise().query(query); //res[0]=rows, res[1]=fields
+  return res[0];
+}
+
 async function searchCoachByName_DB(name) {
   const query = `SELECT c.coachID, u.firstName, u.lastName 
       FROM Coach c INNER JOIN User u ON u.userID = c.coachID 
@@ -33,6 +40,7 @@ async function getUsersOfCoach_DB(coachID) {
 module.exports = {
   getCoachsByID_DB,
   getAllCoaches_DB,
+  getSpecializations_DB,
   searchCoachByName_DB,
   getUsersOfCoach_DB,
 };

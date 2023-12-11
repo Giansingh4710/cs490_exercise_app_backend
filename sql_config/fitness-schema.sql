@@ -11,8 +11,8 @@ CREATE TABLE User (
     userID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     coachID INT UNSIGNED DEFAULT NULL,
     -- Create user data columns
-    firstname VARCHAR(32),
-    lastname VARCHAR(32),
+    firstName VARCHAR(32),
+    lastName VARCHAR(32),
     email VARCHAR(256) NOT NULL UNIQUE,
     password VARCHAR(64) NOT NULL,
     phoneNum VARCHAR(16),
@@ -80,7 +80,7 @@ CREATE TABLE Goal (
     description TEXT,
     weightGoal INT,
     dailyWater FLOAT,
-    dailycalories INT,
+    dailyCalories INT,
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
@@ -127,7 +127,7 @@ CREATE TABLE FoodIntake (
     userID INT UNSIGNED NOT NULL,
     -- Create food intake data columns
     date DATE NOT NULL,
-    foodname VARCHAR(32) NOT NULL,
+    foodName VARCHAR(32) NOT NULL,
     mealType VARCHAR(16) NOT NULL,
     calories INT NOT NULL,
     protein INT DEFAULT NULL,
@@ -181,6 +181,7 @@ CREATE TABLE Exercise (
     difficulty VARCHAR(32),
     equipment VARCHAR(32),
     type VARCHAR(32),
+    metric VARCHAR(16),
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
@@ -198,8 +199,12 @@ CREATE TABLE WorkoutPlan (
     planID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     userID INT UNSIGNED NOT NULL,
     exerciseID INT UNSIGNED,
-    -- Create workout plan data column
+    -- Create workout plan data columns
     dayOfWeek VARCHAR(16) NOT NULL,
+    reps INT NOT NULL,
+    sets INT NOT NULL,
+    weight FLOAT DEFAULT NULL,
+    duration INT DEFAULT NULL,
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
@@ -230,7 +235,7 @@ CREATE TABLE Record (
     reps INT NOT NULL,
     sets INT NOT NULL,
     weight FLOAT DEFAULT NULL,
-    duration INT NOT NULL,
+    duration INT DEFAULT NULL,
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
