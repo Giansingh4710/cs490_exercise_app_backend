@@ -10,6 +10,7 @@ const {
   searchByName,
   getClientsOfCoach,
   getSpecializations,
+  getCities,
 } = require("../controllers/coach.js");
 
 /**
@@ -232,6 +233,8 @@ router.get("/clients", requireAuthedUser, getClientsOfCoach); // get all clients
  *                                          example: Error trying to getSpecializations from database.
  */
 router.get("/specializations", getSpecializations); // Get specializations of available coaches
+
+router.get("/cities", getCities); // Get specializations of available coaches
 
 /**
  *  @swagger
