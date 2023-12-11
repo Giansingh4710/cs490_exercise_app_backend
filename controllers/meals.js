@@ -44,5 +44,6 @@ async function deleteMeal(req, res){
 }
 
 module.exports = {
-    getMeals
+    getMeals,
+    deleteMeal
 }
