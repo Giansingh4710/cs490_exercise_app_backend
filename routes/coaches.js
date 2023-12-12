@@ -8,12 +8,14 @@ const {
   getCoachByID,
   getAllCoaches,
   searchByName,
+  searchByAll,
   getClientsOfCoach,
   getSpecializations,
   getCities,
 } = require("../controllers/coach.js");
 
 router.get("/searchByName", searchByName);
+router.get("/search", searchByAll);
 router.get("/getAllCoaches", getAllCoaches);
 router.get("/clients", requireAuthedUser, getClientsOfCoach); // get all clients of a coach
 router.get("/specializations", getSpecializations); // Get specializations of available coaches

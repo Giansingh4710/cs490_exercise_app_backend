@@ -2,6 +2,7 @@ const {
   getCoachByID_DB,
   getAllCoaches_DB,
   searchByName_DB,
+  searchByAll_DB,
   getSpecializations_DB,
   getCities_DB,
   getClientsOfCoach_DB,
@@ -87,6 +88,26 @@ async function searchByName(request, response) {
   }
 }
 
+async function searchByAll(request, response) {
+  try {
+    const name = request.query.name;
+    const specialty = request.query.specialty;
+    const maxPrice = request.query.maxPrice;
+    const state = request.query.state;
+    const city = request.query.city;
+    const coachData = await searchByAll_DB(name, specialty, maxPrice, state, city);
+    return response.status(200).send(coachData);
+  } catch (error) {
+    return response.status(500).send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to searchByAll from database.",
+      },
+    });
+  }
+}
+
 async function getSpecializations(request, response) {
   try {
     const specData = await getSpecializations_DB();
@@ -137,6 +158,7 @@ module.exports = {
   getCoachByID,
   getAllCoaches,
   searchByName,
+  searchByAll,
   getSpecializations,
   getCities,
   getClientsOfCoach,
