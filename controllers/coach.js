@@ -125,7 +125,7 @@ async function getSpecializations(request, response) {
 
 async function getUsersOfCoach(request, response) {
   try {
-    const coachID = request.UserID; // set in ../utils/security.js
+    const coachID = request.userID; // set in ../utils/security.js
     const clients = await getUsersOfCoach_DB(coachID);
     return response.status(200).send(clients);
   } catch (error) {

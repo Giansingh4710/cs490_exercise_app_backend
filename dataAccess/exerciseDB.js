@@ -3,7 +3,7 @@ const connection = createConnection();
 
 async function getAllExercises_DB() {
     const query =
-      `SELECT ExerciseID, Name, Type, Difficulty, MuscleGroup, Equipment FROM Exercise`;
+      `SELECT exerciseID, name, type, difficulty, muscleGroup, equipment FROM Exercise`;
     const res = await connection.promise().query(query); //res[0]=rows, res[1]=fields
     return res[0];
   }
