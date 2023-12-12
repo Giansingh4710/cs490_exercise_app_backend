@@ -27,7 +27,6 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
-    console.log(insertInfoObj);
     const userID = insertInfoObj.insertId;
 
 

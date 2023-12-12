@@ -39,7 +39,7 @@ async function requireAuthedUser(req, res, next) {
 
 async function fakeAuthedUser(req, res, next) {
   console.log("fakeAuthedUser");
-  req.userID = 1;
+  req.userID = 3;
   next();
 }
 
