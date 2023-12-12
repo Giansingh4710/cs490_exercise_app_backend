@@ -1,7 +1,8 @@
-const { connection } = require("../sql_config/database");
+const { createConnection } = require("../sql_config/database.js");
+const connection = createConnection();
 
 async function getMeals_DB(userID, date){
-    const query = "SELECT foodName, mealType, calories, date from FoodIntake WHERE userID = ? AND date = ? ORDER BY mealType"
+    const query = "SELECT foodID, foodName, mealType, calories, date from FoodIntake WHERE userID = ? AND date = ? ORDER BY mealType"
     const [res, _] = await connection.promise().query(query, [userID, date]);
     let meals = {}
     res.forEach(meal => {
@@ -12,6 +13,7 @@ async function getMeals_DB(userID, date){
         }
     
         meals[mealTypeKey].push({
+            id: meal.foodID,
             foodName: meal.foodName,
             calories: meal.calories
         });
