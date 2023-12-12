@@ -6,7 +6,7 @@ const {
   getCities_DB,
   getClientsOfCoach_DB,
 } = require(
-  "../DataAccess/coach_db_access.js",
+  "../dataAccess/coach_db_access.js",
 );
 
 async function getCoachByID(request, response) {

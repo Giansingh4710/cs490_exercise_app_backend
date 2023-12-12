@@ -1,4 +1,4 @@
-const { getCoachByID_DB } = require("../DataAccess/coach_db_access.js");
+const { getCoachByID_DB } = require("../dataAccess/coach_db_access.js");
 const {
   createRequest,
   getPendingRequests,

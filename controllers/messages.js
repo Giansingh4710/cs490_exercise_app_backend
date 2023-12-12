@@ -1,7 +1,7 @@
 const {
     createMessage_DB,
     getMessages_DB
-} = require("../DataAccess/messages_db.js");
+} = require("../dataAccess/messages_db.js");
 
 async function storeMessage(req, res){
     try{
@@ -14,7 +14,7 @@ async function storeMessage(req, res){
                 }
             })
         }
-    
+        
         createMessage_DB(req.body, req.userID);
         return res.status(201).send({
             message: "Message created."
