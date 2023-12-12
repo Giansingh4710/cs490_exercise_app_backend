@@ -27,21 +27,21 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
-
-    const userID = insertInfoObj.insertId;
     // adding user data to res.locals.user for frontend
-    // const newUserData = await findUsersByEmail(req.body.email);
+    const newUserData = await findUsersByEmail(req.body.email);
     const token = createUserJwt(req.body.email); // generate a new JWT for the user
-    res.status(201)
-    res.send({
-      user: {
-        id: userID,
-        email: req.body.email,
-        //role: newUserData.role // we not inserting a role
-      },
-      token: token,
-      message: "User registered"
-    });
+    return res.status(201).send(
+      {
+        user: {
+          id: newUserData.userID,
+          email: newUserData.email,
+          role: newUserData.role
+        },
+        token: token,
+        message: "User registered"
+      }
+      );
+
   } catch (error) {
     res.status(errorStatusCode);
     res.send({
