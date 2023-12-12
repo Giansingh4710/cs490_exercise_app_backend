@@ -6,7 +6,7 @@ const {
 const { createUserJwt } = require("../utils/security.js");
 const { BCRYPT_WORK_FACTOR } = require("../sql_config/database.js");
 const bcrypt = require("bcrypt");
-const { validateName, validateEmail } = require("../utils/helper_funcs.js");
+const { validateEmail } = require("../utils/helper_funcs.js");
 
 async function registerAccount(req, res) {
   let errorStatusCode = 400;
