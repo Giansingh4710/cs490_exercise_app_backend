@@ -25,6 +25,7 @@ CREATE TABLE User (
     weight INT,
     height INT,
     activityLevel VARCHAR(32),
+    photo MEDIUMBLOB,
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
