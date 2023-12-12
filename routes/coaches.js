@@ -7,17 +7,17 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 const {
   getCoachByID,
   getAllCoaches,
-  searchByName,
-  searchByAll,
-  getClientsOfCoach,
+  searchCoachByName,
+  searchCoachByAll,
+  getUsersOfCoach,
   getSpecializations,
   getCities,
 } = require("../controllers/coach.js");
 
-router.get("/searchByName", searchByName);
-router.get("/search", searchByAll);
+router.get("/searchByName", searchCoachByName);
+router.get("/search", searchCoachByAll);
 router.get("/getAllCoaches", getAllCoaches);
-router.get("/clients", requireAuthedUser, getClientsOfCoach); // get all clients of a coach
+router.get("/clients", requireAuthedUser, getUsersOfCoach); // get all clients of a coach
 router.get("/specializations", getSpecializations); // Get specializations of available coaches
 router.get("/cities", getCities); // Get specializations of available coaches
 router.get("/:CoachID", getCoachByID); // this needs to be last because it will catch all the other routes
