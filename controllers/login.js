@@ -19,7 +19,6 @@ const login = async function (req, res) {
       );
     }
     const token = createUserJwt(user.email); // create JWT for the user
-
     return res.status(200).json({
       message: "User logged in",
       user: {id: user.userID, email: user.email, role: user.role},
