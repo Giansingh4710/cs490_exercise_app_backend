@@ -1,11 +1,11 @@
 const { createConnection } = require("../sql_config/database.js");
 const connection = createConnection();
 
-async function getCoachsByID_DB(coachID) {
+async function getCoachByID_DB(coachID) {
   const query =
     "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
   const [rows, _] = await connection.promise().query(query, [coachID]);
-  return rows;
+  return rows[0];
 }
 
 async function getAllCoaches_DB() {
@@ -47,7 +47,7 @@ async function getCities_DB() {
 }
 
 module.exports = {
-  getCoachsByID_DB,
+  getCoachByID_DB,
   getAllCoaches_DB,
   getCities_DB,
   getSpecializations_DB,
