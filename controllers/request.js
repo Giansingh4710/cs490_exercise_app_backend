@@ -1,4 +1,4 @@
-const { getCoachsByID_DB } = require("../DataAccess/coach_db_access.js");
+const { getCoachByID_DB } = require("../DataAccess/coach_db_access.js");
 const {
   createRequest,
   getPendingRequests,
@@ -39,7 +39,7 @@ async function requestCoach(req, res, err) {
       );
     }
 
-    const [coach] = await getCoachsByID_DB(coachID);
+    const [coach] = await getCoachByID_DB(coachID);
     if (!coach) {
       errorStatus = 404;
       throw new Error(`CoachID(${coachID}) does not exist`);

@@ -1,4 +1,5 @@
-const { connection } = require("../sql_config/database.js");
+const { createConnection } = require("../sql_config/database.js");
+const connection = createConnection();
 
 async function getCoachByID_DB(coachID) {
   const query =
@@ -47,7 +48,7 @@ async function getClientsOfCoach_DB(coachID) {
 }
 
 module.exports = {
-  getCoachsByID_DB,
+  getCoachByID_DB,
   getAllCoaches_DB,
   getCities_DB,
   getSpecializations_DB,
