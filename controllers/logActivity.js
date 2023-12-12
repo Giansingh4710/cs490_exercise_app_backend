@@ -1,46 +1,41 @@
 const moment = require("moment");
-const { hasAllKeys } = require("../utils/helper_funcs.js");
-const { insertWaterIntake } = require("../dataAccess/log_activity_db.js");
+const { insertDailySurvey_DB, dailySurveyIsCompleted_DB } = require("../dataAccess/log_activity_db.js");
 
-async function logWaterIntake(req, res, err) {
-  try {
-    const requiredFields = ["amount", "unit"];
-    if (!hasAllKeys(req.body, requiredFields)) {
-      throw new Error("Missing Required Fields: amount, unit.");
-    }
-
+async function recordDailySurvey(req, res){
+    const date = moment().format("YYYY-MM-DD");
+    // record water
     const units = ["cups", "gallons", "fl oz"];
-    const chosenUnit = req.body.unit.toLowerCase();
+    const chosenUnit = req.body.waterData.unit.toLowerCase();
     if (!units.includes(chosenUnit)) {
       throw new Error(`Unit: ${chosenUnit} not one of : ${units.join(", ")}`);
     }
 
-    const data = {
-      userID: req.userID,
-      intakeUnit: chosenUnit,
-      intakeAmount: req.body.amount,
-      date: moment().format("YYYY-MM-DD"),
-    };
-    if ("date" in req.body) {
-      const parsedDate = moment(req.body.date, "YYYY-MM-DD", true);
-      if (!parsedDate.isValid()) {
-        throw new Error(
-          `Invalid Date Format. ${req.body.date} is not in YYYY-MM-DD`,
-        );
-      }
-      data.date = req.body.date;
+    // transactions used to ensure all parts of daily survey are inserted together
+    try{
+        if(await dailySurveyIsCompleted_DB(req.userID, date)){
+            return res.status(400).send({
+                error: {
+                    status: 400,
+                    message: "User already completed daily survey",
+                    details: "User has already completed the daily survey for today " + date
+                }
+            });
+        }
+        await insertDailySurvey_DB(req.body, req.userID, date);
+        return res.status(201).send({
+            status: 201,
+            message: "Daily survey recorded",
+            details: "Water intake, weight, and mental state recorded"
+        })
+    }catch(error){
+        return res.status(500).send({
+            "error": {
+                status: 500,
+                message: "Error inserting into database",
+                details: error.message
+            }
+        })
     }
-    const insertData = await insertWaterIntake(data);
-    return res.status(200).send({
-      message: "Water Input Recorded",
-      info: insertData,
-    });
-  } catch (error) {
-    return res.status(500).send({
-      error: error.message,
-      details: "Error logging water intake.",
-    });
-  }
 }
 
-module.exports = { logWaterIntake };
+module.exports = { recordDailySurvey };
