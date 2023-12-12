@@ -1,11 +1,11 @@
 const { createConnection } = require("../sql_config/database.js");
 const connection = createConnection();
 
-async function getCoachsByID_DB(coachID) {
+async function getCoachByID_DB(coachID) {
   const query =
     "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
   const [rows, _] = await connection.promise().query(query, [coachID]);
-  return rows;
+  return rows[0];
 }
 
 async function getAllCoaches_DB() {
@@ -30,6 +30,19 @@ async function searchCoachByName_DB(name) {
   return rows;
 }
 
+async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
+  const query = `SELECT c.CoachID, u.firstName, u.lastName
+      FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
+      WHERE (CONCAT(u.firstName, ' ', u.lastName) LIKE '%${name}%') AND 
+        (c.specialties LIKE '%${specialty}%') AND 
+        (c.cost <= '${maxPrice}') AND 
+        (u.state LIKE '%${state}%') AND 
+        (u.city LIKE '%${city}%') 
+      GROUP BY c.CoachID ORDER BY u.firstName`;
+  const res = await connection.promise().query(query); //res[0]=rows, res[1]=fields
+  return res[0];
+}
+
 async function getUsersOfCoach_DB(coachID) {
   const query =
     "SELECT userID, firstName, lastName from User WHERE coachID = ?";
@@ -47,10 +60,11 @@ async function getCities_DB() {
 }
 
 module.exports = {
-  getCoachsByID_DB,
+  getCoachByID_DB,
   getAllCoaches_DB,
   getCities_DB,
   getSpecializations_DB,
   searchCoachByName_DB,
+  searchCoachByAll_DB,
   getUsersOfCoach_DB,
 };
