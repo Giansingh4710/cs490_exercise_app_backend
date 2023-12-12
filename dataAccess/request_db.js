@@ -1,11 +1,10 @@
 const { createConnection } = require("../sql_config/database.js");
 const connection = createConnection();
 
-async function createRequest({ userID, coachID, status, goals, note }) {
+async function createRequest(requestData) {
   const query =
     "INSERT INTO Request (userID, coachID, status, goals, note) VALUES (?, ?, ?, ?, ?)";
-  console.log("query: ", query);
-  const [res, _] = await connection.promise().query(query, [userID, coachID, status, goals, note]);
+  const [res, _] = await connection.promise().query(query, [requestData.userID, requestData.coachID, requestData.status, requestData.goals, requestData.note]);
   return res;
 }
 
