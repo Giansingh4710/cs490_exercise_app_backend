@@ -30,8 +30,26 @@ async function getWorkoutPlan(req, res){
 
     try{
         const workoutPlan = await getWorkoutPlan_DB(userID);
+        let workoutPlanFormatted = {}
+        workoutPlan.forEach(element => {
+            element.dayOfWeek = element.dayOfWeek.toLowerCase();
+            if(!(element.dayOfWeek in workoutPlanFormatted)){
+                workoutPlanFormatted[element.dayOfWeek] = {}
+            }
+
+            if(!(element.name in workoutPlanFormatted[element.dayOfWeek])){
+                workoutPlanFormatted[element.dayOfWeek][element.name] = {
+                    sets: element.sets,
+                    reps: [element.reps],
+                    weight: element.weight
+                }
+            }else{
+                workoutPlanFormatted[element.dayOfWeek][element.name]["reps"].push(element.reps)
+            }
+        });
+
         res.status(200);
-        return res.send(workoutPlan);
+        return res.send(workoutPlanFormatted);
     }catch(error){
         res.status(500);
         return res.send({
