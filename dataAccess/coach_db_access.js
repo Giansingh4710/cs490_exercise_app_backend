@@ -47,7 +47,7 @@ async function getClientsOfCoach_DB(coachID) {
 }
 
 module.exports = {
-  getCoachsByID_DB,
+  getCoachByID_DB,
   getAllCoaches_DB,
   getCities_DB,
   getSpecializations_DB,
