@@ -22,8 +22,7 @@ async function requestCoach(req, res, err) {
 
     const id_regex = new RegExp("^-?[0-9]+$");
     const coachID = req.body.coachID;
-    // const userID = req.body.userID;
-    const userID = 1; //TODO
+    const userID = req.body.userID;
 
     if (!id_regex.test(coachID) || !id_regex.test(userID)) {
       errorStatus = 422;
@@ -39,7 +38,7 @@ async function requestCoach(req, res, err) {
       );
     }
 
-    const [coach] = await getCoachByID_DB(coachID);
+    const coach = await getCoachByID_DB(coachID);
     if (!coach) {
       errorStatus = 404;
       throw new Error(`CoachID(${coachID}) does not exist`);
