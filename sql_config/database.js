@@ -46,7 +46,7 @@ function createConnection() {
       console.error("Error connecting to the database".red, err);
       throw err;
     }
-    print_db_info();
+    // print_db_info();
   });
   return connection;
 }

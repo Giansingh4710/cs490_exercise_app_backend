@@ -1,20 +1,20 @@
-const { connection } = require("../sql_config/database");
+const { createConnection } = require("../sql_config/database.js");
+const connection = createConnection();
 
 async function getWorkoutPlan_DB(userID){
     const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=?"
     const [res, _] = await connection.promise().query(query, [userID]);
     let response = {}
     res.forEach(element => {
-        if(!(element.DayOfWeek.toLowerCase() in response)){
-            response[element.DayOfWeek.toLowerCase()] = []
+        element.dayOfWeek = element.dayOfWeek.toLowerCase();
+        if(!(element.dayOfWeek in response)){
+            response[element.dayOfWeek] = []
         }
-        response[element.DayOfWeek.toLowerCase()].push({
-            exercise: element.Name,
-            // temp data until DB changes are made
-            sets: 3,
-            reps: [8,10,8],
-            weight: 120
-
+        response[element.dayOfWeek].push({
+            exercise: element.name,
+            sets: element.sets,
+            reps: element.reps,
+            weight: element.weight
         })
     });
     
