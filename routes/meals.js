@@ -5,7 +5,7 @@ const {requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
 
-const { getMeals, deleteMeal } = require("../controllers/meals.js")
+const { getMeals, deleteMeal, createMeal } = require("../controllers/meals.js")
 
 /**
  *  @swagger
@@ -58,5 +58,7 @@ const { getMeals, deleteMeal } = require("../controllers/meals.js")
 router.get("/", requireAuthedUser, getMeals);
 
 router.delete("/:mealID", requireAuthedUser, deleteMeal)
+
+router.post("/mealInput", requireAuthedUser, createMeal)
 
 module.exports = router;
