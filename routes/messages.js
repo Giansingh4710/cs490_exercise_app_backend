@@ -5,7 +5,7 @@ const { requireAuthedUser } = require("../utils/security.js");
 const {
     storeMessage,
     getMessages
-} = require("../Controllers/messages.js");
+} = require("../controllers/messages.js");
 
 /**
  *  @swagger

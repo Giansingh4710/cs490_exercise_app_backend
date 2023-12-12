@@ -31,6 +31,7 @@ const coaches = require("./routes/coaches.js");
 const requests = require("./routes/request.js");
 const exercises = require("./routes/exercises.js");
 const messages = require("./routes/messages.js");
+const meals = require("./routes/meals.js");
 
 const app = express();
 
@@ -112,6 +113,7 @@ app.use("/coaches", coaches);
 app.use("/request", requests);
 app.use("/exercises", exercises);
 app.use("/messages", messages)
+app.use("/meals", meals)
 
 // error handling - not found
 app.use((req, res, next) => {

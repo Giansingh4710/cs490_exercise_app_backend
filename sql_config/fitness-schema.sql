@@ -95,6 +95,28 @@ CREATE TABLE Goal (
         ON DELETE CASCADE
 );
 
+-- Table structure for WeightProgress table
+CREATE TABLE WeightProgress (
+    -- Create primary and foreign key columns
+    progressID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED NOT NULL,
+    -- Create goal data columns
+    weight INT NOT NULL,
+    date DATE NOT NULL,
+    -- Add timestamp columns for creation and last update
+    created TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+    lastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    -- Define primary key and foreign key constraint
+    PRIMARY KEY (progressID),
+    CONSTRAINT ProgressUserFK 
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
+        ON DELETE CASCADE
+);
+
 
 -- Table structure for WaterIntake table
 CREATE TABLE WaterIntake (
