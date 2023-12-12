@@ -14,7 +14,7 @@ async function storeMessage(req, res){
                 }
             })
         }
-        
+        console.log(req.body);
         createMessage_DB(req.body, req.userID);
         return res.status(201).send({
             message: "Message created."
@@ -30,7 +30,7 @@ async function storeMessage(req, res){
 }
 
 async function getMessages(req, res){
-
+    console.log("________________________________");
     // set default values for limit and offset
     const limit = req.query.limit ? parseInt(req.query.limit) : 30;
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
