@@ -9,22 +9,22 @@ const db_file = require("../dataAccess/user_db.js");
 const bcrypt = require("bcrypt");
 
 const req = {
-  body: {
-    firstName: "Jon",
-    lastName: "Doe",
-    email: "bob@bob.com",
-    phoneNum: "1234567890",
-    dob: "2020-01-01",
-    gender: "Male",
-    weight: "150",
-    height: "72",
-    role: "Client", // Client or Coach or Admin?
-    activityLevel: "High", // Low, Moderate, High
-    goal: "Gain Weight", // 'Select Goal', 'Lose Weight', 'Gain Weight', 'Maintain Weight', 'Train for Sport',
-    streetAddress: "1234 Main St",
-    city: "San Diego",
-    state: "CA",
-    zipCode: "92122",
+  "body": {
+    "firstName": "Jon",
+    "lastName": "Doe",
+    "email": "bob@bob.com",
+    "phoneNum": "1234567890",
+    "dob": "2020-01-01",
+    "gender": "Male",
+    "weight": "150",
+    "height": "72",
+    "role": "Client", // Client or Coach or Admin?
+    "activityLevel": "High", // Low, Moderate, High
+    "goal": "Gain Weight", // 'Select Goal', 'Lose Weight', 'Gain Weight', 'Maintain Weight', 'Train for Sport',
+    "streetAddress": "1234 Main St",
+    "city": "San Diego",
+    "state": "CA",
+    "zipCode": "92122",
   },
 };
 
@@ -83,6 +83,7 @@ describe("add new user by registerAccount", () => {
       user: {
         id: userID,
         email: req.body.email,
+        role: null,
       },
       token: token,
       message: "User registered",
