@@ -7,7 +7,7 @@ const {requireAuthedUser, fakeAuthedUser } = require(
 
 const {
     getAllExercises,
-  } = require("../Controllers/exercise.js");
+  } = require("../controllers/exercise.js");
 
 /**
  *  @swagger
