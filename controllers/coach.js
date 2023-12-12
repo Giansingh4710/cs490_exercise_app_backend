@@ -1,10 +1,10 @@
 const {
   getCoachByID_DB,
   getAllCoaches_DB,
-  searchByName_DB,
+  searchCoachByName_DB,
   getSpecializations_DB,
   getCities_DB,
-  getClientsOfCoach_DB,
+  getUsersOfCoach_DB,
 } = require(
   "../dataAccess/coach_db_access.js",
 );
@@ -74,7 +74,7 @@ async function getAllCoaches(request, response) {
 async function searchByName(request, response) {
   try {
     const name = request.query.name;
-    const coachData = await searchByName_DB(name);
+    const coachData = await searchCoachByName_DB(name);
     return response.status(200).send(coachData);
   } catch (error) {
     return response.status(500).send({
@@ -104,8 +104,8 @@ async function getSpecializations(request, response) {
 
 async function getClientsOfCoach(request, response) {
   try {
-    const coachID = request.UserID; // set in ../utils/security.js
-    const clients = await getClientsOfCoach_DB(coachID);
+    const coachID = request.userID; // set in ../utils/security.js
+    const clients = await getUsersOfCoach_DB(coachID);
     return response.status(200).send(clients);
   } catch (error) {
     return response.status(500).send({

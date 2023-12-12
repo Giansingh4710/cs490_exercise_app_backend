@@ -1,7 +1,7 @@
 const {
     getAllExercises_DB,
   } = require(
-    "../DataAccess/exerciseDB.js",
+    "../dataAccess/exerciseDB.js",
   );
 
   async function getAllExercises(request, response) {

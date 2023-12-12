@@ -1,4 +1,4 @@
-const { getCoachsByID_DB } = require("../DataAccess/coach_db_access.js");
+const { getCoachByID_DB } = require("../dataAccess/coach_db_access.js");
 const {
   createRequest,
   getPendingRequests,
@@ -22,8 +22,7 @@ async function requestCoach(req, res, err) {
 
     const id_regex = new RegExp("^-?[0-9]+$");
     const coachID = req.body.coachID;
-    // const userID = req.body.userID;
-    const userID = 1; //TODO
+    const userID = req.body.userID;
 
     if (!id_regex.test(coachID) || !id_regex.test(userID)) {
       errorStatus = 422;
@@ -39,7 +38,7 @@ async function requestCoach(req, res, err) {
       );
     }
 
-    const [coach] = await getCoachsByID_DB(coachID);
+    const coach = await getCoachByID_DB(coachID);
     if (!coach) {
       errorStatus = 404;
       throw new Error(`CoachID(${coachID}) does not exist`);
