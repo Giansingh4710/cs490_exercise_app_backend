@@ -4,15 +4,7 @@ jest.mock("../sql_config/database.js"); // need this so it don't actually connec
 jest.mock("../dataAccess/exerciseDB.js");
 const db_file = require("../dataAccess/exerciseDB.js");
 
-const req = {
-  "params": {
-    "coachID": 1,
-  },
-  "query": {
-    "name": "a",
-  },
-  "userID": 1,
-};
+const req = {};
 
 const res = {
   status: jest.fn(),
