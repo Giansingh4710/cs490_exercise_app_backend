@@ -43,23 +43,34 @@ async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
   return res[0];
 }
 
-async function getUsersOfCoach_DB(coachID) {
-  const query =
-    "SELECT userID, firstName, lastName from User WHERE coachID = ?";
-  const [rows, _] = await connection.promise().query(query, [coachID]);
+async function getUsersOfCoach_DB(userId) {
+  const query = `
+      SELECT 
+          R.requestID,
+          R.userID,
+          U.firstName,
+          U.lastName
+        FROM Request R
+        JOIN User U ON R.userID = U.userID
+        WHERE R.Status = "Pending" AND 
+        R.coachID in (
+            SELECT coachID From Coach WHERE UserID=?
+        );
+  `;
+  const [rows, _] = await connection.promise().query(query, [userId]);
   return rows;
 }
 
 async function getCities_DB() {
   const query =
-    `SELECT state, GROUP_CONCAT(DISTINCT city SEPARATOR ', ') AS cities
+    `SELECT state, JSON_ARRAYAGG(city) AS cities
     FROM User WHERE role = 'coach'
     GROUP BY state ORDER BY state ASC`;
   const [rows, _] = await connection.promise().query(query);
   return rows;
 }
 
-async function getCoachIDFromUserID_DB(userID){
+async function getCoachIDFromUserID_DB(userID) {
   const query = "SELECT * FROM Coach WHERE UserID = ?";
   const res = await connection.promise().query(query, [userID]);
   return res[0];

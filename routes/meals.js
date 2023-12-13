@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const {requireAuthedUser, fakeAuthedUser } = require(
+const { requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
 
-const { getMeals, deleteMeal } = require("../controllers/meals.js")
+const { getMeals, deleteMeal } = require("../controllers/meals.js");
 
 /**
  *  @swagger
@@ -55,8 +55,8 @@ const { getMeals, deleteMeal } = require("../controllers/meals.js")
  *                                            description: Additional details about error
  *                                            example: Error getting meals from database
  */
-router.get("/", requireAuthedUser, getMeals);
+router.get("/", fakeAuthedUser, getMeals);
 
-router.delete("/:mealID", requireAuthedUser, deleteMeal)
+router.delete("/:mealID", requireAuthedUser, deleteMeal);
 
 module.exports = router;
