@@ -6,7 +6,7 @@ const {
 const { createUserJwt } = require("../utils/security.js");
 const { BCRYPT_WORK_FACTOR } = require("../sql_config/database.js");
 const bcrypt = require("bcrypt");
-const { validateName, validateEmail } = require("../utils/helper_funcs.js");
+const { validateEmail } = require("../utils/helper_funcs.js");
 
 async function registerAccount(req, res) {
   let errorStatusCode = 400;
@@ -27,20 +27,19 @@ async function registerAccount(req, res) {
       email: req.body.email,
       hashedPass: hashedPass,
     });
-
     const userID = insertInfoObj.insertId;
-    // adding user data to res.locals.user for frontend
-    // const newUserData = await findUsersByEmail(req.body.email);
-    const token = createUserJwt(req.body.email); // generate a new JWT for the user
-    res.status(201)
+
+
+    const token = createUserJwt(req.body.email); // adding user data to res.locals.user for frontend
+    res.status(201);
     res.send({
       user: {
         id: userID,
         email: req.body.email,
-        //role: newUserData.role // we not inserting a role
+        role: null
       },
       token: token,
-      message: "User registered"
+      message: "User registered",
     });
   } catch (error) {
     res.status(errorStatusCode);

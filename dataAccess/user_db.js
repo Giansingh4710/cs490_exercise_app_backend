@@ -14,9 +14,6 @@ async function createUser({ email, hashedPass }) {
     hashedPass,
   ]);
   return insertInfoObj;
-  // const token = createUserJwt(email); // generate a new JWT for the user
-  // const userID = insertInfoObj.insertId;
-  // return { user: { "email": email, "userID": userID }, token: token };
 }
 
 async function updateUser(data, email) {
