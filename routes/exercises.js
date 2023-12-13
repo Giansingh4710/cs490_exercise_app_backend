@@ -1,14 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const {requireAuthedUser, fakeAuthedUser } = require(
+const { requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
 
-const {
-    getAllExercises,
-  } = require("../controllers/exercise.js");
-
+const { getAllExercises } = require("../controllers/exercise.js");
 /**
  *  @swagger
  *  /exercises/allExercises:
@@ -45,7 +42,7 @@ const {
  *                              name: Diamond Push Up
  *                              type: Compound
  *                              difficulty: Intermediate
- *                              muscleGroup: Chest       
+ *                              muscleGroup: Chest
  *          500:
  *              description: Error accessing Database.
  *              content:
@@ -69,6 +66,6 @@ const {
  *                                          description: Additional details about error
  *                                          example: Error trying to get all exercises from the database.
  */
-  router.get("/allExercises", getAllExercises);
+router.get("/allExercises", getAllExercises);
 
-  module.exports = router;
+module.exports = router;
