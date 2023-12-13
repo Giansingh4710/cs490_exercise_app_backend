@@ -10,7 +10,7 @@ async function getCoachByID_DB(coachID) {
 
 async function getAllCoaches_DB() {
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName FROM Coach c INNER JOIN User u WHERE u.userID = c.coachID GROUP BY c.coachID ORDER BY c.coachID";
+    "SELECT c.coachID, u.firstName, u.lastName FROM Coach c INNER JOIN User u WHERE u.userID = c.userID GROUP BY c.coachID ORDER BY c.coachID";
   const [rows, _] = await connection.promise().query(query);
   return rows;
 }
