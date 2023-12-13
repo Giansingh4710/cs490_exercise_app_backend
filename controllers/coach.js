@@ -1,54 +1,39 @@
 const {
   getCoachByID_DB,
   getAllCoaches_DB,
-  searchByName_DB,
+  searchCoachByName_DB,
+  searchCoachByAll_DB,
   getSpecializations_DB,
   getCities_DB,
-  getClientsOfCoach_DB,
+  getUsersOfCoach_DB,
 } = require(
-  "../dataAccess/coach_db_access.js",
+  "../dataAccess/coach_db_access",
 );
 
-async function getCoachByID(request, response) {
-  const coachIDRegex = new RegExp("^-?[0-9]+$");
-  const coachId = request.params.CoachID;
-
-  if (!coachIDRegex.test(coachId)) {
-    return response.status(422).send({
-      error: {
-        status: 422,
-        message: "Bad Request",
-        details: "Invalid CoachID. CoachID must be an integer.",
-      },
-    });
-  }
-
-  if (coachId < 0) {
-    return response.status(422).send({
-      error: {
-        status: 422,
-        message: "Bad Request",
-        details: "Invalid CoachID. CoachID must be nonnegative.",
-      },
-    });
-  }
-
+async function getCoachByID(req, res) {
+  let errorStatusCode = 500;
   try {
-    const coachData = await getCoachByID_DB(coachId);
-    if (coachData === undefined) {
-      return response.status(404).send({
-        error: {
-          status: 404,
-          message: `No Coach found with ID:${coachId}`,
-          details: "No matching data found for the specified criteria.",
-        },
-      });
+    const coachIDRegex = new RegExp("^-?[0-9]+$");
+    const coachId = req.params.coachID;
+
+    if (!coachIDRegex.test(coachId) || coachId < 0) {
+      errorStatusCode = 422;
+      throw new Error(
+        `Invalid coachID(${coachId}) (must be a positive integer)`,
+      );
     }
-    return response.status(200).send(coachData);
+    const coachData = await getCoachByID_DB(coachId);
+    if (coachData == undefined) {
+      errorStatusCode = 404;
+      throw new Error(`No Coach found with ID:${coachId}`);
+    }
+    res.status(200);
+    res.send(coachData);
   } catch (error) {
-    return response.status(500).send({
+    res.status(errorStatusCode);
+    res.send({
       error: {
-        status: 500,
+        status: errorStatusCode,
         message: error.message,
         details: "Error accessing database.",
       },
@@ -56,12 +41,14 @@ async function getCoachByID(request, response) {
   }
 }
 
-async function getAllCoaches(request, response) {
+async function getAllCoaches(req, res) {
   try {
     const coachData = await getAllCoaches_DB();
-    return response.status(200).send(coachData);
+    res.status(200);
+    res.send(coachData);
   } catch (error) {
-    return response.status(500).send({
+    res.status(500);
+    res.send({
       error: {
         status: 500,
         message: error.message,
@@ -71,59 +58,78 @@ async function getAllCoaches(request, response) {
   }
 }
 
-async function searchByName(request, response) {
+async function searchCoachByName(req, res) {
   try {
-    const name = request.query.name;
-    const coachData = await searchByName_DB(name);
-    return response.status(200).send(coachData);
+    const name = req.query.name;
+    const coachData = await searchCoachByName_DB(name);
+    res.status(200);
+    res.send(coachData);
   } catch (error) {
-    return response.status(500).send({
+    res.status(500);
+    res.send({
       error: {
         status: 500,
         message: error.message,
-        details: "Error trying to searchByName from database.",
+        details: "Error trying to searchCoachByName from database.",
       },
     });
   }
 }
 
-async function getSpecializations(request, response) {
+async function searchCoachByAll(req, res) {
   try {
-    const specData = await getSpecializations_DB();
-    return response.status(200).send(specData);
+    const name = req.query.name;
+    const specialty = req.query.specialty;
+    const maxPrice = req.query.maxPrice;
+    const state = req.query.state;
+    const city = req.query.city;
+    const coachData = await searchCoachByAll_DB(
+      name,
+      specialty,
+      maxPrice,
+      state,
+      city,
+    );
+    res.status(200);
+    res.send(coachData);
   } catch (error) {
-    return response.status(500).send({
+    res.status(500);
+    res.send({
       error: {
         status: 500,
         message: error.message,
-        details: "Error trying to getSpecializations from database.",
+        details: "Error trying to searchCoachByAll from database.",
       },
     });
   }
 }
 
-async function getClientsOfCoach(request, response) {
+async function getUsersOfCoach(req, res) {
   try {
-    const coachID = request.UserID; // set in ../utils/security.js
-    const clients = await getClientsOfCoach_DB(coachID);
-    return response.status(200).send(clients);
+    const coachID = req.userID; // set in ../utils/security.js
+    const clients = await getUsersOfCoach_DB(coachID);
+    res.status(200);
+    res.send(clients);
   } catch (error) {
-    return response.status(500).send({
+    res.status(500);
+    res.send({
       error: {
         status: 500,
         message: error.message,
-        details: "Error trying to getClientsOfCoach from database.",
+        details: "Error trying to getUsersOfCoach from database.",
       },
     });
   }
 }
 
-async function getCities(request, response) {
+async function getCities(req, res) {
   try {
     const locData = await getCities_DB();
-    return response.status(200).send(locData);
+    res.status(200);
+    res.send(locData);
   } catch (error) {
-    return response.status(500).send({
+    res.status(500);
+    res.send({
       error: {
         status: 500,
         message: error.message,
@@ -133,11 +139,29 @@ async function getCities(request, response) {
   }
 }
 
+async function getSpecializations(req, res) {
+  try {
+    const specData = await getSpecializations_DB();
+    res.status(200);
+    res.send(specData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to getSpecializations from database.",
+      },
+    });
+  }
+}
+
 module.exports = {
   getCoachByID,
   getAllCoaches,
-  searchByName,
+  searchCoachByName,
+  searchCoachByAll,
   getSpecializations,
   getCities,
-  getClientsOfCoach,
+  getUsersOfCoach,
 };

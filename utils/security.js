@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { findUsersByEmail } = require("../dataAccess/user_db.js");
+const { findUserByEmail } = require("../dataAccess/user_db.js");
 const { SECRET_KEY } = require("../sql_config/database.js");
 
 function getTokenFromHeader(req) {
@@ -13,33 +13,41 @@ function getTokenFromHeader(req) {
 }
 
 async function requireAuthedUser(req, res, next) {
-  const token = req.headers.authorization;
-  if (!token) {
-    return res.status(401).json({
-      message: "Access denied. Token is missing.",
-    });
-  }
-
+  let errorStatusCode = 401;
   try {
-    const token = getTokenFromHeader(req);
-    const { email } = jwt.verify(token, SECRET_KEY);
-    const rows = await findUsersByEmail(email);
-    req.userID = rows[0].userID;
+    const token = req.headers.authorization;
+    if (!token) {
+      throw new Error("Access denied. Token is missing.");
+    }
+
+    const the_token = getTokenFromHeader(req);
+    const { email } = jwt.verify(the_token, SECRET_KEY);
+    const user = await findUserByEmail(email);
+    if (user === undefined) {
+      throw new Error(`User(${email}) does not exist.`);
+    }
+    req.userID = user.userID;
     res.locals.user = {
-      userID: rows[0].userID,
-      email: rows[0].email,
-      role: rows[0].role,
+      userID: user.userID,
+      email: user.email,
+      role: user.role,
     };
 
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid token.", "error": error });
+    res.status(401);
+    res.send({
+      error: {
+        status: errorStatusCode,
+        message: error.message,
+      },
+    });
   }
 }
 
 async function fakeAuthedUser(req, res, next) {
   console.log("fakeAuthedUser");
-  req.userID = 1;
+  req.userID = 3;
   next();
 }
 

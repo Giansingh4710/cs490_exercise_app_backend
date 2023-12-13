@@ -38,8 +38,6 @@ async function getPendingRequests(userID) {
       },
     };
   });
-
-  return formattedData;
 }
 
 async function unansweredRequestsByCoach_DB(userID) {
