@@ -6,4 +6,7 @@ from pattern i see you can only mock a function 2 times and then it will return 
     req.body.email = "wrongEmail";
     weird results when you try to over write it again
 
+
+mockImplementation vs mockImplementationOnce
+
   
