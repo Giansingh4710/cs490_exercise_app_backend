@@ -1,22 +1,20 @@
 const express = require("express"); // Express.js for building the web server
 const cors = require("cors"); // Cross-Origin Resource Sharing middleware (for handling CORS)
 const morgan = require("morgan"); // Logging middleware (for logging HTTP requests)
-const swaggerJsdoc = require('swagger-jsdoc')
-const swaggerUI = require('swagger-ui-express')
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
 
-// swagger documention setup
 const swaggerDefinition = {
-  openapi: '3.0.0',
+  openapi: "3.0.0",
   info: {
-    title: 'Express API for JSONPlaceholder',
-    version: '1.0.0',
+    title: "Express API for JSONPlaceholder",
+    version: "1.0.0",
   },
 };
 
 const options = {
   swaggerDefinition,
-  // Paths to files containing OpenAPI definitions
-  apis: ['./routes/*.js'],
+  apis: ["./routes/*.js"], // Paths to files containing OpenAPI definitions
 };
 
 const swaggerSpec = swaggerJsdoc(options);
@@ -46,9 +44,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("tiny"));
 
-
 app.get("/", (req, res) => {
-  const full_url = req.get('host');
+  const full_url = req.get("host");
   const protocol = req.protocol;
   const link = `${protocol}://${full_url}`;
 
@@ -93,19 +90,19 @@ app.get("/", (req, res) => {
   routeList.forEach((item) => {
     const { method, route } = item;
     const mnl = `${method} ${route}`;
-    if (seen.has(mnl)){
+    if (seen.has(mnl)) {
       return;
     }
     seen.add(mnl);
     const l = `${link}/${route}`;
     console.log(`${method} ${l}`);
-    all_routes_to_show.push(`${method} <a href='${l}'>${l}</a>`)
+    all_routes_to_show.push(`${method} <a href='${l}'>${l}</a>`);
   });
   const sendItem = "<h1>Backend Of CS490 exercise app.<br/> All Routes:</h1>";
   res.send(sendItem.concat(all_routes_to_show.join("<br/>")));
 });
 
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use("/register", register);
 app.use("/login", login);
 app.use("/auth", auth);
@@ -113,8 +110,8 @@ app.use("/logActivity", logActivity);
 app.use("/coaches", coaches);
 app.use("/request", requests);
 app.use("/exercises", exercises);
-app.use("/messages", messages)
-app.use("/meals", meals)
+app.use("/messages", messages);
+app.use("/meals", meals);
 app.use("/workoutPlan", workoutPlan);
 
 // error handling - not found
