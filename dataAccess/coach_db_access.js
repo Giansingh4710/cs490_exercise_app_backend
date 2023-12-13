@@ -63,7 +63,7 @@ async function getUsersOfCoach_DB(userId) {
 
 async function getCities_DB() {
   const query =
-    `SELECT state, GROUP_CONCAT(DISTINCT city SEPARATOR ', ') AS cities
+    `SELECT state, JSON_ARRAYAGG(city) AS cities
     FROM User WHERE role = 'coach'
     GROUP BY state ORDER BY state ASC`;
   const [rows, _] = await connection.promise().query(query);
