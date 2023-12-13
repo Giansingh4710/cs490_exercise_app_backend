@@ -158,6 +158,6 @@ const { recordDailySurvey } = require("../controllers/logActivity.js");
  *                                          type: string
  *                                          example: Error recording daily survey
  */
-router.post("/recordDailySurvey", fakeAuthedUser, recordDailySurvey);
+router.post("/recordDailySurvey", requireAuthedUser, recordDailySurvey);
 
 module.exports = router;

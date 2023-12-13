@@ -55,7 +55,7 @@ const { getMeals, deleteMeal } = require("../controllers/meals.js");
  *                                            description: Additional details about error
  *                                            example: Error getting meals from database
  */
-router.get("/", fakeAuthedUser, getMeals);
+router.get("/", requireAuthedUser, getMeals);
 
 router.delete("/:mealID", requireAuthedUser, deleteMeal);
 
