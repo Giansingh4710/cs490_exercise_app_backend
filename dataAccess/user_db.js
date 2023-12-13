@@ -1,10 +1,10 @@
 const { createConnection } = require("../sql_config/database.js");
 const connection = createConnection();
 
-async function findUsersByEmail(email) {
+async function findUserByEmail(email) {
   const query = "SELECT * FROM User WHERE email = ?";
   const [rows, _] = await connection.promise().query(query, [email]);
-  return rows;
+  return rows[0]; // if rows is empty, this will return undefined
 }
 
 async function createUser({ email, hashedPass }) {
@@ -57,7 +57,7 @@ async function updateUser(data, email) {
 }
 
 module.exports = {
-  findUsersByEmail,
+  findUserByEmail,
   createUser,
   updateUser,
 };

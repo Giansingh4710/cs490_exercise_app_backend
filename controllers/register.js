@@ -1,5 +1,5 @@
 const {
-  findUsersByEmail,
+  findUserByEmail,
   createUser,
   updateUser,
 } = require("../dataAccess/user_db");
@@ -16,8 +16,8 @@ async function registerAccount(req, res) {
       throw new Error(`${req.body.email}: is not valid email format`);
     }
 
-    const rows = await findUsersByEmail(req.body.email);
-    if (rows.length > 0) {
+    const user = await findUserByEmail(req.body.email);
+    if (user !== undefined) {
       errorStatusCode = 500;
       throw new Error(`${req.body.email}: is already registered`);
     }

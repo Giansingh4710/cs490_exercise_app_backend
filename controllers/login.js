@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 
 const { validateEmail } = require("../utils/helper_funcs.js");
-const { findUsersByEmail } = require("../dataAccess/user_db.js");
+const { findUserByEmail } = require("../dataAccess/user_db.js");
 const { createUserJwt } = require("../utils/security.js");
 
 const login = async function (req, res) {
@@ -12,7 +12,7 @@ const login = async function (req, res) {
       throw new Error(`${req.body.email}: is not valid email format`);
     }
 
-    const [user] = await findUsersByEmail(req.body.email);
+    const user = await findUserByEmail(req.body.email);
     const encryptedPassword = user.password;
     const isMatch = await bcrypt.compare(req.body.password, encryptedPassword);
     if (!isMatch) {

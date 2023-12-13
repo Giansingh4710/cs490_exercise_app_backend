@@ -10,3 +10,5 @@ from pattern i see you can only mock a function 2 times and then it will return 
 mockImplementation vs mockImplementationOnce
 
   
+should only have constants on top. well they are constants
+but the objects shouldn't be messed with, other wise just make the objs local (ex: req in each it block)

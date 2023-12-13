@@ -33,6 +33,15 @@ const res = {
   send: jest.fn(),
 };
 
+const users = [
+  {
+    userID: 1,
+    email: "bobNew@bob.com",
+    role: "user",
+    password: "password",
+  },
+];
+
 describe("trying to storeSurvey", () => {
   it("should update user survey info and send 200 status code", async () => {
     db_file.updateUser.mockImplementationOnce(
@@ -61,13 +70,11 @@ describe("trying to storeSurvey", () => {
 });
 
 describe("add new user by registerAccount", () => {
-  it("should update user survey info and send 201 status code", async () => {
-    db_file.findUsersByEmail.mockImplementationOnce(
-      (email) => {
-        return [];
-      },
-    );
+  db_file.findUserByEmail.mockImplementation((email) => {
+    return users.find((user) => user.email === email);
+  });
 
+  it("should update user survey info and send 201 status code", async () => {
     const userID = 2;
     const token = "token";
 
@@ -91,7 +98,11 @@ describe("add new user by registerAccount", () => {
   });
 
   it("wrong email 422 error", async () => {
-    req.body.email = "wrongEmail";
+    const req = {
+      body: {
+        email: "bob@@bob.com",
+      },
+    };
     await registerAccount(req, res);
     expect(res.status).toHaveBeenCalledWith(422);
     expect(res.send).toHaveBeenCalledWith({
@@ -101,17 +112,12 @@ describe("add new user by registerAccount", () => {
   });
 
   it("User already exists 500 error", async () => {
-    req.body.email = "bob@bob.com";
-    db_file.findUsersByEmail.mockImplementationOnce(
-      (email) => {
-        return [req.body.email];
-      },
-    );
+    users[0].email = req.body.email;
     await registerAccount(req, res);
-    expect(res.status).toHaveBeenCalledWith(500);
     expect(res.send).toHaveBeenCalledWith({
       error: `${req.body.email}: is already registered`,
       message: "Unable to create user and registerAccount",
     });
+    expect(res.status).toHaveBeenCalledWith(500);
   });
 });

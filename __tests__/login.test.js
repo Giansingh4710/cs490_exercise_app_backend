@@ -23,8 +23,8 @@ const users = [
 ];
 
 describe("login", () => {
-  db_file.findUsersByEmail.mockImplementation((email) => {
-    return users.filter((user) => user.email === email);
+  db_file.findUserByEmail.mockImplementation((email) => {
+    return users.find((user) => user.email === email);
   });
 
   it("should return 400 if email is wrong format", async () => {
