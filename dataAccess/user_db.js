@@ -97,9 +97,32 @@ async function getCoachOfUser_DB(userID){
   return null;
 }
 
+async function removeCoach_DB(userID, coachUserID){
+  try{
+    connection.promise().beginTransaction();
+    // remove coachID from user data
+    const removeCoachQuery = "UPDATE User SET coachID = null WHERE userID = ?";
+    await connection.promise().query(removeCoachQuery, [userID]);
+
+    // delete coach assigned workouts from workout plan
+    const deleteAssignedWorkoutQuery = "DELETE FROM WorkoutPlan WHERE userID = ? AND creator='Coach'";
+    await connection.promise().query(deleteAssignedWorkoutQuery, [userID]);
+
+    // delete messages with coach
+    const deleteMessagesQuery = "DELETE FROM Message WHERE senderID = ? AND receiverID = ? OR senderID = ? AND receiverID = ?";
+    await connection.promise().query(deleteMessagesQuery, [userID, coachUserID, coachUserID, userID]);
+    connection.commit();
+  }catch(error){
+    connection.rollback();
+    throw new Error('Error removing coach from database');
+  }
+  
+}
+
 module.exports = {
   findUserByEmail,
   createUser,
   updateUser,
-  getCoachOfUser_DB
+  getCoachOfUser_DB,
+  removeCoach_DB
 };

@@ -10,7 +10,7 @@ const {
 );
 const { hasAllKeys } = require("../utils/helper_funcs.js");
 
-async function requestCoach(req, res, err) {
+async function requestCoach(req, res) {
   let errorStatus = 500;
   try {
     const requiredFields = ["userID", "coachID", "goals", "note"];
@@ -60,12 +60,14 @@ async function requestCoach(req, res, err) {
       note: req.body.note,
     };
     const createdRequest = await createRequest(requestData);
-    return res.status(201).send({
+    res.status(201);
+    res.send({
       ...requestData,
       requestID: createdRequest.insertId,
     });
   } catch (error) {
-    return res.status(errorStatus).send({
+    res.status(errorStatus);
+    res.send({
       error: {
         message: error.message,
         details: "Server Error while trying to requestCoach",
@@ -74,12 +76,14 @@ async function requestCoach(req, res, err) {
   }
 }
 
-async function getOpenRequests(req, res, err) {
+async function getOpenRequests(req, res) {
   try {
     const pendingRequests = await getPendingRequests(req.userID);
-    return res.status(200).send(pendingRequests);
+    res.status(200);
+    res.send(pendingRequests);
   } catch (error) {
-    return res.status(500).send({
+    res.status(500);
+    res.send({
       error: {
         message: error.message,
         details: "Server Error while trying to getOpenRequests",
@@ -90,7 +94,7 @@ async function getOpenRequests(req, res, err) {
 
 async function getStatus(req, res) {
   try {
-    const userID = req.query.userid;  // For some reason "userID" defaults to "userid"
+    const userID = req.query.userid; // For some reason "userID" defaults to "userid" //??
     const coachID = req.query.coachID;
     const statusData = await getStatus_DB(
       userID,
@@ -113,12 +117,14 @@ async function getStatus(req, res) {
 async function unansweredRequestsByCoach(req, res, err) {
   try {
     const pendingRequests = await unansweredRequestsByCoach_DB(req.userID);
-    return res.status(200).send(pendingRequests);
+    res.status(200);
+    res.send(pendingRequests);
   } catch (error) {
-    return res.status(500).send({
+    res.status(500);
+    res.send({
       error: {
-        error: error.message,
-        message: "Server Error while trying to get unansweredRequestsByCoach",
+        message: error.message,
+        details: "Server Error while trying to get unansweredRequestsByCoach",
       },
     });
   }

@@ -48,71 +48,34 @@ async function deleteMeal(req, res) {
 }
 
 async function createMeal(req, res) {
-  const date = moment().format("YYYY-MM-DD");
-  // validate input
-  const nutrientsRegex = new RegExp("^[0-9]+$");
-  if (
-    !(nutrientsRegex.test(req.body.calories) &&
-      nutrientsRegex.test(req.body.protein) &&
-      nutrientsRegex.test(req.body.fat))
-  ) {
-    return res.status(400).send({
-      error: {
-        status: 400,
-        message: "Invalid nutrients",
-        details: "Nutrients values must be integers and positive",
-      },
-    });
-  }
-
+  let errorStatus = 500;
   try {
+    const date = moment().format("YYYY-MM-DD");
+    const nutrientsRegex = new RegExp("^[0-9]+$");
+    if (
+      !(nutrientsRegex.test(req.body.calories) &&
+        nutrientsRegex.test(req.body.protein) &&
+        nutrientsRegex.test(req.body.fat))
+    ) {
+      errorStatus = 400
+      throw new Error("Nutrients values must be integers and positive")
+    }
     const mealInsert = await createMeal_DB(req.body, date, req.userID);
-    return res.status(201).send({
+    res.status(201)
+    res.send({
       message: "Meal recorded",
       id: mealInsert.insertId,
     });
   } catch (error) {
-    return res.status(500).send({
+    res.status(errorStatus);
+    res.send({
       error: {
-        status: 500,
-        message: "Error accessing database",
+        status: errorStatus,
+        message: error.message,
         details: "Error inserting meal into database",
       },
     });
   }
-}
-
-async function createMeal(req, res){
-    const date = moment().format("YYYY-MM-DD");
-    // validate input
-    const nutrientsRegex = new RegExp("^[0-9]+$");
-    if(!(nutrientsRegex.test(req.body.calories) && nutrientsRegex.test(req.body.protein) && nutrientsRegex.test(req.body.fat))){
-        return res.status(400).send({
-            error: {
-                status: 400,
-                message: "Invalid nutrients",
-                details: "Nutrients values must be integers and positive"
-            }
-        })
-    }
-
-    try{
-        const mealInsert = await createMeal_DB(req.body, date, req.userID);
-        return res.status(201).send({
-            message: "Meal recorded",
-            id: mealInsert.insertId
-        })
-    }catch(error){
-        return res.status(500).send({
-            error: {
-                status: 500,
-                message: "Error accessing database",
-                details: "Error inserting meal into database"
-            }
-        })
-    }
-
-
 }
 
 module.exports = {
