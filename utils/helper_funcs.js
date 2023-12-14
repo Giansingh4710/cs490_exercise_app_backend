@@ -3,6 +3,22 @@ function validateName(name) {
   return nameRegex.test(name);
 }
 
+function calculateAge(birthdate) {
+  const today = new Date();
+  const birthDate = new Date(birthdate);
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
+
 function validateEmail(email) {
   const emailRegex =
     /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
@@ -38,4 +54,4 @@ function hasAllKeys(object, keys) {
   return true;
 }
 
-module.exports = { validateName, validateEmail, hasAllKeys };
+module.exports = { validateName, validateEmail, hasAllKeys, calculateAge };
