@@ -10,7 +10,7 @@ async function getCoachByID_DB(coachID) {
 
 async function getAllCoaches_DB() {
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName FROM Coach c INNER JOIN User u WHERE u.userID = c.userID GROUP BY c.coachID ORDER BY c.coachID";
+    "SELECT c.coachID, u.firstName, u.lastName FROM Coach c INNER JOIN User u ON u.userID = c.userID ORDER BY c.coachID";
   const [rows, _] = await connection.promise().query(query);
   return rows;
 }
@@ -23,24 +23,32 @@ async function getSpecializations_DB() {
 
 async function searchCoachByName_DB(name) {
   const query = `SELECT c.coachID, u.firstName, u.lastName 
-      FROM Coach c INNER JOIN User u ON u.userID = c.coachID 
-      WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE '%${name}%' 
-      GROUP BY c.coachID ORDER BY c.coachID`;
-  const [rows, _] = await connection.promise().query(query);
+      FROM Coach c INNER JOIN User u ON u.userID = c.userID 
+      WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE ?
+      ORDER BY c.coachID`;
+  const searchName = `%${name}%`;
+  const [rows, _] = await connection.promise().query(query, [searchName]);
   return rows;
 }
 
 async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
-  const query = `SELECT c.CoachID, u.firstName, u.lastName
+  const query = `
+      SELECT c.CoachID, u.firstName, u.lastName
       FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
-      WHERE (CONCAT(u.firstName, ' ', u.lastName) LIKE '%${name}%') AND 
-        (c.specialties LIKE '%${specialty}%') AND 
-        (c.cost <= '${maxPrice}') AND 
-        (u.state LIKE '%${state}%') AND 
-        (u.city LIKE '%${city}%') 
+      WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE ? AND 
+        c.specialties LIKE ? AND 
+        c.cost <= ? AND 
+        u.state LIKE ? AND 
+        u.city LIKE ? 
       GROUP BY c.CoachID ORDER BY u.firstName`;
-  const res = await connection.promise().query(query); //res[0]=rows, res[1]=fields
-  return res[0];
+  const [rows, _] = await connection.promise().query(query, [
+    `%${name}%`,
+    `%${specialty}%`,
+    maxPrice,
+    `%${state}%`,
+    `%${city}%`,
+  ]);
+  return rows;
 }
 
 async function getUsersOfCoach_DB(userId) {
@@ -62,7 +70,7 @@ async function getUsersOfCoach_DB(userId) {
 }
 
 async function getCities_DB() {
-  const query =
+  const query = 
     `SELECT state, JSON_ARRAYAGG(city) AS cities
     FROM User WHERE role = 'coach'
     GROUP BY state ORDER BY state ASC`;
@@ -70,10 +78,10 @@ async function getCities_DB() {
   return rows;
 }
 
-async function getCoachIDFromUserID_DB(userID) {
+async function getCoachFromUserID(userID) {
   const query = "SELECT * FROM Coach WHERE UserID = ?";
-  const res = await connection.promise().query(query, [userID]);
-  return res[0];
+  const [rows,_] = await connection.promise().query(query, [userID]);
+  return rows[0];
 }
 
 module.exports = {
@@ -84,5 +92,5 @@ module.exports = {
   searchCoachByName_DB,
   searchCoachByAll_DB,
   getUsersOfCoach_DB,
-  getCoachIDFromUserID_DB,
+  getCoachFromUserID,
 };
