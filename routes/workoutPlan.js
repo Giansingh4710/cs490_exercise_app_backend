@@ -29,7 +29,7 @@ const {
  *          500:
  *              description: Error accessing Database.
  */
-router.get("/", requireAuthedUser, getAssignedWorkoutPlan);
+router.get("/assignedWorkouts", requireAuthedUser, getAssignedWorkoutPlan);
 
 /**
  *  @swagger
