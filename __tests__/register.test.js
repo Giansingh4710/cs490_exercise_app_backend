@@ -8,26 +8,6 @@ const security_file = require("../utils/security.js");
 const db_file = require("../dataAccess/user_db.js");
 const bcrypt = require("bcrypt");
 
-const req = {
-  "body": {
-    "firstName": "Jon",
-    "lastName": "Doe",
-    "email": "bob@bob.com",
-    "phoneNum": "1234567890",
-    "dob": "2020-01-01",
-    "gender": "Male",
-    "weight": "150",
-    "height": "72",
-    "role": "Client", // Client or Coach or Admin?
-    "activityLevel": "High", // Low, Moderate, High
-    "goal": "Gain Weight", // 'Select Goal', 'Lose Weight', 'Gain Weight', 'Maintain Weight', 'Train for Sport',
-    "streetAddress": "1234 Main St",
-    "city": "San Diego",
-    "state": "CA",
-    "zipCode": "92122",
-  },
-};
-
 const res = {
   status: jest.fn(),
   send: jest.fn(),
@@ -43,20 +23,52 @@ const users = [
 ];
 
 describe("trying to storeSurvey", () => {
-  it("should update user survey info and send 200 status code", async () => {
-    db_file.updateUser.mockImplementationOnce(
-      (body, email) => {
-        return { "fromMockUpdateUser": "mockUpdateUser" };
+  let req;
+  beforeEach(() => {
+    req = {
+      "body": {
+        "firstName": "Jon",
+        "lastName": "Doe",
+        "email": "bob@bob.com",
+        "phoneNum": "1234567890",
+        "dob": "2020-01-01",
+        "gender": "Male",
+        "weight": "150",
+        "height": "72",
+        "role": "Client", // Client or Coach or Admin?
+        "activityLevel": "High", // Low, Moderate, High
+        "goal": "Gain Weight", // 'Select Goal', 'Lose Weight', 'Gain Weight', 'Maintain Weight', 'Train for Sport',
+        "streetAddress": "1234 Main St",
+        "city": "San Diego",
+        "state": "CA",
+        "zipCode": "92122",
       },
-    );
+    };
+  });
 
+  it("should update user survey info and send 200 status code", async () => {
+    req.body.dob = "2000-01-01"; // old enough to register
+    db_file.updateUser.mockImplementationOnce();
     await storeSurvey(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
-  it("should handle errors and send a 404 status code", async () => {
+  it("too young to register. should send 403 status code", async () => {
+    await storeSurvey(req, res);
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(res.send).toHaveBeenCalledWith({
+      error: {
+        details: "Unable to update user and storeSurvey",
+        message: "3: is less than 8. Too young to register",
+        status: 403,
+      },
+    });
+  });
+
+  it("handle db error. should send 404 status code", async () => {
+    req.body.dob = "2000-01-01"; // old enough to register
     const errorMessage = "Some error message";
-    db_file.updateUser.mockRejectedValueOnce(() => {
+    db_file.updateUser.mockImplementationOnce(() => {
       throw new Error(errorMessage);
     });
 
@@ -64,12 +76,39 @@ describe("trying to storeSurvey", () => {
 
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.send).toHaveBeenCalledWith({
-      message: "Unable to update user and storeSurvey",
+      error: {
+        status: 404,
+        message: errorMessage,
+        details: "Unable to update user and storeSurvey",
+      },
     });
   });
 });
 
 describe("add new user by registerAccount", () => {
+  let req;
+  beforeEach(() => {
+    req = {
+      "body": {
+        "firstName": "Jon",
+        "lastName": "Doe",
+        "email": "bob@bob.com",
+        "phoneNum": "1234567890",
+        "dob": "2020-01-01",
+        "gender": "Male",
+        "weight": "150",
+        "height": "72",
+        "role": "Client", // Client or Coach or Admin?
+        "activityLevel": "High", // Low, Moderate, High
+        "goal": "Gain Weight", // 'Select Goal', 'Lose Weight', 'Gain Weight', 'Maintain Weight', 'Train for Sport',
+        "streetAddress": "1234 Main St",
+        "city": "San Diego",
+        "state": "CA",
+        "zipCode": "92122",
+      },
+    };
+  });
+
   db_file.findUserByEmail.mockImplementation((email) => {
     return users.find((user) => user.email === email);
   });

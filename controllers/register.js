@@ -6,7 +6,7 @@ const {
 const { createUserJwt } = require("../utils/security.js");
 const { BCRYPT_WORK_FACTOR } = require("../sql_config/database.js");
 const bcrypt = require("bcrypt");
-const { validateEmail } = require("../utils/helper_funcs.js");
+const { validateEmail, calculateAge } = require("../utils/helper_funcs.js");
 
 async function registerAccount(req, res) {
   let errorStatusCode = 400;
@@ -29,14 +29,13 @@ async function registerAccount(req, res) {
     });
     const userID = insertInfoObj.insertId;
 
-
     const token = createUserJwt(req.body.email); // adding user data to res.locals.user for frontend
     res.status(201);
     res.send({
       user: {
         id: userID,
         email: req.body.email,
-        role: null
+        role: null,
       },
       token: token,
       message: "User registered",
@@ -51,18 +50,27 @@ async function registerAccount(req, res) {
 }
 
 async function storeSurvey(req, res) {
+  let errorStatusCode = 404;
   try {
-    const updateResult = await updateUser(req.body, req.body.email); //might be wrong. Not tested
+    const age = calculateAge(req.body.dob);
+    if (age < 8) {
+      errorStatusCode = 403;
+      throw new Error(`${age}: is less than 8. Too young to register`);
+    }
+    const updateResult = await updateUser(req.body);
     res.status(200);
     res.send({
       message: "Updated: User survey information updated successfully",
       updateResult: updateResult,
     });
   } catch (error) {
-    res.status(404);
+    res.status(errorStatusCode);
     res.send({
-      error: error.message,
-      message: "Unable to update user and storeSurvey",
+      error: {
+        status: errorStatusCode,
+        message: error.message,
+        details: "Unable to update user and storeSurvey",
+      },
     });
   }
 }

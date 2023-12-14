@@ -13,7 +13,7 @@ const req = {
   userID: 1,
   params: {
     mealID: 1,
-  }
+  },
 };
 
 describe("getMeals", () => {
@@ -55,7 +55,7 @@ describe("deleteMeal", () => {
     expect(res.send).toHaveBeenCalledWith({
       error: {
         status: 500,
-        message: "Error deleting meal",
+        message: "Error accessing database",
         details: "Error getting meals from database",
       },
     });
