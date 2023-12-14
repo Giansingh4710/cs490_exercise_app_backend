@@ -14,6 +14,26 @@ async function getRequests(userID) {
   return res;
 }
 
+async function getStatus_DB(userID, coachID) {
+  const query = 
+    `SELECT status, requestID FROM Request 
+    WHERE userID = '${userID}' AND coachID = '${coachID}'`;
+  const [rows, fields] = await connection.promise().query(query);
+  
+  if (rows.length > 0) {
+    const row = rows[0];
+    return {
+      exists: true,
+      status: row.status,
+      requestID: row.requestID
+    }
+  } else {
+    return {
+      exists: false
+    }
+  }
+}
+
 async function getPendingRequests(userID) {
   const query = `
             SELECT 
@@ -73,4 +93,5 @@ module.exports = {
   getPendingRequests,
   unansweredRequestsByCoach_DB,
   getRequests,
+  getStatus_DB,
 };
