@@ -62,4 +62,3 @@ router.delete("/:mealID", requireAuthedUser, deleteMeal);
 router.post("/mealInput", requireAuthedUser, createMeal)
 
 module.exports = router;
-

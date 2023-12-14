@@ -34,9 +34,14 @@ async function createMeal_DB(mealData, date, userID){
     return res;
 }
 
+async function createMeal_DB(mealData, date, userID){
+    const query = "INSERT INTO FoodIntake(userID, foodName, mealType, calories, protein, fat, date) VALUES(?, ?, ?, ?, ?, ?, ?)"
+    const [res, _] = await connection.promise().query(query, [userID, mealData.mealName, mealData.mealType, mealData.calories, mealData.protein, mealData.fat, date])
+    return res;
+}
+
 module.exports = {
     getMealsForToday_DB,
     deleteMeal_DB,
     createMeal_DB
 }
-
