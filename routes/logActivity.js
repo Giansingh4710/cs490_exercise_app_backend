@@ -4,7 +4,7 @@ const { requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
 
-const { recordDailySurvey } = require("../controllers/logActivity.js");
+const { recordDailySurvey, dailyWeight } = require("../controllers/logActivity.js");
 
 /**
  *  /logActivity/logWaterIntake:
@@ -159,5 +159,7 @@ const { recordDailySurvey } = require("../controllers/logActivity.js");
  *                                          example: Error recording daily survey
  */
 router.post("/recordDailySurvey", requireAuthedUser, recordDailySurvey);
+
+router.get("/dailyWeight", dailyWeight);
 
 module.exports = router;

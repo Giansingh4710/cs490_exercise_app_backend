@@ -1,24 +1,42 @@
-const {
-    getAllExercises_DB,
-  } = require(
-    "../dataAccess/exerciseDB.js",
-  );
+const { getAllExercises_DB, searchExercise_DB } = require("../dataAccess/exercise_db.js");
 
-  async function getAllExercises(request, response) {
-    try {
-      const exerciseData = await getAllExercises_DB();
-      return response.status(200).send(exerciseData);
-    } catch (error) {
-      return response.status(500).send({
-        error: {
-          status: 500,
-          message: error.message,
-          details: "Error trying to get all exercises from the database.",
-        },
-      });
-    }
+async function getAllExercises(req, res) {
+  try {
+    const exerciseData = await getAllExercises_DB();
+    res.status(200);
+    res.send(exerciseData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to get all exercises from the database.",
+      },
+    });
   }
+}
 
-  module.exports = {
-    getAllExercises,
-  };
+async function searchExercise(req, res) {
+  try {
+    const muscleGroup = req.query.muscleGroup;
+    const equipment = req.query.equipment;
+    const exerciseData = await searchExercise_DB(
+      muscleGroup,
+      equipment,
+    );
+    res.status(200);
+    res.send(exerciseData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to searchExercise in database.",
+      },
+    });
+  }
+}
+
+module.exports = { getAllExercises, searchExercise };

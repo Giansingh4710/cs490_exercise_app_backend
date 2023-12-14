@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
-const { requestCoach, getOpenRequests, unansweredRequestsByCoach } = require(
+const { requestCoach, getOpenRequests, unansweredRequestsByCoach, getStatus } = require(
   "../controllers/request.js",
 );
 
@@ -220,5 +220,7 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  *                                    
  */
 router.get("/openCoachRequests", requireAuthedUser, unansweredRequestsByCoach);
+
+router.get("/status", getStatus);
 
 module.exports = router;

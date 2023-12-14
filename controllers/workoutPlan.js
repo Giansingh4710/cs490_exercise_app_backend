@@ -32,21 +32,34 @@ async function getWorkoutPlan(req, res){
         const workoutPlan = await getWorkoutPlan_DB(userID);
         let workoutPlanFormatted = {}
         workoutPlan.forEach(element => {
-            element.dayOfWeek = element.dayOfWeek.toLowerCase();
-            if(!(element.dayOfWeek in workoutPlanFormatted)){
-                workoutPlanFormatted[element.dayOfWeek] = {}
+            if(!(element.dayOfWeek.toLowerCase() in workoutPlanFormatted)){
+                workoutPlanFormatted[element.dayOfWeek.toLowerCase()] = []
             }
-
-            if(!(element.name in workoutPlanFormatted[element.dayOfWeek])){
-                workoutPlanFormatted[element.dayOfWeek][element.name] = {
-                    sets: element.sets,
-                    reps: [element.reps],
-                    weight: element.weight
-                }
-            }else{
-                workoutPlanFormatted[element.dayOfWeek][element.name]["reps"].push(element.reps)
-            }
+            workoutPlanFormatted[element.dayOfWeek.toLowerCase()].push({
+                exercise: element.name,
+                // temp data until DB changes are made
+                sets: 3,
+                reps: [8,10,8],
+                weight: 120
+    
+            })
         });
+        // workoutPlan.forEach(element => {
+        //     element.dayOfWeek = element.dayOfWeek.toLowerCase();
+        //     if(!(element.dayOfWeek in workoutPlanFormatted)){
+        //         workoutPlanFormatted[element.dayOfWeek] = {}
+        //     }
+
+        //     if(!(element.name in workoutPlanFormatted[element.dayOfWeek])){
+        //         workoutPlanFormatted[element.dayOfWeek][element.name] = {
+        //             sets: element.sets,
+        //             reps: [element.reps],
+        //             weight: element.weight
+        //         }
+        //     }else{
+        //         workoutPlanFormatted[element.dayOfWeek][element.name]["reps"].push(element.reps)
+        //     }
+        // });
 
         res.status(200);
         return res.send(workoutPlanFormatted);

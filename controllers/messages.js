@@ -7,22 +7,19 @@ async function storeMessage(req, res){
     try{
         // check if receiver and sender ID is the same, user should not be able to send messages to themselves
         if(req.body.receiverID === req.userID){
-            return res.status(406).send({
-                error: {
-                    status: 406,
-                    message: "ReceiverID and SenderID cannot be the same."
-                }
-            })
+            throw new Error('ReceiverID and SenderID cannot be the same.');
         }
         createMessage_DB(req.body, req.userID);
-        return res.status(201).send({
+        res.status(201)
+        return res.send({
             message: "Message created."
         })
     }catch(error){
-        return res.status(500).send({
+        res.status(500);
+        return res.send({
             error: {
                 status: 500,
-                message: "Error accessing database."
+                message: error.message,
             }
         })
     }

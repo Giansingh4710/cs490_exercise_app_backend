@@ -1,0 +1,14 @@
+from pattern i see you can only mock a function 2 times and then it will return the last value:
+  db_file.insertDailySurvey_DB.mockImplementationOnce(() => {});
+  like you can only over right this 1 more time and the 2nd time you try to do it, it will not run that function u wrote
+
+  same with vars like:
+    req.body.email = "wrongEmail";
+    weird results when you try to over write it again
+
+
+mockImplementation vs mockImplementationOnce
+
+  
+should only have constants on top. well they are constants
+but the objects shouldn't be messed with, other wise just make the objs local (ex: req in each it block)
