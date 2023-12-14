@@ -9,7 +9,7 @@ async function createMessage_DB(messageData, senderID){
 }
 
 async function getMessages_DB(receiverID, senderID, limit, offset){
-    const query = "SELECT content, created FROM Message WHERE senderID=? AND receiverID=? ORDER BY Created DESC LIMIT ? OFFSET ?;"
+    const query = "SELECT content, created, senderID, receiverID FROM Message WHERE senderID=? AND receiverID=? ORDER BY Created ASC LIMIT ? OFFSET ?;"
     // might need to format date and time for frontend
     const res = await connection.promise().query(query, [senderID, receiverID, limit, offset])
     return res[0];
