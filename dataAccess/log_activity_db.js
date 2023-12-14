@@ -46,6 +46,17 @@ async function dailySurveyIsCompleted_DB(userID, date) {
   return surveyData.length >= 1;
 }
 
+async function dailyWeight_DB(userID) {
+  const query = 
+    `SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date, weight FROM weightProgress 
+    WHERE userID = ?
+    ORDER BY date`;
+  const [surveyData, _] = await connection.promise().query(query, [
+    userID,
+  ]);
+  return surveyData;
+}
+
 async function insertDailySurvey_DB(dailySurveyData, userID, date) {
   try {
     connection.promise().beginTransaction();
@@ -75,4 +86,5 @@ async function insertDailySurvey_DB(dailySurveyData, userID, date) {
 module.exports = {
   insertDailySurvey_DB,
   dailySurveyIsCompleted_DB,
+  dailyWeight_DB,
 };

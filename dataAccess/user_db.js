@@ -1,5 +1,8 @@
 const { createConnection } = require("../sql_config/database.js");
 const connection = createConnection();
+const {
+  getCoachByID_DB
+} = require("../dataAccess/coach_db_access.js")
 
 async function findUserByEmail(email) {
   const query = "SELECT * FROM User WHERE email = ?";
@@ -84,8 +87,19 @@ async function updateUser(data) {
   return res[0];
 }
 
+async function getCoachOfUser_DB(userID){
+  const query = "SELECT coachID from User WHERE userID = ?";
+  const [rows, _] = await connection.promise().query(query, [userID]);
+  if(rows[0].coachID){
+    const coachData = await getCoachByID_DB(rows[0].coachID);
+    return coachData;
+  }
+  return null;
+}
+
 module.exports = {
   findUserByEmail,
   createUser,
   updateUser,
+  getCoachOfUser_DB
 };
