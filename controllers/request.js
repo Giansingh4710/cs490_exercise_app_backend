@@ -4,6 +4,7 @@ const {
   getPendingRequests,
   unansweredRequestsByCoach_DB,
   getRequests,
+  getStatus_DB,
 } = require(
   "../dataAccess/request_db.js",
 );
@@ -87,6 +88,28 @@ async function getOpenRequests(req, res, err) {
   }
 }
 
+async function getStatus(req, res) {
+  try {
+    const userID = req.query.userid;  // For some reason "userID" defaults to "userid"
+    const coachID = req.query.coachID;
+    const statusData = await getStatus_DB(
+      userID,
+      coachID,
+    );
+    res.status(200);
+    res.send(statusData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to get status in database.",
+      },
+    });
+  }
+}
+
 async function unansweredRequestsByCoach(req, res, err) {
   try {
     const pendingRequests = await unansweredRequestsByCoach_DB(req.userID);
@@ -111,4 +134,5 @@ module.exports = {
   requestCoach,
   getOpenRequests,
   unansweredRequestsByCoach,
+  getStatus,
 };
