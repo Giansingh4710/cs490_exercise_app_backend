@@ -1,4 +1,6 @@
-const { recordDailySurvey } = require("../controllers/logActivity.js");
+const { recordDailySurvey, dailyWeight } = require(
+  "../controllers/logActivity.js",
+);
 
 jest.mock("../sql_config/database.js"); // need this so it don't actually connect to the database
 jest.mock("../dataAccess/log_activity_db.js");
@@ -46,7 +48,7 @@ describe("recordDailySurvey", () => {
     });
   });
 
-  it("wrong water unit when submiting survey", async () => {
+  it("wrong water unit when submitting survey", async () => {
     db_file.dailySurveyIsCompleted_DB.mockImplementationOnce(() => false);
     const temp = req.body.waterData.unit;
     req.body.waterData.unit = "cupss";
@@ -57,11 +59,10 @@ describe("recordDailySurvey", () => {
       error: {
         status: 500,
         message: "Unit: cupss not one of : cups, gallons, fl oz",
-        details: "Error inserting into database"
+        details: "Error inserting into database",
       },
     });
   });
-
 
   it("error inserting daily survey", async () => {
     db_file.dailySurveyIsCompleted_DB.mockImplementationOnce(() => false);
@@ -75,6 +76,46 @@ describe("recordDailySurvey", () => {
         status: 500,
         message: "DB error",
         details: "Error inserting into database",
+      },
+    });
+  });
+});
+
+describe("dailyWeight", () => {
+  const db_res = {
+    fromDB: "Yayyyy",
+  };
+  db_file.dailyWeight_DB.mockImplementation((userID) => {
+    if (userID === -1) {
+      throw new Error("DB Error");
+    }
+    return db_res;
+  });
+
+  it("status 200 all goof", async () => {
+    const req = {
+      query: {
+        userID: 1,
+      },
+    };
+    await dailyWeight(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.send).toHaveBeenCalledWith(db_res);
+  });
+
+  it("status 500 DB error", async () => {
+    const req = {
+      query: {
+        userID: -1,
+      },
+    };
+    await dailyWeight(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.send).toHaveBeenCalledWith({
+      error: {
+        status: 500,
+        message: "DB Error",
+        details: "Error trying to get weightData in database.",
       },
     });
   });

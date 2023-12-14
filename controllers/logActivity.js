@@ -1,7 +1,8 @@
 const moment = require("moment");
-const { insertDailySurvey_DB, dailySurveyIsCompleted_DB, dailyWeight_DB } = require(
-  "../dataAccess/log_activity_db.js",
-);
+const { insertDailySurvey_DB, dailySurveyIsCompleted_DB, dailyWeight_DB } =
+  require(
+    "../dataAccess/log_activity_db.js",
+  );
 
 async function recordDailySurvey(req, res) {
   let errorStatus = 500;
@@ -40,9 +41,7 @@ async function recordDailySurvey(req, res) {
 async function dailyWeight(req, res) {
   try {
     const userID = req.query.userID;
-    const weightData = await dailyWeight_DB(
-      userID,
-    );
+    const weightData = await dailyWeight_DB(userID);
     res.status(200);
     res.send(weightData);
   } catch (error) {
