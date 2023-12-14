@@ -1,8 +1,8 @@
 const { getAllExercises } = require("../controllers/exercise.js");
 
 jest.mock("../sql_config/database.js"); // need this so it don't actually connect to the database
-jest.mock("../dataAccess/exerciseDB.js");
-const db_file = require("../dataAccess/exerciseDB.js");
+jest.mock("../dataAccess/exercise_db.js");
+const db_file = require("../dataAccess/exercise_db.js");
 
 const req = {};
 
