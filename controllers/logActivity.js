@@ -38,7 +38,7 @@ async function recordDailySurvey(req, res) {
   }
 }
 
-async function dailyWeight(req, res) {
+async function userDailyWeight(req, res) {
   try {
     const userID = req.query.userID;
     const weightData = await dailyWeight_DB(userID);
@@ -56,4 +56,4 @@ async function dailyWeight(req, res) {
   }
 }
 
-module.exports = { recordDailySurvey, dailyWeight };
+module.exports = { recordDailySurvey, userDailyWeight };

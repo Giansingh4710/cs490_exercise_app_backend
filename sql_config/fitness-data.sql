@@ -1,26 +1,16 @@
 -- Dumping data for User table
 
 INSERT INTO User VALUES 
-    (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$TVerixEiF2tqdsMnt7K.hehheTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '000-000-0000', NULL, NULL, NULL, '12345', 'Admin', NULL, '2000-01-01', 0, 0, NULL, './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (2, NULL, 'Elliot', 'Livens', 'elivens0@google.com.br', '$2a$04$TVwvixEiF2tqdsMnt7K.hehmwTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '300-860-5685', '2 Straubel Way', 'Chattanooga', 'Tennessee', '12345', 'Client', 'Male', '2000-05-11', 267, 67, 'Moderate', './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (3, NULL, 'Celka', 'Giblin', 'cgiblin1@taobao.com', '$2a$04$8VxUXP1p0MOhDhik6GUe3uwbFsfQlqFTRMLsqOUwyxrupfFDH668i', '911-719-7901', '17590 Mallory Drive', 'Conroe', 'Texas', '12345', 'Client', 'Female', '1999-01-13', 159, 64, 'High', './profile-photos/female_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (4, NULL, 'Barret', 'Nuth', 'bnuth2@yolasite.com', '$2a$04$z83KQmExXLh336wuDdVdm.geVtlNsMfMxjC.SnpB3SYoPm5Ed2P3.', '287-895-6161', '4561 Heffernan Center', 'Las Cruces', 'New Mexico', '12345', 'Client', 'Male', '1991-01-04', 134, 77, 'Moderate', './profile-photos/male_02', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (5, NULL, 'Aimee', 'Stilliard', 'astilliard3@dmoz.org', '$2a$04$QmcbGrFXQBJvOCnxC6AV9eFZTn2nfr73.QIYDWO4kvmYUlrnxfIfW', '435-475-8724', '26753 Messerschmidt Trail', 'Carson City', 'Nevada', '12345', 'Coach', 'Female', '1964-01-08', 255, 74, 'Low', './profile-photos/female_02', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (6, NULL, 'Dario', 'Glashby', 'dglashby4@yahoo.co.jp', '$2a$04$jAC5RWidZ11hSlqAbBHO8.ZPuw8hDR10bhj3XIkr/zAl5jDIHp9Xe', '913-828-7103', '83 Northridge Park', 'Raleigh', 'North Carolina', '12345', 'Client', 'Male', '1999-10-16', 218, 73, 'Moderate', './profile-photos/male_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (7, NULL, 'Belicia', 'Gaynor', 'bgaynor5@lycos.com', '$2a$04$GA0wYica9BtwRZclzOnVMeDZ397gzJJxSKViyyFpB52NK7CPYMbnW', '503-279-5847', '46990 Alpine Lane', 'Norfolk', 'Virginia', '12345', 'Client', 'Female', '1962-10-30', 90, 74, 'High', './profile-photos/female_02', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (8, NULL, 'Onida', 'Joscelyn', 'ojoscelyn6@fema.gov', '$2a$04$Z85CzStpYklxL7GmGDZSVOTYezuH8GpkgzWcjUMCyJgX.EqYEqpT2', '125-688-7554', '7214 Fairfield Place', 'Louisville', 'Kentucky', '12345', 'Client', 'Female', '2003-02-20', 123, 72, 'Moderate', './profile-photos/female_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (9, NULL, 'Britt', 'Whye', 'bwhye7@arstechnica.com', '$2a$04$ek8/pdpsFQ//nL.f2vE8ouVQsCmep2hfk20oLwd3ovBH7xyEqzVd2', '757-933-7375', '382 Pearson Alley', 'Omaha', 'Nebraska', '12345', 'Coach', 'Female', '1990-01-25', 189, 70, 'Low', './profile-photos/female_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
-    (10, NULL, 'Otto', 'Lownsbrough', 'olownsbrough8@aol.com', '$2a$04$SAbb3LQcFnufN3UZxqAgQOr8sxKybtLY/iReP9xyCI8L25UwMgAVa', '211-210-5039', '03923 Dryden Crossing', 'Melbourne', 'Florida', '12345', 'Client', 'Male', '1990-11-03', 233, 69, 'Moderate', './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO User VALUES 
+    (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$TVerixEiF2tqdsMnt7K.hehheTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '000-000-0000', NULL, NULL, NULL, '12345', 'Admin', NULL, '2000-01-01', 0, 0, NULL, './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, NULL, 'Elliot', 'Livens', 'elivens0@google.com.br', '$2a$04$TVwvixEiF2tqdsMnt7K.hehmwTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '300-860-5685', '2 Straubel Way', 'Chattanooga', 'Tennessee', '12345', 'Client', 'Male', '2000-05-11', 267, 67, 'Moderate', './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, NULL, 'Celka', 'Giblin', 'cgiblin1@taobao.com', '$2a$04$8VxUXP1p0MOhDhik6GUe3uwbFsfQlqFTRMLsqOUwyxrupfFDH668i', '911-719-7901', '17590 Mallory Drive', 'Conroe', 'Texas', '12345', 'Client', 'Female', '1999-01-13', 159, 64, 'High', './profile-photos/female_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, NULL, 'Barret', 'Nuth', 'bnuth2@yolasite.com', '$2a$04$z83KQmExXLh336wuDdVdm.geVtlNsMfMxjC.SnpB3SYoPm5Ed2P3.', '287-895-6161', '4561 Heffernan Center', 'Las Cruces', 'New Mexico', '12345', 'Client', 'Male', '1991-01-04', 134, 77, 'Moderate', './profile-photos/male_02', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, NULL, 'Aimee', 'Stilliard', 'astilliard3@dmoz.org', '$2a$04$QmcbGrFXQBJvOCnxC6AV9eFZTn2nfr73.QIYDWO4kvmYUlrnxfIfW', '435-475-8724', '26753 Messerschmidt Trail', 'Carson City', 'Nevada', '12345', 'Coach', 'Female', '1964-01-08', 255, 74, 'Low', './profile-photos/female_02', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, NULL, 'Dario', 'Glashby', 'dglashby4@yahoo.co.jp', '$2a$04$jAC5RWidZ11hSlqAbBHO8.ZPuw8hDR10bhj3XIkr/zAl5jDIHp9Xe', '913-828-7103', '83 Northridge Park', 'Raleigh', 'North Carolina', '12345', 'Client', 'Male', '1999-10-16', 218, 73, 'Moderate', './profile-photos/male_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, NULL, 'Belicia', 'Gaynor', 'bgaynor5@lycos.com', '$2a$04$GA0wYica9BtwRZclzOnVMeDZ397gzJJxSKViyyFpB52NK7CPYMbnW', '503-279-5847', '46990 Alpine Lane', 'Norfolk', 'Virginia', '12345', 'Client', 'Female', '1962-10-30', 90, 74, 'High', './profile-photos/female_02', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, NULL, 'Onida', 'Joscelyn', 'ojoscelyn6@fema.gov', '$2a$04$Z85CzStpYklxL7GmGDZSVOTYezuH8GpkgzWcjUMCyJgX.EqYEqpT2', '125-688-7554', '7214 Fairfield Place', 'Louisville', 'Kentucky', '12345', 'Client', 'Female', '2003-02-20', 123, 72, 'Moderate', './profile-photos/female_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, NULL, 'Britt', 'Whye', 'bwhye7@arstechnica.com', '$2a$04$ek8/pdpsFQ//nL.f2vE8ouVQsCmep2hfk20oLwd3ovBH7xyEqzVd2', '757-933-7375', '382 Pearson Alley', 'Omaha', 'Nebraska', '12345', 'Coach', 'Female', '1990-01-25', 189, 70, 'Low', './profile-photos/female_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, NULL, 'Otto', 'Lownsbrough', 'olownsbrough8@aol.com', '$2a$04$SAbb3LQcFnufN3UZxqAgQOr8sxKybtLY/iReP9xyCI8L25UwMgAVa', '211-210-5039', '03923 Dryden Crossing', 'Melbourne', 'Florida', '12345', 'Client', 'Male', '1990-11-03', 233, 69, 'Moderate', './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (11, NULL, 'Dewie', 'Pembery', 'dpembery9@redcross.org', '$2a$04$f3DGXpfKPSwVnEidIkh4/.ojp/1MlPd08nrHJGEi9t1pClmf0ITHy', '302-318-5130', '390 Fairfield Lane', 'Ridgely', 'Maryland', '12345', 'Client', 'Male', '1987-01-15', 229, 67, 'High', './profile-photos/male_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
@@ -111,16 +101,16 @@ INSERT INTO Exercise VALUES
 
 -- Dumping data for WorkoutPlan table
 INSERT INTO WorkoutPlan VALUES
-    (1, 8, 1, 'Tuesday', 9, 3, 140, 45, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 8, 3, 'Thursday', 11, 6, 301, 20, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 2, 4, 'Friday', 16, 6, 119, 54, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (4, 2, 5, 'Sunday', 8, 3, 140, 30, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (5, 1, 3, 'Thursday', 8, 3, 194, 14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (6, 5, 5, 'Sunday', 19, 5, 194, 14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (7, 3, 3, 'Thursday', 9, 5, 195, 12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (8, 1, 1, 'Tuesday', 13, 2, 207, 59, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (9, 7, 5, 'Sunday', 13, 1, 189, 33, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (10, 8, 1, 'Tuesday', 15, 8, 26, 32, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (1, 8, 1, 'Tuesday', 9, 3, 140, 45, 'Client', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 8, 3, 'Thursday', 11, 6, 301, 20, 'Client', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 2, 4, 'Friday', 16, 6, 119, 54, 'Client', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 2, 5, 'Sunday', 8, 3, 140, 30, 'Coach', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 1, 3, 'Thursday', 8, 3, 194, 14, 'Coach', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 5, 5, 'Sunday', 19, 5, 194, 14, 'Client', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, 3, 3, 'Thursday', 9, 5, 195, 12, 'Client', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, 1, 1, 'Tuesday', 13, 2, 207, 59, 'Coach', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, 7, 5, 'Sunday', 13, 1, 189, 33, 'Client', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, 8, 1, 'Tuesday', 15, 8, 26, 32, 'Client', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 -- Dumping data for Record table

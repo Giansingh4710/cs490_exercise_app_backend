@@ -1,4 +1,4 @@
-const { recordDailySurvey, dailyWeight } = require(
+const { recordDailySurvey, userDailyWeight } = require(
   "../controllers/logActivity.js",
 );
 
@@ -81,7 +81,7 @@ describe("recordDailySurvey", () => {
   });
 });
 
-describe("dailyWeight", () => {
+describe("userDailyWeight", () => {
   const db_res = {
     fromDB: "Yayyyy",
   };
@@ -92,13 +92,13 @@ describe("dailyWeight", () => {
     return db_res;
   });
 
-  it("status 200 all goof", async () => {
+  it("status 200 all good", async () => {
     const req = {
       query: {
         userID: 1,
       },
     };
-    await dailyWeight(req, res);
+    await userDailyWeight(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalledWith(db_res);
   });
@@ -109,7 +109,7 @@ describe("dailyWeight", () => {
         userID: -1,
       },
     };
-    await dailyWeight(req, res);
+    await userDailyWeight(req, res);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.send).toHaveBeenCalledWith({
       error: {

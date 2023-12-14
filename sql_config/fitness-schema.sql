@@ -229,6 +229,7 @@ CREATE TABLE WorkoutPlan (
     sets INT NOT NULL,
     weight FLOAT DEFAULT NULL,
     duration INT DEFAULT NULL,
+    creator VARCHAR(16) NOT NULL,
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,

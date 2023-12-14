@@ -69,7 +69,6 @@ describe("deleteMeal", () => {
 describe("createMeal", () => {
   db_file.createMeal_DB.mockImplementation((body, date, id) => {
     if (body.dbError) {
-      console.log("ERROR");
       throw new Error("DB Error");
     }
     const the_insert_obj = { insertId: 3 };
