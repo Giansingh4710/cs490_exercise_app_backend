@@ -5,7 +5,10 @@ const { requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
 
-const { getAllExercises } = require("../controllers/exercise.js");
+const { 
+  getAllExercises,
+  searchExercise,
+ } = require("../controllers/exercise.js");
 /**
  *  @swagger
  *  /exercises/allExercises:
@@ -67,5 +70,6 @@ const { getAllExercises } = require("../controllers/exercise.js");
  *                                          example: Error trying to get all exercises from the database.
  */
 router.get("/allExercises", getAllExercises);
+router.get("/search", searchExercise);
 
 module.exports = router;
