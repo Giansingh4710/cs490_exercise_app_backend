@@ -88,6 +88,7 @@ async function searchCoachByAll(req, res) {
       name,
       specialty,
       maxPrice,
+      maxPrice,
       state,
       city,
     );
