@@ -32,7 +32,7 @@ async function searchCoachByName_DB(name) {
   return rows;
 }
 
-async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice, state, city) {
+async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice2, state, city) {
   const query = `
       SELECT c.coachID, u.firstName, u.lastName, c.cost
       FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
@@ -45,7 +45,7 @@ async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice, state, c
   const [rows, _] = await connection.promise().query(query, [
     `%${name}%`,
     `%${specialty}%`,
-    maxPrice, maxPrice,
+    maxPrice, maxPrice2,
     `%${state}%`,
     `%${city}%`,
   ]);

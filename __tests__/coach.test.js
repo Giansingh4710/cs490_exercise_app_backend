@@ -163,7 +163,7 @@ describe("searchCoachByAll", () => {
   });
 
   it("should return error all searched coaches", async () => {
-    db_file.searchCoachByAll_DB.mockImplementationOnce((a, b, c, d, e) => {
+    db_file.searchCoachByAll_DB.mockImplementationOnce((a, b, c, d, e, f) => {
       throw new Error("DB error");
     });
     await searchCoachByAll(req, res);
