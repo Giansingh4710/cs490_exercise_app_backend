@@ -3,7 +3,7 @@ const connection = createConnection();
 
 async function getCoachByID_DB(coachID) {
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, u.userID FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
+    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, u.userID, c.cost FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
   const [rows, _] = await connection.promise().query(query, [coachID]);
   return rows[0];
 }
