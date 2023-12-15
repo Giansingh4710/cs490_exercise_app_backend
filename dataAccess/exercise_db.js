@@ -18,4 +18,11 @@ async function searchExercise_DB(muscleGroup, equipment) {
   return rows;
 }
 
-module.exports = { getAllExercises_DB, searchExercise_DB };
+async function deleteExercise_DB(exerciseID) {
+  const query =
+  `DELETE FROM Exercise WHERE exerciseID = ?`;
+  const [rows, _] = await connection.promise().query(query, [exerciseID]); //res[0]=rows, res[1]=fields
+  return rows;
+}
+
+module.exports = { getAllExercises_DB, searchExercise_DB, deleteExercise_DB };
