@@ -82,12 +82,14 @@ async function searchCoachByAll(req, res) {
     const name = req.query.name;
     const specialty = req.query.specialty;
     const maxPrice = req.query.maxPrice;
+    const maxPrice2 = req.query.maxPrice;
     const state = req.query.state;
     const city = req.query.city;
     const coachData = await searchCoachByAll_DB(
       name,
       specialty,
       maxPrice,
+      maxPrice2,
       state,
       city,
     );

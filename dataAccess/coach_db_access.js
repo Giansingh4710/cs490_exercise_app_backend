@@ -3,7 +3,8 @@ const connection = createConnection();
 
 async function getCoachByID_DB(coachID) {
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, u.userID, c.cost FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
+    `SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, c.cost, u.userID 
+    FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?`;
   const [rows, _] = await connection.promise().query(query, [coachID]);
   return rows[0];
 }
@@ -31,20 +32,20 @@ async function searchCoachByName_DB(name) {
   return rows;
 }
 
-async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
+async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice2, state, city) {
   const query = `
-      SELECT c.CoachID, u.firstName, u.lastName
+      SELECT c.coachID, u.firstName, u.lastName, c.cost
       FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
       WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE ? AND 
         c.specialties LIKE ? AND 
-        c.cost <= ? AND 
+        c.cost <= IF(?=0, 999999999, ?) AND
         u.state LIKE ? AND 
         u.city LIKE ? 
       GROUP BY c.CoachID ORDER BY u.firstName`;
   const [rows, _] = await connection.promise().query(query, [
     `%${name}%`,
     `%${specialty}%`,
-    maxPrice,
+    maxPrice, maxPrice2,
     `%${state}%`,
     `%${city}%`,
   ]);
