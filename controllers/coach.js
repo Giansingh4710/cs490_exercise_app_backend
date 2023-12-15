@@ -6,6 +6,7 @@ const {
   getSpecializations_DB,
   getCities_DB,
   getUsersOfCoach_DB,
+  getClientInfo_DB,
 } = require(
   "../dataAccess/coach_db_access",
 );
@@ -122,6 +123,24 @@ async function getUsersOfCoach(req, res) {
   }
 }
 
+async function getClientInfo(req, res) {
+  try {
+    const userID = req.query.userID; // set in ../utils/security.js
+    const clientData = await getClientInfo_DB(userID);
+    res.status(200);
+    res.send(clientData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to getClientInfo from database.",
+      },
+    });
+  }
+}
+
 async function getCities(req, res) {
   try {
     const locData = await getCities_DB();
@@ -164,4 +183,5 @@ module.exports = {
   getSpecializations,
   getCities,
   getUsersOfCoach,
+  getClientInfo,
 };

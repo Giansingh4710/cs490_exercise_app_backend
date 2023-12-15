@@ -69,6 +69,22 @@ async function getUsersOfCoach_DB(userId) {
   return rows;
 }
 
+async function getClientInfo_DB(userID) {
+  const query = 
+    `SELECT u.userID, u.firstName, u.lastName, g.goalType AS goal,
+    JSON_ARRAY('surveyDate', f.date, 'mentalState', m.state, 'waterIntake', TRUNCATE(w.intakeAmount, 1), 'waterUnits', w.intakeUnit,
+    'foodEaten', f.foodName, 'mealType', f.mealType, 'calories', f.calories, 'protein', f.protein, 'carbs', f.carbs, 'fat', f.fat,
+    'weightProgress', wp.weight, 'exerciseID', e.exerciseID, 'reps', e.reps, 'sets', e.sets, 'weightLifted', e.weight) AS dailySurvey
+    FROM User u INNER JOIN Goal g ON u.userID = ?
+    LEFT JOIN MentalState m ON u.userID = m.userID AND m.date = (SELECT MAX(m2.date) FROM MentalState m2 WHERE m2.userID = u.userID)
+    LEFT JOIN FoodIntake f ON u.userID = f.userID AND f.date = (SELECT MAX(f2.date) FROM FoodIntake f2 WHERE f2.userID = u.userID)
+    LEFT JOIN WaterIntake w ON u.userID = w.userID AND w.date = (SELECT MAX(w2.date) FROM WaterIntake w2 WHERE w2.userID = u.userID)
+    LEFT JOIN WeightProgress wp ON u.userID = wp.userID AND wp.date = (SELECT MAX(wp2.date) FROM WeightProgress wp2 WHERE wp2.userID = u.userID)
+    LEFT JOIN WorkoutPlan e ON u.userID = e.userID`;
+  const res = await connection.promise().query(query, [userID]);
+  return res[0][0];
+}
+
 async function getCities_DB() {
   const query = 
     `SELECT state, JSON_ARRAYAGG(city) AS cities
@@ -91,6 +107,7 @@ module.exports = {
   getSpecializations_DB,
   searchCoachByName_DB,
   searchCoachByAll_DB,
+  getClientInfo_DB,
   getUsersOfCoach_DB,
   getCoachFromUserID,
 };
