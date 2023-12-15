@@ -94,7 +94,7 @@ async function getOpenRequests(req, res) {
 
 async function getStatus(req, res) {
   try {
-    const userID = req.query.userid; // For some reason "userID" defaults to "userid" //??
+    const userID = req.query.userID; // For some reason "userID" defaults to "userid" //??
     const coachID = req.query.coachID;
     const statusData = await getStatus_DB(
       userID,

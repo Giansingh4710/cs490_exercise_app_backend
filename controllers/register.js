@@ -50,6 +50,7 @@ async function registerAccount(req, res) {
 }
 
 async function storeSurvey(req, res) {
+  console.log(req.body)
   let errorStatusCode = 404;
   try {
     const age = calculateAge(req.body.dob);

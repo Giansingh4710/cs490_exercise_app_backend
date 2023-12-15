@@ -13,6 +13,9 @@ const login = async function (req, res) {
     }
 
     const user = await findUserByEmail(req.body.email);
+    if(user == null){
+      throw new Error(`${req.body.email} is not registered`);
+    }
     const encryptedPassword = user.password;
     const isMatch = await bcrypt.compare(req.body.password, encryptedPassword);
     if (!isMatch) {
