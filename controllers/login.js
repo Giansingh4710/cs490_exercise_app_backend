@@ -28,7 +28,7 @@ const login = async function (req, res) {
     res.status(200);
     res.send({
       message: "User logged in",
-      user: { id: user.userID, email: user.email, role: user.role.toLowerCase() },
+      user: { id: user.userID, email: user.email, role: user.role },
       token: token,
     });
   } catch (error) {
