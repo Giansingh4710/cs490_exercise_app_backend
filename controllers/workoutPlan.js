@@ -35,6 +35,7 @@ async function getAssignedWorkoutPlan(req, res) {
 
   try {
     const workoutPlan = await getWorkoutPlan_DB(userID);
+    console.log(workoutPlan);
     let workoutPlanFormatted = {};
     workoutPlan.forEach((element) => {
       if (!(element.dayOfWeek.toLowerCase() in workoutPlanFormatted)) {
