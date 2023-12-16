@@ -118,7 +118,7 @@ describe("add new user by registerAccount", () => {
     const token = "token";
 
     bcrypt.hash = async () => "fakeHash";
-    db_file.createUser.mockImplementationOnce((obj) => {
+    db_file.registerAccount_DB.mockImplementationOnce((obj) => {
       return { insertId: userID };
     });
     security_file.createUserJwt.mockImplementationOnce(() => token);

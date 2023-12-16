@@ -1,40 +1,51 @@
-const { createConnection } = require("../sql_config/database.js");
-const connection = createConnection();
+const { createPool } = require("../sql_config/database.js");
 
 async function createRequest(requestData) {
+  const connection = await createPool().getConnection();
   const query =
     "INSERT INTO Request (userID, coachID, status, goals, note) VALUES (?, ?, ?, ?, ?)";
-  const [res, _] = await connection.promise().query(query, [requestData.userID, requestData.coachID, requestData.status, requestData.goals, requestData.note]);
-  return res;
+  const [rows, _] = await connection.execute(query, [
+    requestData.userID,
+    requestData.coachID,
+    requestData.status,
+    requestData.goals,
+    requestData.note,
+  ]);
+  connection.release();
+  return rows;
 }
 
 async function getRequests(userID) {
+  const connection = await createPool().getConnection();
   const query = "SELECT * FROM Request WHERE userID = ?";
-  const [res, _] = await connection.promise().query(query, [userID]);
-  return res;
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
+  return rows;
 }
 
 async function getStatus_DB(userID, coachID) {
-  const query = 
-    `SELECT status, requestID FROM Request 
+  const connection = await createPool().getConnection();
+  const query = `SELECT status, requestID FROM Request 
     WHERE userID = '${userID}' AND coachID = '${coachID}'`;
-  const [rows, fields] = await connection.promise().query(query);
-  
+  const [rows, fields] = await connection.execute(query);
+  connection.release();
+
   if (rows.length > 0) {
     const row = rows[0];
     return {
       exists: true,
       status: row.status,
-      requestID: row.requestID
-    }
+      requestID: row.requestID,
+    };
   } else {
     return {
-      exists: false
-    }
+      exists: false,
+    };
   }
 }
 
 async function getPendingRequests(userID) {
+  const connection = await createPool().getConnection();
   const query = `
             SELECT 
             R.requestID,
@@ -47,7 +58,9 @@ async function getPendingRequests(userID) {
         JOIN User U ON C.userID = U.userID
         WHERE R.userID = ? AND R.status = 'Pending' ORDER BY U.firstName ASC;`;
 
-  const [rows, _] = await connection.promise().query(query, [userID]);
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
+
   return rows.map((row) => {
     return {
       requestID: row.requestID,
@@ -61,6 +74,7 @@ async function getPendingRequests(userID) {
 }
 
 async function unansweredRequestsByCoach_DB(userID) {
+  const connection = await createPool().getConnection();
   const query = `
     SELECT 
           R.requestID,
@@ -75,8 +89,9 @@ async function unansweredRequestsByCoach_DB(userID) {
         )
         ORDER BY CONCAT(U.firstName,U.lastName) ASC;`;
 
-  const res = await connection.promise().query(query, [userID]);
-  return res[0].map((row) => {
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
+  return rows.map((row) => {
     return {
       requestID: row.requestID,
       "User": {
