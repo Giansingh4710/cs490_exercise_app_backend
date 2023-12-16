@@ -206,6 +206,7 @@ CREATE TABLE Exercise (
     equipment VARCHAR(32),
     type VARCHAR(32),
     metric VARCHAR(16),
+    status VARCHAR(16) DEFAULT 'Enabled',
     -- Add timestamp columns for creation and last update
     created TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
@@ -307,6 +308,7 @@ CREATE TABLE Request (
         REFERENCES Coach(coachID)
         ON DELETE SET NULL
 );
+
 
 -- Table structure for CoachRequest table
 CREATE TABLE CoachRequest (
