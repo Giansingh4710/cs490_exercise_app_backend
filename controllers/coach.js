@@ -7,6 +7,7 @@ const {
   getCities_DB,
   getUsersOfCoach_DB,
   getClientInfo_DB,
+  getCoachFromUserID
 } = require(
   "../dataAccess/coach_db_access",
 );
@@ -109,8 +110,8 @@ async function searchCoachByAll(req, res) {
 
 async function getUsersOfCoach(req, res) {
   try {
-    const coachID = req.userID; // set in ../utils/security.js
-    const clients = await getUsersOfCoach_DB(coachID);
+    let coachData = await getCoachFromUserID(req.userID); // set in ../utils/security.js
+    const clients = await getUsersOfCoach_DB(coachData.coachID);
     res.status(200);
     res.send(clients);
   } catch (error) {

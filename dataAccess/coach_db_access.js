@@ -52,21 +52,9 @@ async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice2, state, 
   return rows;
 }
 
-async function getUsersOfCoach_DB(userId) {
-  const query = `
-      SELECT 
-          R.requestID,
-          R.userID,
-          U.firstName,
-          U.lastName
-        FROM Request R
-        JOIN User U ON R.userID = U.userID
-        WHERE R.Status = "Pending" AND 
-        R.coachID in (
-            SELECT coachID From Coach WHERE UserID=?
-        );
-  `;
-  const [rows, _] = await connection.promise().query(query, [userId]);
+async function getUsersOfCoach_DB(coachID) {
+  const query = `select * from user where coachID = ?`;
+  const [rows, _] = await connection.promise().query(query, [coachID]);
   return rows;
 }
 
