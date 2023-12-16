@@ -5,9 +5,11 @@ const { requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
 const {
-  getAllPending,
+  getAllPending, 
+  acceptCoach,
 } = require("../controllers/coachApply.js");
 
 router.get("/allPending", getAllPending);
+router.get("/accept", acceptCoach)
 
 module.exports = router;

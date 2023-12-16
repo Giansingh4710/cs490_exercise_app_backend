@@ -10,6 +10,13 @@ async function getAllPending_DB() {
     return rows;
   }
 
+  async function acceptCoach_DB(coachRequestID) {
+    const query = `UPDATE coachRequest SET status = 'Accepted' WHERE coachRequestID = ?`;
+    const [res, _] = await connection.promise().query(query, [coachRequestID]);
+    return res;
+  }
+
 module.exports = {
     getAllPending_DB,
+    acceptCoach_DB,
   };
