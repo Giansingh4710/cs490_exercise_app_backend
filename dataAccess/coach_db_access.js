@@ -70,7 +70,7 @@ async function getUsersOfCoach_DB(userId) {
           U.lastName
         FROM Request R
         JOIN User U ON R.userID = U.userID
-        WHERE R.Status = "Pending" AND 
+        WHERE R.Status = "Accepted" AND 
         R.coachID in (
             SELECT coachID From Coach WHERE UserID=?
         );

@@ -38,7 +38,7 @@ function createPool() {
     database: "fitnessDB",
 
     waitForConnections: true,
-    connectionLimit: 10, // Adjust as needed based on your requirements
+    connectionLimit: 100, // Adjust as needed based on your requirements
     queueLimit: 0, //set higher to prevent errors
   });
 
