@@ -74,7 +74,7 @@ const {
  */
 router.get("/allExercises", getAllExercises);
 router.get("/search", searchExercise);
-router.get("/deleteExercise", deleteExercise);
+router.delete("/deleteExercise", deleteExercise);
 router.post("/createExercise", createExercise);
 router.get("/:exerciseID", getExerciseData);
 

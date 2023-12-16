@@ -6,11 +6,13 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 );
 const {
   getAllPending, 
+  getPendingByID,
   acceptCoach,
   denyCoach,
 } = require("../controllers/coachApply.js");
 
 router.get("/allPending", getAllPending);
+router.get("/pending", getPendingByID),
 router.get("/accept", acceptCoach);
 router.get("/deny", denyCoach);
 

@@ -1,5 +1,6 @@
 const {
   getAllPending_DB,
+  getPendingByID_DB,
   acceptCoach_DB,
   denyCoach_DB,
 } = require(
@@ -18,6 +19,30 @@ async function getAllPending(req, res) {
         status: 500,
         message: error.message,
         details: "Error trying to get pending coach applications from database.",
+      },
+    });
+  }
+}
+
+async function getPendingByID(req, res) {
+  let errorStatusCode = 500;
+  try {
+    const userID = req.query.userID;
+
+    const userData = await getPendingByID_DB(userID);
+    if (userData == undefined) {
+      errorStatusCode = 404;
+      throw new Error(`No user currently applying for coach found with userID:${userID}`);
+    }
+    res.status(200);
+    res.send(userData);
+  } catch (error) {
+    res.status(errorStatusCode);
+    res.send({
+      error: {
+        status: errorStatusCode,
+        message: error.message,
+        details: "Error fetching pending coach data from database",
       },
     });
   }
@@ -61,6 +86,7 @@ async function denyCoach(req, res) {
 
 module.exports = {
   getAllPending,
+  getPendingByID,
   acceptCoach,
   denyCoach,
 };

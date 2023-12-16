@@ -233,6 +233,6 @@ router.get("/status", getStatus);
 
 router.get("/accept", acceptRequest);
 router.get("/decline", declineRequest);
-router.get("/cancel", cancelRequest);
+router.delete("/cancel", cancelRequest);
 
 module.exports = router;
