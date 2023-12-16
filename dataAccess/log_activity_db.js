@@ -68,9 +68,9 @@ async function dailyWeight_DB(userID) {
 
 // TODO: anything with transaction
 async function insertDailySurvey_DB(dailySurveyData, userID, date) {
+  const connection = await createPool().getConnection();
   try {
-    const connection = await createPool().getConnection();
-    connection.promise().beginTransaction();
+    connection.beginTransaction();
     const waterIntakeInsert = await insertWaterIntake_DB({
       "userID": userID,
       intakeUnit: dailySurveyData.waterData.unit.toLowerCase(),
@@ -88,9 +88,9 @@ async function insertDailySurvey_DB(dailySurveyData, userID, date) {
       "date": date,
     });
 
-    connection.promise().commit();
-  } catch (error) {
-    connection.promise().rollback();
+    connection.commit();
+  }catch(error) {
+    connection.rollback();
     throw new Error("Error recording daily survey");
   }finally{
     connection.release();

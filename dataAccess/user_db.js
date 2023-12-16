@@ -14,12 +14,10 @@ async function findUserByEmail(email) {
 async function registerAccount_DB({ email, hashedPass }) {
   const connection = await createPool().getConnection();
   const q = "INSERT INTO User (email, password) VALUES (?, ?)";
-  console.log("registerAccount_DB");
   const [insertInfoObj, _] = await connection.execute(q, [
     email,
     hashedPass,
   ]);
-  console.log(insertInfoObj);
   connection.release();
   return insertInfoObj;
 }
