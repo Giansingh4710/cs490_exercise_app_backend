@@ -18,9 +18,10 @@ async function getAssignedWorkoutPlan(req, res) {
               "exercise": element.name,
               sets: element.sets,
               reps: [element.reps],
-              weight: element.weight,
+              weight: [element.weight],
               metric: element.metric,
-              equipment: element.equipment
+              equipment: element.equipment,
+              duration: [element.duration]
             })
           }else{
             const existingExercise = workoutPlanFormatted[element.dayOfWeek].find(exercise => exercise.exercise === element.name);
@@ -30,12 +31,15 @@ async function getAssignedWorkoutPlan(req, res) {
                 "exercise": element.name,
                 sets: element.sets,
                 reps: [element.reps],
-                weight: element.weight,
+                weight: [element.weight],
                 metric: element.metric,
-                equipment: element.equipment
+                equipment: element.equipment,
+                duration: [element.duration]
               });
             } else {
               existingExercise.reps.push(element.reps);
+              existingExercise.weight.push(element.weight);
+              existingExercise.weight.push(element.duration);
             }
           }
 
@@ -87,9 +91,10 @@ async function getPersonalWorkoutPlan(req, res){
               "exercise": element.name,
               sets: element.sets,
               reps: [element.reps],
-              weight: element.weight,
+              weight: [element.weight],
               metric: element.metric,
-              equipment: element.equipment
+              equipment: element.equipment,
+              duration: [element.duration]
             })
           }else{
             const existingExercise = workoutPlanFormatted[element.dayOfWeek].find(exercise => exercise.exercise === element.name);
@@ -99,12 +104,15 @@ async function getPersonalWorkoutPlan(req, res){
                 "exercise": element.name,
                 sets: element.sets,
                 reps: [element.reps],
-                weight: element.weight,
+                weight: [element.weight],
                 metric: element.metric,
-                equipment: element.equipment
+                equipment: element.equipment,
+                duration: [element.duration]
               });
             } else {
               existingExercise.reps.push(element.reps);
+              existingExercise.weight.push(element.weight);
+              existingExercise.weight.push(element.duration);
             }
           }
 

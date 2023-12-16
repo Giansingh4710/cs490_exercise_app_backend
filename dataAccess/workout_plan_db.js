@@ -17,8 +17,8 @@ async function addExercise_DB(data, userID){
                 query = "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Reps, Sets, Weight) VALUES(?, ?, ?, ?, ?, ?, ?)";
                 await connection.promise().query(query, [userID, data.exerciseID, data.dayOfWeek, 'Client', element.reps, sets, element.weight]);
             }else{
-                query = "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Duration, Sets, Weight) VALUES(?, ?, ?, ?, ?, ?, ?)";
-                await connection.promise().query(query, [userID, data.exerciseID, data.dayOfWeek, 'Client', element.duration, sets, element.weight]);
+                query = "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Duration, Sets, Weight, Reps) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                await connection.promise().query(query, [userID, data.exerciseID, data.dayOfWeek, 'Client', element.duration, sets, element.weight, 0]);
             }
         });
         connection.commit();
