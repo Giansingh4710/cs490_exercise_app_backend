@@ -43,7 +43,9 @@ function createConnection() {
 
   connection.connect((err) => {
     if (err) {
+      console.log("looping");
       console.error("Error connecting to the database".red, err);
+      createConnection();
       throw err;
     }
     // print_db_info();
