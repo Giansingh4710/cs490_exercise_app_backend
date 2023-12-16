@@ -31,4 +31,10 @@ async function createExercise_DB(exerciseData){
   return rows;
 }
 
-module.exports = { getAllExercises_DB, searchExercise_DB, deleteExercise_DB, createExercise_DB };
+async function getExerciseData_DB(exerciseID){
+  const query = "SELECT * FROM Exercise WHERE ExerciseID = ?";
+  const [res, _] = await connection.promise().query(query, [exerciseID]);
+  return res;
+}
+
+module.exports = { getAllExercises_DB, searchExercise_DB, deleteExercise_DB, createExercise_DB, getExerciseData_DB };

@@ -1,19 +1,41 @@
 const { createConnection } = require("../sql_config/database.js");
 const connection = createConnection();
 
-async function getWorkoutPlan_DB(userID){
+async function getAssignedWorkoutPlan_DB(userID){
     const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=? AND creator='Coach'"
     const [res, _] = await connection.promise().query(query, [userID]);
     return res;
 }
 
-async function addExercise_DB(data){
-    const query = "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek) VALUES(?, ?, ?)"
-    const [res, _] = await connection.promise().query(query, [data.userID, data.exerciseID, data.dayOfWeek]);
+async function addExercise_DB(data, userID){
+    try{
+        connection.promise().beginTransaction();
+        const sets = data.sets.length;
+        data.sets.forEach(async (element) => {
+            let query = null;
+            if(data.metric === 'Reps'){
+                query = "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Reps, Sets, Weight) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                await connection.promise().query(query, [userID, data.exerciseID, data.dayOfWeek, 'Client', element.reps, sets, element.weight]);
+            }else{
+                query = "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Duration, Sets, Weight) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                await connection.promise().query(query, [userID, data.exerciseID, data.dayOfWeek, 'Client', element.duration, sets, element.weight]);
+            }
+        });
+        connection.commit();
+    }catch(error){
+        connection.rollback();
+        throw new Error("Error entering exercise to workout plan");
+    }
+}
+
+async function getPersonalWorkoutPlan_DB(userID){
+    const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=? AND creator='Client'"
+    const [res, _] = await connection.promise().query(query, [userID]);
     return res;
 }
 
 module.exports = {
-    getWorkoutPlan_DB,
-    addExercise_DB
+    getAssignedWorkoutPlan_DB,
+    addExercise_DB,
+    getPersonalWorkoutPlan_DB
 }

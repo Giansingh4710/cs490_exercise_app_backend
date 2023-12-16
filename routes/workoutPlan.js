@@ -6,7 +6,8 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 
 const {
     getAssignedWorkoutPlan,
-    addExercise
+    addExercise,
+    getPersonalWorkoutPlan
 } = require("../controllers/workoutPlan.js");
 
 /**
@@ -66,6 +67,8 @@ router.get("/assignedWorkouts", requireAuthedUser, getAssignedWorkoutPlan);
  *          500:
  *              description: Error accessing Database.
  */
-router.post("/addExercise", requireAuthedUser, addExercise);
+router.post("/client/addExercise", requireAuthedUser, addExercise);
+
+router.get("/personalWorkouts", requireAuthedUser, getPersonalWorkoutPlan);
 
 module.exports = router;
