@@ -35,7 +35,7 @@ async function searchCoachByName_DB(name) {
 async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice2, state, city) {
   const query = `
       SELECT c.coachID, u.firstName, u.lastName, c.cost
-      FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
+      FROM Coach c INNER JOIN User u ON u.UserID = c.userID 
       WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE ? AND 
         c.specialties LIKE ? AND 
         c.cost <= IF(?=0, 999999999, ?) AND

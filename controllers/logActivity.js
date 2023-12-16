@@ -8,7 +8,7 @@ async function recordDailySurvey(req, res) {
   let errorStatus = 500;
   try {
     const date = moment().format("YYYY-MM-DD");
-    const units = ["cups", "gallons", "fl. oz"];
+    const units = ["cups", "gallons", "fl oz"];
     const chosenUnit = req.body.waterData.unit.toLowerCase();
     if (!units.includes(chosenUnit)) {
       throw new Error(`Unit: ${chosenUnit} not one of : ${units.join(", ")}`);
