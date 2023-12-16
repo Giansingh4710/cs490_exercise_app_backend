@@ -1,6 +1,6 @@
 const {
   findUserByEmail,
-  createUser,
+  registerAccount_DB,
   updateUser,
 } = require("../dataAccess/user_db");
 const { createUserJwt } = require("../utils/security.js");
@@ -23,7 +23,7 @@ async function registerAccount(req, res) {
     }
 
     const hashedPass = await bcrypt.hash(req.body.password, BCRYPT_WORK_FACTOR);
-    const insertInfoObj = await createUser({
+    const insertInfoObj = await registerAccount_DB({
       email: req.body.email,
       hashedPass: hashedPass,
     });
