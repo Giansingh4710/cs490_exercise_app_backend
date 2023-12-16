@@ -1,7 +1,8 @@
+const moment = require("moment");
 const { getUsersOfCoach_DB, getCoachFromUserID } = require(
   "../dataAccess/coach_db_access",
 );
-const { getAssignedWorkoutPlan_DB, addExercise_DB, getPersonalWorkoutPlan_DB} = require(
+const { getAssignedWorkoutPlan_DB, addExercise_DB, getPersonalWorkoutPlan_DB, getLast5DaysOfWorkouts_DB} = require(
   "../dataAccess/workout_plan_db",
 );
 
@@ -131,8 +132,62 @@ async function getPersonalWorkoutPlan(req, res){
   }
 }
 
+async function getLast5DaysOfWorkouts(req, res){
+  try{
+    const today = moment().format("YYYY-MM-DD");
+    const startDate = moment().subtract(5,'d').format('YYYY-MM-DD');
+    const recordedWorkouts = await getLast5DaysOfWorkouts_DB(req.userID, startDate, today);
+    let workoutPlanFormatted = {}
+    recordedWorkouts.forEach(element => {
+      element.date = new Date(element.date).toISOString().split("T")[0];
+      if(!(element.date in workoutPlanFormatted)){
+        workoutPlanFormatted[element.date] = []
+        workoutPlanFormatted[element.date].push({
+          exerciseID: element.exerciseID,
+          "exercise": element.name,
+          sets: element.sets,
+          reps: [element.reps],
+          weight: [element.weight],
+          metric: element.metric,
+          duration: [element.duration]
+        })
+      }else{
+        const existingExercise = workoutPlanFormatted[element.date].find(exercise => exercise.exercise === element.name);
+
+        if (!existingExercise) {
+          workoutPlanFormatted[element.date].push({
+            exerciseID: element.exerciseID,
+            "exercise": element.name,
+            sets: element.sets,
+            reps: [element.reps],
+            weight: [element.weight],
+            metric: element.metric,
+            equipment: element.equipment,
+            duration: [element.duration]
+          });
+        } else {
+          existingExercise.reps.push(element.reps);
+          existingExercise.weight.push(element.weight);
+          existingExercise.weight.push(element.duration);
+        }
+      }
+    });
+    res.status(200);
+    res.send(workoutPlanFormatted);
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: "Error getting last 5 days of workouts"
+      }
+    })
+  }
+}
+
 module.exports = {
   getAssignedWorkoutPlan,
   addExercise,
-  getPersonalWorkoutPlan
+  getPersonalWorkoutPlan,
+  getLast5DaysOfWorkouts
 };

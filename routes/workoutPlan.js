@@ -7,7 +7,8 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 const {
     getAssignedWorkoutPlan,
     addExercise,
-    getPersonalWorkoutPlan
+    getPersonalWorkoutPlan,
+    getLast5DaysOfWorkouts
 } = require("../controllers/workoutPlan.js");
 
 /**
@@ -70,5 +71,7 @@ router.get("/assignedWorkouts", requireAuthedUser, getAssignedWorkoutPlan);
 router.post("/client/addExercise", requireAuthedUser, addExercise);
 
 router.get("/personalWorkouts", requireAuthedUser, getPersonalWorkoutPlan);
+
+router.get("/getPastWorkouts", requireAuthedUser, getLast5DaysOfWorkouts);
 
 module.exports = router;

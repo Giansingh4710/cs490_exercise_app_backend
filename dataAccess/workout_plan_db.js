@@ -34,8 +34,19 @@ async function getPersonalWorkoutPlan_DB(userID){
     return res;
 }
 
+async function getLast5DaysOfWorkouts_DB(userID, startDate, endDate){
+    const query = `
+    SELECT Record.exerciseID, Record.reps, Record.sets, Record.weight, Record.duration, Record.date, Exercise.name, Exercise.metric FROM Record
+        JOIN WorkoutPlan ON Record.planID = WorkoutPlan.planID
+        JOIN Exercise ON Record.exerciseID = Exercise.exerciseID
+        WHERE Record.date Between ? AND ? AND WorkoutPlan.userID = ?`
+    const [res, _] = await connection.promise().query(query, [startDate, endDate, userID]);
+    return res;
+}
+
 module.exports = {
     getAssignedWorkoutPlan_DB,
     addExercise_DB,
-    getPersonalWorkoutPlan_DB
+    getPersonalWorkoutPlan_DB,
+    getLast5DaysOfWorkouts_DB
 }
