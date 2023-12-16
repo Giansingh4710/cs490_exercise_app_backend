@@ -26,6 +26,7 @@ const login = require("./routes/login.js");
 const auth = require("./routes/auth.js");
 const logActivity = require("./routes/logActivity.js");
 const coaches = require("./routes/coaches.js");
+const coachApply = require("./routes/coachApply.js")
 const requests = require("./routes/request.js");
 const exercises = require("./routes/exercises.js");
 const messages = require("./routes/messages.js");
@@ -109,6 +110,7 @@ app.use("/login", login);
 app.use("/auth", auth);
 app.use("/logActivity", logActivity);
 app.use("/coaches", coaches);
+app.use("/coachApply", coachApply);
 app.use("/request", requests);
 app.use("/exercises", exercises);
 app.use("/messages", messages);
