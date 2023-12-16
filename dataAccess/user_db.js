@@ -85,8 +85,8 @@ async function updateUser(data) {
   const q = "INSERT INTO Goal (userID, goalType) VALUES (?, ?)";
   res = await connection.execute(q, [userID, data.goal]);
   if (data.role.toLowerCase() === "Coach".toLowerCase()) {
-    const q = "INSERT INTO Coach (userID, cost, specialties) VALUES (?, ?, ?)";
-    res = await connection.execute(q, [userID,data.cost, data.specialties]);
+    const q = "INSERT INTO CoachRequest (userID, status, cost, specialties) VALUES (?, ?, ?, ?)";
+    res = await connection.execute(q, [userID, "Pending", data.cost,data.specialties]);
   }
   connection.release();
   return res[0];
