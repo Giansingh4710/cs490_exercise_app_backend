@@ -5,6 +5,9 @@ const {
   unansweredRequestsByCoach_DB,
   getRequests,
   getStatus_DB,
+  acceptRequest_DB,
+  declineRequest_DB,
+  cancelRequest_DB,
 } = require(
   "../dataAccess/request_db.js",
 );
@@ -94,7 +97,7 @@ async function getOpenRequests(req, res) {
 
 async function getStatus(req, res) {
   try {
-    const userID = req.query.userID; // For some reason "userID" defaults to "userid" //??
+    const userID = req.query.userID;
     const coachID = req.query.coachID;
     const statusData = await getStatus_DB(
       userID,
@@ -136,9 +139,66 @@ async function userRequestedCoach(userID, coachID) {
   return a.length != 0;
 }
 
+async function acceptRequest(req, res) {
+  try {
+    const requestID = req.query.requestID; // set in ../utils/security.js
+    const requestData = await acceptRequest_DB(requestID);
+    res.status(200);
+    res.send(requestData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to update request status in database.",
+      },
+    });
+  }
+}
+
+async function declineRequest(req, res) {
+  try {
+    const requestID = req.query.requestID; // set in ../utils/security.js
+    const requestData = await declineRequest_DB(requestID);
+    res.status(200);
+    res.send(requestData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to update request status in database.",
+      },
+    });
+  }
+}
+
+async function cancelRequest(req, res) {
+  try {
+    const requestID = req.query.requestID; // set in ../utils/security.js
+    const requestData = await cancelRequest_DB(requestID);
+    res.status(200);
+    res.send(requestData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to delete request from database.",
+      },
+    });
+  }
+}
+
 module.exports = {
   requestCoach,
   getOpenRequests,
   unansweredRequestsByCoach,
   getStatus,
+  acceptRequest,
+  declineRequest,
+  cancelRequest,
 };

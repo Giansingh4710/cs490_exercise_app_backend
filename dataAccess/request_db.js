@@ -88,10 +88,31 @@ async function unansweredRequestsByCoach_DB(userID) {
   });
 }
 
+async function acceptRequest_DB(requestID) {
+  const query = `UPDATE request SET status = 'Accepted' WHERE requestID = ?`;
+  const [res, _] = await connection.promise().query(query, [requestID]);
+  return res;
+}
+
+async function declineRequest_DB(requestID) {
+  const query = `UPDATE request SET status = 'Denied' WHERE requestID = ?`;
+  const [res, _] = await connection.promise().query(query, [requestID]);
+  return res;
+}
+
+async function cancelRequest_DB(requestID) {
+  const query = "DELETE FROM Request WHERE requestID = ?";
+  const [res, _] = await connection.promise().query(query, [requestID]);
+  return res;
+}
+
 module.exports = {
   createRequest,
   getPendingRequests,
   unansweredRequestsByCoach_DB,
   getRequests,
   getStatus_DB,
+  acceptRequest_DB,
+  declineRequest_DB,
+  cancelRequest_DB
 };
