@@ -103,27 +103,27 @@ INSERT INTO User (userID, coachID, firstname, lastname, Email, password, phoneNu
 -- Dumping data for Coach table
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (1, 32, 'Strength building', 21.77, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (2, 8, 'weight loss', 35.36, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (3, 28, 'Muscle building', 21.62, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (3, 16, 'Muscle building', 21.62, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (4, 88, 'weight gain', 32.25, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (5, 84, 'Stamina building', 29.78, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (6, 56, 'Strength building', 41.84, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (6, 52, 'Strength building', 41.84, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (7, 92, 'weight loss', 28.99, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (8, 84, 'Muscle building', 37.13, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (8, 70, 'Muscle building', 37.13, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (9, 40, 'weight gain', 28.64, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (10, 56, 'Stamina building', 24.95, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (11, 60, 'Strength building', 17.05, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (12, 28, 'weight loss', 48.81, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (10, 80, 'Stamina building', 24.95, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (11, 64, 'Strength building', 17.05, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (12, 44, 'weight loss', 48.81, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (13, 56, 'Muscle building', 42.53, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (14, 100, 'weight gain', 40.92, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (15, 96, 'Stamina building', 46.74, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (16, 8, 'Strength building', 32.91, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (16, 12, 'Strength building', 32.91, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (17, 28, 'weight loss', 17.27, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (18, 60, 'Muscle building', 16.87, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (19, 32, 'weight gain', 12.94, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (19, 20, 'weight gain', 12.94, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (20, 48, 'Stamina building', 22.75, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (21, 72, 'Strength building', 26.97, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (22, 72, 'weight loss', 37.43, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (23, 36, 'Muscle building', 35.09, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (22, 76, 'weight loss', 37.43, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (23, 24, 'Muscle building', 35.09, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (24, 4, 'weight gain', 28.72, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO Coach (coachID, userID, specialties, cost, created, lastUpdate) values (25, 36, 'Stamina building', 39.03, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
@@ -2246,6 +2246,60 @@ insert into Request (RequestID, UserID, CoachID, Status, Goals, Note, Created, L
 insert into Request (RequestID, UserID, CoachID, Status, Goals, Note, Created, LastUpdate) values (248, 3, 22, 'Denied', 'Weight loss', 'nulla elit ac nulla sed vel', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 insert into Request (RequestID, UserID, CoachID, Status, Goals, Note, Created, LastUpdate) values (249, 57, 24, 'Denied', 'Weight gain', 'libero quis orci nullam molestie nibh', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 insert into Request (RequestID, UserID, CoachID, Status, Goals, Note, Created, LastUpdate) values (250, 91, 16, 'Pending', 'Strength building', 'volutpat eleifend donec ut dolor morbi vel lectus', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+
+-- Dumping data for CoachRequest table
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (1, 11, 'Denied', 'Strength building', 54.8, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (2, 20, 'Accepted', 'Stamina building', 23.83, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (3, 30, 'Pending', 'Weight gain', 40.83, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (4, 78, 'Denied', 'Muscle building', 32.92, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (5, 73, 'Denied', 'Muscle building', 63.31, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (6, 72, 'Accepted', 'Weight loss', 51.85, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (7, 95, 'Pending', 'Strength building', 49.08, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (8, 54, 'Denied', 'Weight gain', 30.5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (9, 8, 'Accepted', 'Muscle building', 33.9, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (10, 64, 'Accepted', 'Weight gain', 28.89, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (11, 85, 'Pending', 'Stamina building', 44.74, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (12, 72, 'Accepted', 'Weight loss', 41.34, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (13, 84, 'Accepted', 'Weight gain', 35.28, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (14, 25, 'Pending', 'Weight loss', 47.96, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (15, 4, 'Accepted', 'Weight gain', 47.73, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (16, 43, 'Denied', 'Muscle building', 33.97, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (17, 56, 'Accepted', 'Strength building', 21.33, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (18, 49, 'Denied', 'Weight gain', 44.23, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (19, 61, 'Denied', 'Strength building', 60.05, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (20, 27, 'Denied', 'Weight loss', 60.1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (21, 54, 'Denied', 'Weight gain', 39.23, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (22, 9, 'Denied', 'Weight gain', 64.59, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (23, 94, 'Denied', 'Weight gain', 21.77, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (24, 74, 'Denied', 'Weight gain', 38.01, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (25, 8, 'Accepted', 'Muscle building', 50.3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (26, 7, 'Denied', 'Weight loss', 62.51, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (27, 44, 'Accepted', 'Weight gain', 51.58, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (28, 85, 'Pending', 'Stamina building', 14.73, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (29, 58, 'Denied', 'Muscle building', 17.7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (30, 68, 'Accepted', 'Muscle building', 19.53, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (31, 27, 'Denied', 'Weight loss', 42.14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (32, 60, 'Accepted', 'Stamina building', 33.76, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (33, 33, 'Denied', 'Muscle building', 51.14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (34, 64, 'Accepted', 'Weight gain', 29.36, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (35, 81, 'Denied', 'Strength building', 46.77, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (36, 81, 'Pending', 'Strength building', 45.71, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (37, 56, 'Accepted', 'Strength building', 58.92, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (38, 75, 'Pending', 'Stamina building', 69.15, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (39, 77, 'Denied', 'Weight loss', 22.53, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (40, 79, 'Denied', 'Weight gain', 47.87, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (41, 60, 'Accepted', 'Stamina building', 43.09, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (42, 62, 'Denied', 'Weight loss', 67.81, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (43, 31, 'Denied', 'Strength building', 25.96, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (44, 47, 'Denied', 'Weight loss', 10.92, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (45, 42, 'Denied', 'Weight loss', 52.0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (46, 22, 'Denied', 'Weight loss', 29.68, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (47, 74, 'Denied', 'Weight gain', 50.8, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (48, 12, 'Accepted', 'Weight loss', 50.37, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (49, 23, 'Denied', 'Muscle building', 48.47, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into CoachRequest (CoachRequestID, UserID, Status, Specialties, Cost, Created, LastUpdate) values (50, 14, 'Denied', 'Weight gain', 19.57, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 

@@ -141,6 +141,19 @@ INSERT INTO Request VALUES
     (10, 7, 1, 'Accepted', 'Strength building', 'blandit lacinia erat vestibulum sed', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
+INSERT INTO CoachRequest VALUES
+    (1, 5, 'Denied', 'Strength building', 99.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 4, 'Denied', 'Weight loss', 36.70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 6, 'Pending', 'Weight loss', 90.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 8, 'Denied', 'Weight loss', 50.25, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 5, 'Denied', 'Strength building', 88.74, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 2, 'Pending', 'Weight loss', 66.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (7, 4, 'Accepted', 'Weight loss', 35.12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (8, 7, 'Pending', 'Weight loss', 52.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (9, 8, 'Accepted', 'Strength building', 49.66, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (10, 6, 'Denied', 'Strength building', 20.87, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
 -- Dumping data for Appointment table
 INSERT INTO Appointment VALUES
     (1, 2, 2, '2023-01-18', '16:28', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

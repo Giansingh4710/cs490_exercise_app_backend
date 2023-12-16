@@ -163,7 +163,7 @@ describe("searchCoachByAll", () => {
   });
 
   it("should return error all searched coaches", async () => {
-    db_file.searchCoachByAll_DB.mockImplementationOnce((a, b, c, d, e) => {
+    db_file.searchCoachByAll_DB.mockImplementationOnce((a, b, c, d, e, f) => {
       throw new Error("DB error");
     });
     await searchCoachByAll(req, res);
@@ -274,13 +274,22 @@ describe("getUsersOfCoach", () => {
     },
   ];
   it("should return all clients of coach", async () => {
+    const req = {
+      userID: 1,
+    };
     db_file.getUsersOfCoach_DB.mockImplementationOnce(() => clients);
+    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => ({
+      coachID: 123,
+    }));
     await getUsersOfCoach(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalledWith(clients);
   });
 
   it("should return error when getting clients of coach", async () => {
+    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => ({
+      coachID: 123, // Add any necessary properties that your application expects
+    }));
     db_file.getUsersOfCoach_DB.mockImplementationOnce(() => {
       throw new Error("DB error");
     });

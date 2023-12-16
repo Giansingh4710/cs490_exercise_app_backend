@@ -8,6 +8,9 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 const { 
   getAllExercises,
   searchExercise,
+  deleteExercise,
+  createExercise,
+  getExerciseData
  } = require("../controllers/exercise.js");
 /**
  *  @swagger
@@ -71,5 +74,8 @@ const {
  */
 router.get("/allExercises", getAllExercises);
 router.get("/search", searchExercise);
+router.delete("/deleteExercise", deleteExercise);
+router.post("/createExercise", createExercise);
+router.get("/:exerciseID", getExerciseData);
 
 module.exports = router;

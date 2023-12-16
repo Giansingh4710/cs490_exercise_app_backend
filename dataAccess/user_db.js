@@ -119,10 +119,46 @@ async function removeCoach_DB(userID, coachUserID){
   
 }
 
+async function getUserData_DB(userID){
+  const query = `
+  SELECT
+    firstName,
+    email,
+    lastName,
+    activityLevel,
+    city,
+    DATE_FORMAT(dob, '%Y-%m-%d') AS dob,
+    gender,
+    height,
+    phoneNum,
+    state,
+    streetAddress,
+    weight,
+    zipCode,
+    role,
+    goalType as goal,
+    specialties,
+    cost
+  FROM User
+  LEFT JOIN Goal on Goal.userID = User.userID 
+  LEFT JOIN Coach ON Coach.userID = User.userID
+  WHERE User.userID = ?`;
+  const [rows, _] = await connection.promise().query(query, [userID]);
+  return rows[0];
+}
+
+async function deleteAccount_DB(userID){
+  const query = "DELETE FROM User WHERE UserID = ?";
+  const [res, _] = await connection.promise().query(query, [userID]);
+  return res;
+}
+
 module.exports = {
   findUserByEmail,
   createUser,
   updateUser,
   getCoachOfUser_DB,
-  removeCoach_DB
+  removeCoach_DB,
+  getUserData_DB,
+  deleteAccount_DB
 };

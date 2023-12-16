@@ -1,53 +1,50 @@
-const { getUsersOfCoach_DB, getCoachFromUserID } = require(
+const moment = require("moment");
+const { getUsersOfCoach_DB } = require(
   "../dataAccess/coach_db_access",
 );
-const { getWorkoutPlan_DB, addExercise_DB } = require(
+const { getAssignedWorkoutPlan_DB, addExercise_DB, getPersonalWorkoutPlan_DB, getLast5DaysOfWorkouts_DB} = require(
   "../dataAccess/workout_plan_db",
 );
 
 // ONLY FOR USER TO GET THEIR ASSIGNED WORKOUTPLAN
 async function getAssignedWorkoutPlan(req, res) {
-  // makes it so we dont have duplicate code due to where the userID is stored i.e. req.params.userID or req.userID
-  let userID = req.userID;
-
-  // check if userID supplied in path parameters
-  // if userID in path then coach is trying to access their clients workout plan, COACH is logged in
-  // if(req.params.userID != null){
-  //     // checking if supplied userID is the ID of one of the coach' clients
-  //     const coachData = await getCoachFromUserID(req.userID);
-  //     const coachID = coachData.coachID;
-
-  //     let clients = await getUsersOfCoach_DB(coachID);
-  //     clients = clients.filter((client) => {
-  //         return client.userID == req.params.userID});
-
-  //     if(clients.length == 0){
-  //         res.status(403);
-  //         return res.send({
-  //             error: {
-  //                 status: 403,
-  //                 message: `ClientID ${req.params.userID} is not one of this coach's clients.`
-  //             }
-  //         })
-  //     }
-  //     userID = req.params.userID;
-  // }
-
   try {
-    const workoutPlan = await getWorkoutPlan_DB(userID);
-    let workoutPlanFormatted = {};
-    workoutPlan.forEach((element) => {
-      if (!(element.dayOfWeek.toLowerCase() in workoutPlanFormatted)) {
-        workoutPlanFormatted[element.dayOfWeek.toLowerCase()] = [];
-      }
-      workoutPlanFormatted[element.dayOfWeek.toLowerCase()].push({
-        exercise: element.name,
-        // temp data until DB changes are made
-        sets: 3,
-        reps: [8, 10, 8],
-        weight: 120,
-      });
-    });
+    const workoutPlan = await getAssignedWorkoutPlan_DB(req.userID);
+        let workoutPlanFormatted = {}
+        workoutPlan.forEach(element => {
+          element.dayOfWeek = element.dayOfWeek.toLowerCase();
+          if(!(element.dayOfWeek in workoutPlanFormatted)){
+            workoutPlanFormatted[element.dayOfWeek] = []
+            workoutPlanFormatted[element.dayOfWeek].push({
+              "exercise": element.name,
+              sets: element.sets,
+              reps: [element.reps],
+              weight: [element.weight],
+              metric: element.metric,
+              equipment: element.equipment,
+              duration: [element.duration]
+            })
+          }else{
+            const existingExercise = workoutPlanFormatted[element.dayOfWeek].find(exercise => exercise.exercise === element.name);
+
+            if (!existingExercise) {
+              workoutPlanFormatted[element.dayOfWeek].push({
+                "exercise": element.name,
+                sets: element.sets,
+                reps: [element.reps],
+                weight: [element.weight],
+                metric: element.metric,
+                equipment: element.equipment,
+                duration: [element.duration]
+              });
+            } else {
+              existingExercise.reps.push(element.reps);
+              existingExercise.weight.push(element.weight);
+              existingExercise.weight.push(element.duration);
+            }
+          }
+
+        });
 
     res.status(200);
     return res.send(workoutPlanFormatted);
@@ -62,39 +59,10 @@ async function getAssignedWorkoutPlan(req, res) {
   }
 }
 
-async function addExercise(req, res) {
+async function clientAddExercise(req, res) {
   let errorStatus = 500;
-  let userID = req.userID;
   try {
-    // if userID included in request body -> coach adding exercise
-    // verifying userID in request is a client of the coach
-    if (req.body.userID != null) {
-      const coachData = await getCoachFromUserID(req.userID);
-      if (coachData == undefined) {
-        errorStatus = 403;
-        throw new Error("User is not a coach");
-      }
-      const coachID = coachData.coachID;
-
-      let clients = await getUsersOfCoach_DB(coachID);
-      clients = clients.filter((client) => {
-        return client.userID == req.body.userID;
-      });
-
-      if (clients.length == 0) {
-        res.status(403);
-        return res.send({
-          error: {
-            status: 403,
-            message:
-              `ClientID ${req.body.userID} is not one of this coach's clients.`,
-          },
-        });
-      }
-      userID = req.body.userID;
-    }
-
-    const insertedExercise = await addExercise_DB(req.body);
+    const insertedExercise = await addExercise_DB(req.body, req.userID);
     res.status(201);
     return res.send({
       status: 201,
@@ -106,12 +74,120 @@ async function addExercise(req, res) {
       "error": {
         status: 500,
         message: "Error accessing database.",
+        details: error.message
+      }
+    });
+  }
+}
+
+async function getPersonalWorkoutPlan(req, res){
+  try {
+    const workoutPlan = await getPersonalWorkoutPlan_DB(req.userID);
+        let workoutPlanFormatted = {}
+        workoutPlan.forEach(element => {
+          element.dayOfWeek = element.dayOfWeek.toLowerCase();
+          if(!(element.dayOfWeek in workoutPlanFormatted)){
+            workoutPlanFormatted[element.dayOfWeek] = []
+            workoutPlanFormatted[element.dayOfWeek].push({
+              "exercise": element.name,
+              sets: element.sets,
+              reps: [element.reps],
+              weight: [element.weight],
+              metric: element.metric,
+              equipment: element.equipment,
+              duration: [element.duration]
+            })
+          }else{
+            const existingExercise = workoutPlanFormatted[element.dayOfWeek].find(exercise => exercise.exercise === element.name);
+
+            if (!existingExercise) {
+              workoutPlanFormatted[element.dayOfWeek].push({
+                "exercise": element.name,
+                sets: element.sets,
+                reps: [element.reps],
+                weight: [element.weight],
+                metric: element.metric,
+                equipment: element.equipment,
+                duration: [element.duration]
+              });
+            } else {
+              existingExercise.reps.push(element.reps);
+              existingExercise.weight.push(element.weight);
+              existingExercise.weight.push(element.duration);
+            }
+          }
+
+        });
+
+    res.status(200);
+    return res.send(workoutPlanFormatted);
+  } catch (error) {
+    res.status(500);
+    return res.send({
+      "error": {
+        status: 500,
+        message: "Error accessing database.",
       },
     });
   }
 }
 
+async function getLast5DaysOfWorkouts(req, res){
+  try{
+    const today = moment().format("YYYY-MM-DD");
+    const startDate = moment().subtract(5,'d').format('YYYY-MM-DD');
+    const recordedWorkouts = await getLast5DaysOfWorkouts_DB(req.userID, startDate, today);
+    let workoutPlanFormatted = {}
+    recordedWorkouts.forEach(element => {
+      element.date = new Date(element.date).toISOString().split("T")[0];
+      if(!(element.date in workoutPlanFormatted)){
+        workoutPlanFormatted[element.date] = []
+        workoutPlanFormatted[element.date].push({
+          exerciseID: element.exerciseID,
+          "exercise": element.name,
+          sets: element.sets,
+          reps: [element.reps],
+          weight: [element.weight],
+          metric: element.metric,
+          duration: [element.duration]
+        })
+      }else{
+        const existingExercise = workoutPlanFormatted[element.date].find(exercise => exercise.exercise === element.name);
+
+        if (!existingExercise) {
+          workoutPlanFormatted[element.date].push({
+            exerciseID: element.exerciseID,
+            "exercise": element.name,
+            sets: element.sets,
+            reps: [element.reps],
+            weight: [element.weight],
+            metric: element.metric,
+            equipment: element.equipment,
+            duration: [element.duration]
+          });
+        } else {
+          existingExercise.reps.push(element.reps);
+          existingExercise.weight.push(element.weight);
+          existingExercise.weight.push(element.duration);
+        }
+      }
+    });
+    res.status(200);
+    res.send(workoutPlanFormatted);
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: "Error getting last 5 days of workouts"
+      }
+    })
+  }
+}
+
 module.exports = {
   getAssignedWorkoutPlan,
-  addExercise,
+  clientAddExercise,
+  getPersonalWorkoutPlan,
+  getLast5DaysOfWorkouts
 };

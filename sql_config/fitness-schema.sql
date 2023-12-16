@@ -308,6 +308,29 @@ CREATE TABLE Request (
         ON DELETE SET NULL
 );
 
+-- Table structure for CoachRequest table
+CREATE TABLE CoachRequest (
+    -- Create primary and foreign key columns
+    coachRequestID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    userID INT UNSIGNED,
+    -- Create coachRequest data columns
+    status VARCHAR(16) NOT NULL,
+    specialties VARCHAR(256),
+    cost float,
+    -- Add timestamp columns for creation and last update
+    created TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP,
+    lastUpdate TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    -- Define primary key and foreign key constraints
+    PRIMARY KEY (CoachRequestID),
+    CONSTRAINT CoachRequestUserFK 
+        FOREIGN KEY (userID) 
+        REFERENCES User(userID)
+        ON DELETE SET NULL
+);
+
 
 -- Table structure for Appointment table
 CREATE TABLE Appointment (

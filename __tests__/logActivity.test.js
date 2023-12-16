@@ -105,9 +105,7 @@ describe("userDailyWeight", () => {
 
   it("status 500 DB error", async () => {
     const req = {
-      query: {
         userID: -1,
-      },
     };
     await userDailyWeight(req, res);
     expect(res.status).toHaveBeenCalledWith(500);

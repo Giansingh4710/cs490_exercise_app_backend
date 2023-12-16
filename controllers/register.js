@@ -58,6 +58,7 @@ async function storeSurvey(req, res) {
       throw new Error(`${age}: is less than 8. Too young to register`);
     }
     const updateResult = await updateUser(req.body);
+    // may need to send user data like role back
     res.status(200);
     res.send({
       message: "Updated: User survey information updated successfully",
