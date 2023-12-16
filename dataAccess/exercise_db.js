@@ -26,8 +26,9 @@ async function deleteExercise_DB(exerciseID) {
 }
 
 async function createExercise_DB(exerciseData){
-  const query = `INSERT INTO Exercise(exerciseID, name, muscleGroup, difficulty, equipment, type, metric) VALUES(?, ?, ?, ?, ?, ?, ?)`
-  const [rows, _] = await connection.promise().query(query, [exerciseData.exerciseID, exerciseData.name, exerciseData.muscleGroup, exerciseData.difficulty, exerciseData.equipment, exerciseData.type, exerciseData.metric])
+  const query = `INSERT INTO Exercise(name, muscleGroup, difficulty, equipment, type, metric) VALUES(?, ?, ?, ?, ?, ?)`
+  const [rows, _] = await connection.promise().query(query, [exerciseData.name, exerciseData.muscleGroup,
+     exerciseData.difficulty, exerciseData.equipment, exerciseData.type, exerciseData.metric])
   return rows;
 }
 

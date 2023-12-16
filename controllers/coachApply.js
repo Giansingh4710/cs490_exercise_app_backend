@@ -3,6 +3,7 @@ const {
   getPendingByID_DB,
   acceptCoach_DB,
   denyCoach_DB,
+  createCoachRequest_DB,
 } = require(
   "../dataAccess/coach_apply_db",
 );
@@ -84,9 +85,29 @@ async function denyCoach(req, res) {
   }
 }
 
+async function createCoachRequest(req, res) {
+  try {
+    const newApplication = await createCoachRequest_DB(req.body);
+    res.status(201)
+    res.send({
+      message: "Coach application added to database",
+    });
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error inserting coach application into database",
+      },
+    });
+  }
+}
+
 module.exports = {
   getAllPending,
   getPendingByID,
   acceptCoach,
   denyCoach,
+  createCoachRequest,
 };

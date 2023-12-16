@@ -61,7 +61,7 @@ async function deleteExercise(req, res) {
 
 async function createExercise(req, res) {
   try {
-    const mealInsert = await createExercise_DB(req.body);
+    const newExercise = await createExercise_DB(req.body);
     res.status(201)
     res.send({
       message: "Exercise added to exercise bank",

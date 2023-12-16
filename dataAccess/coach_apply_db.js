@@ -31,9 +31,17 @@ async function denyCoach_DB(coachRequestID) {
   return res;
 }
 
+async function createCoachRequest_DB(coachRequestData){
+  const query = `INSERT INTO CoachRequest(userID, status, specialties, cost) VALUES(?, ?, ?, ?)`
+  const [res, _] = await connection.promise().query(query, [coachRequestData.userID, 
+    coachRequestData.status, coachRequestData.specialties, coachRequestData.cost])
+  return res;
+}
+
 module.exports = {
     getAllPending_DB,
     getPendingByID_DB,
     acceptCoach_DB,
     denyCoach_DB,
+    createCoachRequest_DB,
   };
