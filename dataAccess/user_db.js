@@ -147,11 +147,18 @@ async function getUserData_DB(userID){
   return rows[0];
 }
 
+async function deleteAccount_DB(userID){
+  const query = "DELETE FROM User WHERE UserID = ?";
+  const [res, _] = await connection.promise().query(query, [userID]);
+  return res;
+}
+
 module.exports = {
   findUserByEmail,
   createUser,
   updateUser,
   getCoachOfUser_DB,
   removeCoach_DB,
-  getUserData_DB
+  getUserData_DB,
+  deleteAccount_DB
 };
