@@ -9,6 +9,7 @@ const {
   getAllExercises,
   searchExercise,
   deleteExercise,
+  createExercise,
  } = require("../controllers/exercise.js");
 /**
  *  @swagger
@@ -73,5 +74,6 @@ const {
 router.get("/allExercises", getAllExercises);
 router.get("/search", searchExercise);
 router.get("/deleteExercise", deleteExercise);
+router.post("/createExercise", createExercise);
 
 module.exports = router;
