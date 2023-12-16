@@ -1,4 +1,5 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
+
 require("dotenv").config();
 require("colors");
 
@@ -29,32 +30,31 @@ const BCRYPT_WORK_FACTOR = process.env.BCRYPT_WORK_FACTOR
   : 13;
 const SECRET_KEY = process.env.SECRET_KEY;
 
-function createConnection() {
-  const connection = mysql.createConnection({
+function createPool() {
+  const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: "fitnessDB",
 
-    // //for jest testing
-    // charset: "utf8mb4",
-    // collation: "utf8mb4_unicode_ci",
+    waitForConnections: true,
+    connectionLimit: 10, // Adjust as needed based on your requirements
+    queueLimit: 0, //set higher to prevent errors
   });
 
-  connection.connect((err) => {
-    if (err) {
-      // console.log("looping");
-      console.error("Error connecting to the database".red, err);
-      createConnection();
-      throw err;
-    }
-    // print_db_info();
+  pool.on("error", (err) => {
+    console.error("Database pool error:", err);
   });
-  return connection;
+
+  pool.on("release", (connection) => {
+    console.log("Connection %d released", connection.threadId);
+  });
+
+  return pool;
 }
 
 module.exports = {
-  createConnection,
+  createPool,
   PORT,
   SECRET_KEY,
   BCRYPT_WORK_FACTOR,

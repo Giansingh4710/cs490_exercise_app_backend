@@ -1,21 +1,26 @@
-const { createConnection } = require("../sql_config/database.js");
-const connection = createConnection();
+const {createPool} = require("../sql_config/database.js");
 const {
   getCoachByID_DB
 } = require("../dataAccess/coach_db_access.js")
 
 async function findUserByEmail(email) {
+  const connection = await createPool().getConnection();
   const query = "SELECT * FROM User WHERE email = ?";
-  const [rows, _] = await connection.promise().query(query, [email]);
+  const [rows, _] = await connection.execute(query, [email]);
+  connection.release();
   return rows[0]; // if rows is empty, this will return undefined
 }
 
-async function createUser({ email, hashedPass }) {
+async function registerAccount_DB({ email, hashedPass }) {
+  const connection = await createPool().getConnection();
   const q = "INSERT INTO User (email, password) VALUES (?, ?)";
-  const [insertInfoObj, _] = await connection.promise().query(q, [
+  console.log("registerAccount_DB");
+  const [insertInfoObj, _] = await connection.execute(q, [
     email,
     hashedPass,
   ]);
+  console.log(insertInfoObj);
+  connection.release();
   return insertInfoObj;
 }
 
@@ -43,6 +48,7 @@ async function updateUser(data) {
     }
   */
 
+  const connection = await createPool().getConnection();
   const query = `UPDATE User SET 
         firstName = ?,
         lastName = ?,
@@ -59,7 +65,7 @@ async function updateUser(data) {
         role = ?
     WHERE email = ?`;
 
-  let res = await connection.promise().query(query, [
+  let res = await connection.execute(query, [
     data.firstName,
     data.lastName,
     data.activityLevel,
@@ -79,17 +85,21 @@ async function updateUser(data) {
   const {userID} = await findUserByEmail(data.email);
 
   const q = "INSERT INTO Goal (userID, goalType) VALUES (?, ?)";
-  res = await connection.promise().query(q, [userID, data.goal]);
+  res = await connection.execute(q, [userID, data.goal]);
   if (data.role.toLowerCase() === "Coach".toLowerCase()) {
     const q = "INSERT INTO Coach (userID, cost, specialties) VALUES (?, ?, ?)";
-    res = await connection.promise().query(q, [userID,data.cost, data.specialties]);
+    res = await connection.execute(q, [userID,data.cost, data.specialties]);
   }
+  connection.release();
   return res[0];
 }
 
 async function getCoachOfUser_DB(userID){
+  const connection = await createPool().getConnection();
   const query = "SELECT coachID from User WHERE userID = ?";
-  const [rows, _] = await connection.promise().query(query, [userID]);
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
+
   if(rows[0].coachID){
     const coachData = await getCoachByID_DB(rows[0].coachID);
     return coachData;
@@ -97,7 +107,9 @@ async function getCoachOfUser_DB(userID){
   return null;
 }
 
+// TODO: connection.promise() isn't a thing so beginTransaction() and commit() aren't working
 async function removeCoach_DB(userID, coachUserID){
+  const connection = await createPool().getConnection();
   try{
     connection.promise().beginTransaction();
     // remove coachID from user data
@@ -115,6 +127,8 @@ async function removeCoach_DB(userID, coachUserID){
   }catch(error){
     connection.rollback();
     throw new Error('Error removing coach from database');
+  }finally{
+    connection.release();
   }
   
 }
@@ -155,7 +169,7 @@ async function deleteAccount_DB(userID){
 
 module.exports = {
   findUserByEmail,
-  createUser,
+  registerAccount_DB,
   updateUser,
   getCoachOfUser_DB,
   removeCoach_DB,
