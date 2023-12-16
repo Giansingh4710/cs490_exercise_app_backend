@@ -40,7 +40,7 @@ async function recordDailySurvey(req, res) {
 
 async function userDailyWeight(req, res) {
   try {
-    const userID = req.query.userID;
+    const userID = req.userID;
     const weightData = await dailyWeight_DB(userID);
     res.status(200);
     res.send(weightData);

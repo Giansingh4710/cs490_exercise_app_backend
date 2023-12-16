@@ -41,18 +41,18 @@ async function searchCoachByName_DB(name) {
 async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
   const connection = await createPool().getConnection();
   const query = `
-      SELECT c.CoachID, u.firstName, u.lastName
-      FROM Coach c INNER JOIN User u ON u.UserID = c.CoachID 
+      SELECT c.coachID, u.firstName, u.lastName, c.cost
+      FROM Coach c INNER JOIN User u ON u.UserID = c.userID 
       WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE ? AND 
         c.specialties LIKE ? AND 
-        c.cost <= ? AND 
+        c.cost <= IF(?=0, 999999999, ?) AND
         u.state LIKE ? AND 
         u.city LIKE ? 
       GROUP BY c.CoachID ORDER BY u.firstName`;
   const [rows, _] = await connection.execute(query, [
     `%${name}%`,
     `%${specialty}%`,
-    maxPrice,
+    maxPrice, maxPrice2,
     `%${state}%`,
     `%${city}%`,
   ]);
@@ -80,6 +80,24 @@ async function getUsersOfCoach_DB(userId) {
   return rows;
 }
 
+async function getClientInfo_DB(userID) {
+  const connection = await createPool().getConnection();
+  const query = 
+    `SELECT u.userID, u.firstName, u.lastName, g.goalType AS goal,
+    JSON_ARRAY('surveyDate', f.date, 'mentalState', m.state, 'waterIntake', TRUNCATE(w.intakeAmount, 1), 'waterUnits', w.intakeUnit,
+    'foodEaten', f.foodName, 'mealType', f.mealType, 'calories', f.calories, 'protein', f.protein, 'carbs', f.carbs, 'fat', f.fat,
+    'weightProgress', wp.weight, 'exerciseID', e.exerciseID, 'reps', e.reps, 'sets', e.sets, 'weightLifted', e.weight) AS dailySurvey
+    FROM User u INNER JOIN Goal g ON u.userID = ?
+    LEFT JOIN MentalState m ON u.userID = m.userID AND m.date = (SELECT MAX(m2.date) FROM MentalState m2 WHERE m2.userID = u.userID)
+    LEFT JOIN FoodIntake f ON u.userID = f.userID AND f.date = (SELECT MAX(f2.date) FROM FoodIntake f2 WHERE f2.userID = u.userID)
+    LEFT JOIN WaterIntake w ON u.userID = w.userID AND w.date = (SELECT MAX(w2.date) FROM WaterIntake w2 WHERE w2.userID = u.userID)
+    LEFT JOIN WeightProgress wp ON u.userID = wp.userID AND wp.date = (SELECT MAX(wp2.date) FROM WeightProgress wp2 WHERE wp2.userID = u.userID)
+    LEFT JOIN WorkoutPlan e ON u.userID = e.userID`;
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
+  return rows[0];
+}
+
 async function getCities_DB() {
   const connection = await createPool().getConnection();
   const query = `SELECT state, JSON_ARRAYAGG(city) AS cities
@@ -90,7 +108,7 @@ async function getCities_DB() {
   return rows;
 }
 
-async function getCoachFromUserID(userID) {
+async function getCoachIDFromUserID_DB(userID) {
   const connection = await createPool().getConnection();
   const query = "SELECT * FROM Coach WHERE UserID = ?";
   const [rows, _] = await connection.execute(query, [userID]);
@@ -105,6 +123,7 @@ module.exports = {
   getSpecializations_DB,
   searchCoachByName_DB,
   searchCoachByAll_DB,
+  getClientInfo_DB,
   getUsersOfCoach_DB,
-  getCoachFromUserID,
+  getCoachIDFromUserID_DB,
 };

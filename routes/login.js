@@ -66,4 +66,9 @@ const { login } = require("../controllers/login.js");
  */
 router.post("/", login);
 
+router.get("/test", (req, res) => {
+    res.status(200);
+    res.send("works without db call");
+})
+
 module.exports = router

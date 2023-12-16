@@ -1,6 +1,8 @@
 const {
     getCoachOfUser_DB,
-    removeCoach_DB
+    removeCoach_DB,
+    getUserData_DB,
+    deleteAccount_DB
 } = require("../dataAccess/user_db.js");
 
 
@@ -40,7 +42,44 @@ async function removeCoach(req, res){
     }
 }
 
+async function getUserData(req, res){
+    try{
+        const userData = await getUserData_DB(req.userID);
+        res.status(200);
+        res.send(userData);
+    }catch(error){
+        res.status(500);
+        res.send({
+            error: {
+                status: 500,
+                message: "Error accessing user data",
+                details: "Error accessing database"
+            }
+        })
+    }
+}
+
+async function deleteAccount(req, res){
+    try{
+        await deleteAccount_DB(req.userID);
+        res.status(200);
+        res.send({
+            message: "Account deleted"
+        })
+    }catch(error){
+        res.status(500);
+        res.send({
+            error: {
+                status: 500,
+                message: "Error deleting account"
+            }
+        })
+    }
+}
+
 module.exports = {
     getCoachOfUser,
-    removeCoach
+    removeCoach,
+    getUserData,
+    deleteAccount
 }

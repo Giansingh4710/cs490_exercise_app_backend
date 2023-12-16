@@ -6,6 +6,8 @@ const {
   getSpecializations_DB,
   getCities_DB,
   getUsersOfCoach_DB,
+  getClientInfo_DB,
+  getCoachIDFromUserID_DB
 } = require(
   "../dataAccess/coach_db_access",
 );
@@ -81,12 +83,14 @@ async function searchCoachByAll(req, res) {
     const name = req.query.name;
     const specialty = req.query.specialty;
     const maxPrice = req.query.maxPrice;
+    const maxPrice2 = req.query.maxPrice;
     const state = req.query.state;
     const city = req.query.city;
     const coachData = await searchCoachByAll_DB(
       name,
       specialty,
       maxPrice,
+      maxPrice2,
       state,
       city,
     );
@@ -106,8 +110,8 @@ async function searchCoachByAll(req, res) {
 
 async function getUsersOfCoach(req, res) {
   try {
-    const coachID = req.userID; // set in ../utils/security.js
-    const clients = await getUsersOfCoach_DB(coachID);
+    let coachData = await getCoachIDFromUserID_DB(req.userID); // set in ../utils/security.js
+    const clients = await getUsersOfCoach_DB(coachData.coachID);
     res.status(200);
     res.send(clients);
   } catch (error) {
@@ -117,6 +121,24 @@ async function getUsersOfCoach(req, res) {
         status: 500,
         message: error.message,
         details: "Error trying to getUsersOfCoach from database.",
+      },
+    });
+  }
+}
+
+async function getClientInfo(req, res) {
+  try {
+    const userID = req.query.userID; // set in ../utils/security.js
+    const clientData = await getClientInfo_DB(userID);
+    res.status(200);
+    res.send(clientData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to getClientInfo from database.",
       },
     });
   }
@@ -156,6 +178,29 @@ async function getSpecializations(req, res) {
   }
 }
 
+async function getCoachIDFromUserID(req, res){
+  let errorCode = 500;
+  try{
+    const coachData = await getCoachIDFromUserID_DB(req.userID);
+    if(coachData == null){
+      errorCode = 400;
+      throw new Error("User is not a coach");
+    }
+    res.status(200);
+    res.send({
+      coachID: coachData.coachID
+    })
+  }catch(error){
+    res.status(errorCode);
+    res.send({
+      error: {
+        status: errorCode,
+        message: error.message
+      }
+    })
+  }
+}
+
 module.exports = {
   getCoachByID,
   getAllCoaches,
@@ -164,4 +209,6 @@ module.exports = {
   getSpecializations,
   getCities,
   getUsersOfCoach,
+  getClientInfo,
+  getCoachIDFromUserID
 };

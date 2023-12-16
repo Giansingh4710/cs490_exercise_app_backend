@@ -2,7 +2,15 @@ const router = require("express").Router();
 const { requireAuthedUser, fakeAuthedUser } = require(
   "../utils/security.js",
 );
-const { requestCoach, getOpenRequests, unansweredRequestsByCoach, getStatus } = require(
+const { 
+  requestCoach, 
+  getOpenRequests, 
+  unansweredRequestsByCoach, 
+  getStatus,
+  acceptRequest,
+  declineRequest,
+  cancelRequest,
+ } = require(
   "../controllers/request.js",
 );
 
@@ -222,5 +230,9 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
 router.get("/openCoachRequests", requireAuthedUser, unansweredRequestsByCoach);
 
 router.get("/status", getStatus);
+
+router.get("/accept", acceptRequest);
+router.get("/decline", declineRequest);
+router.delete("/cancel", cancelRequest);
 
 module.exports = router;

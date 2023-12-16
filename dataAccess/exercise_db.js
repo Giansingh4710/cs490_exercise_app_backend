@@ -21,4 +21,24 @@ async function searchExercise_DB(muscleGroup, equipment) {
   return rows;
 }
 
-module.exports = { getAllExercises_DB, searchExercise_DB };
+async function deleteExercise_DB(exerciseID) {
+  const query =
+  `DELETE FROM Exercise WHERE exerciseID = ?`;
+  const [rows, _] = await connection.promise().query(query, [exerciseID]); //res[0]=rows, res[1]=fields
+  return rows;
+}
+
+async function createExercise_DB(exerciseData){
+  const query = `INSERT INTO Exercise(name, muscleGroup, difficulty, equipment, type, metric) VALUES(?, ?, ?, ?, ?, ?)`
+  const [rows, _] = await connection.promise().query(query, [exerciseData.name, exerciseData.muscleGroup,
+     exerciseData.difficulty, exerciseData.equipment, exerciseData.type, exerciseData.metric])
+  return rows;
+}
+
+async function getExerciseData_DB(exerciseID){
+  const query = "SELECT * FROM Exercise WHERE ExerciseID = ?";
+  const [res, _] = await connection.promise().query(query, [exerciseID]);
+  return res;
+}
+
+module.exports = { getAllExercises_DB, searchExercise_DB, deleteExercise_DB, createExercise_DB, getExerciseData_DB };
