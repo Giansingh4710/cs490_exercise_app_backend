@@ -16,6 +16,7 @@ async function getAssignedWorkoutPlan(req, res) {
           if(!(element.dayOfWeek in workoutPlanFormatted)){
             workoutPlanFormatted[element.dayOfWeek] = []
             workoutPlanFormatted[element.dayOfWeek].push({
+              planID: element.planID,
               "exercise": element.name,
               sets: element.sets,
               reps: [element.reps],
@@ -29,6 +30,7 @@ async function getAssignedWorkoutPlan(req, res) {
 
             if (!existingExercise) {
               workoutPlanFormatted[element.dayOfWeek].push({
+                planID: element.planID,
                 "exercise": element.name,
                 sets: element.sets,
                 reps: [element.reps],
@@ -89,6 +91,7 @@ async function getPersonalWorkoutPlan(req, res){
           if(!(element.dayOfWeek in workoutPlanFormatted)){
             workoutPlanFormatted[element.dayOfWeek] = []
             workoutPlanFormatted[element.dayOfWeek].push({
+              planID: element.planID,
               "exercise": element.name,
               sets: element.sets,
               reps: [element.reps],
@@ -102,6 +105,7 @@ async function getPersonalWorkoutPlan(req, res){
 
             if (!existingExercise) {
               workoutPlanFormatted[element.dayOfWeek].push({
+                planID: element.planID,
                 "exercise": element.name,
                 sets: element.sets,
                 reps: [element.reps],

@@ -11,15 +11,18 @@ async function getAssignedWorkoutPlan_DB(userID) {
 
 //TODO begin transaction
 async function addExercise_DB(data, userID) {
+  const connection = await createPool().getConnection();
   try {
-    connection.promise().beginTransaction();
+    connection.beginTransaction();
     const sets = data.sets.length;
+    console.log(data);
     data.sets.forEach(async (element) => {
-      let query = null;
+      console.log(element);
+      let query = "";
       if (data.metric === "Reps") {
         query =
           "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Reps, Sets, Weight) VALUES(?, ?, ?, ?, ?, ?, ?)";
-        await connection.promise().query(query, [
+        await connection.execute(query, [
           userID,
           data.exerciseID,
           data.dayOfWeek,
@@ -31,14 +34,14 @@ async function addExercise_DB(data, userID) {
       } else {
         query =
           "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Duration, Sets, Weight, Reps) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        await connection.promise().query(query, [
+        await connection.execute(query, [
           userID,
           data.exerciseID,
           data.dayOfWeek,
           "Client",
           element.duration,
           sets,
-          element.weight,
+          0,
           0,
         ]);
       }
@@ -47,6 +50,8 @@ async function addExercise_DB(data, userID) {
   } catch (error) {
     connection.rollback();
     throw new Error("Error entering exercise to workout plan");
+  }finally{
+    connection.release();
   }
 }
 
