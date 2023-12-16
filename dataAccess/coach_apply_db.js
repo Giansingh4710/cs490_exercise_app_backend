@@ -16,7 +16,14 @@ async function getAllPending_DB() {
     return res;
   }
 
+  async function denyCoach_DB(coachRequestID) {
+    const query = `UPDATE coachRequest SET status = 'Denied' WHERE coachRequestID = ?`;
+    const [res, _] = await connection.promise().query(query, [coachRequestID]);
+    return res;
+  }
+
 module.exports = {
     getAllPending_DB,
     acceptCoach_DB,
+    denyCoach_DB,
   };

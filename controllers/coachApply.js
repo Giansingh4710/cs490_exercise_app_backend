@@ -1,6 +1,7 @@
 const {
   getAllPending_DB,
   acceptCoach_DB,
+  denyCoach_DB,
 } = require(
   "../dataAccess/coach_apply_db",
 );
@@ -40,7 +41,26 @@ async function acceptCoach(req, res) {
   }
 }
 
+async function denyCoach(req, res) {
+  try {
+    const coachRequestID = req.query.coachRequestID; // set in ../utils/security.js
+    const coachRequestData = await denyCoach_DB(coachRequestID);
+    res.status(200);
+    res.send(coachRequestData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to update coach request status in database.",
+      },
+    });
+  }
+}
+
 module.exports = {
   getAllPending,
   acceptCoach,
+  denyCoach,
 };
