@@ -1,7 +1,7 @@
 -- Dumping data for User table
 
 INSERT INTO User VALUES 
-    (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2a$04$TVerixEiF2tqdsMnt7K.hehheTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '000-000-0000', NULL, NULL, NULL, '12345', 'Admin', NULL, '2000-01-01', 0, 0, NULL, './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (1, NULL, 'Admin', 'Admin', 'admin@fitfusion.com', '$2b$13$WHpbpae0tLIH4HuozP4FHeYew2JxT6jv.iCQNbWdnQkheDMqnH8qu', '000-000-0000', NULL, NULL, NULL, '12345', 'Admin', NULL, '2000-01-01', 0, 0, NULL, './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (2, NULL, 'Elliot', 'Livens', 'elivens0@google.com.br', '$2a$04$TVwvixEiF2tqdsMnt7K.hehmwTwd1rSV7HW5LZY7Hoh2WaYEoh8qa', '300-860-5685', '2 Straubel Way', 'Chattanooga', 'Tennessee', '12345', 'Client', 'Male', '2000-05-11', 267, 67, 'Moderate', './profile-photos/male_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (3, NULL, 'Celka', 'Giblin', 'cgiblin1@taobao.com', '$2a$04$8VxUXP1p0MOhDhik6GUe3uwbFsfQlqFTRMLsqOUwyxrupfFDH668i', '911-719-7901', '17590 Mallory Drive', 'Conroe', 'Texas', '12345', 'Client', 'Female', '1999-01-13', 159, 64, 'High', './profile-photos/female_03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (4, NULL, 'Barret', 'Nuth', 'bnuth2@yolasite.com', '$2a$04$z83KQmExXLh336wuDdVdm.geVtlNsMfMxjC.SnpB3SYoPm5Ed2P3.', '287-895-6161', '4561 Heffernan Center', 'Las Cruces', 'New Mexico', '12345', 'Client', 'Male', '1991-01-04', 134, 77, 'Moderate', './profile-photos/male_02', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
