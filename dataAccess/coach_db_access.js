@@ -83,7 +83,7 @@ async function getCities_DB() {
   return rows;
 }
 
-async function getCoachFromUserID(userID) {
+async function getCoachIDFromUserID_DB(userID) {
   const query = "SELECT * FROM Coach WHERE UserID = ?";
   const [rows,_] = await connection.promise().query(query, [userID]);
   return rows[0];
@@ -98,5 +98,5 @@ module.exports = {
   searchCoachByAll_DB,
   getClientInfo_DB,
   getUsersOfCoach_DB,
-  getCoachFromUserID,
+  getCoachIDFromUserID_DB,
 };

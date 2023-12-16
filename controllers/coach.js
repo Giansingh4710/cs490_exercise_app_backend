@@ -7,7 +7,7 @@ const {
   getCities_DB,
   getUsersOfCoach_DB,
   getClientInfo_DB,
-  getCoachFromUserID
+  getCoachIDFromUserID_DB
 } = require(
   "../dataAccess/coach_db_access",
 );
@@ -110,7 +110,7 @@ async function searchCoachByAll(req, res) {
 
 async function getUsersOfCoach(req, res) {
   try {
-    let coachData = await getCoachFromUserID(req.userID); // set in ../utils/security.js
+    let coachData = await getCoachIDFromUserID_DB(req.userID); // set in ../utils/security.js
     const clients = await getUsersOfCoach_DB(coachData.coachID);
     res.status(200);
     res.send(clients);
@@ -178,6 +178,29 @@ async function getSpecializations(req, res) {
   }
 }
 
+async function getCoachIDFromUserID(req, res){
+  let errorCode = 500;
+  try{
+    const coachData = await getCoachIDFromUserID_DB(req.userID);
+    if(coachData == null){
+      errorCode = 400;
+      throw new Error("User is not a coach");
+    }
+    res.status(200);
+    res.send({
+      coachID: coachData.coachID
+    })
+  }catch(error){
+    res.status(errorCode);
+    res.send({
+      error: {
+        status: errorCode,
+        message: error.message
+      }
+    })
+  }
+}
+
 module.exports = {
   getCoachByID,
   getAllCoaches,
@@ -187,4 +210,5 @@ module.exports = {
   getCities,
   getUsersOfCoach,
   getClientInfo,
+  getCoachIDFromUserID
 };

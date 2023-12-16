@@ -1,5 +1,5 @@
 const moment = require("moment");
-const { getUsersOfCoach_DB, getCoachFromUserID } = require(
+const { getUsersOfCoach_DB } = require(
   "../dataAccess/coach_db_access",
 );
 const { getAssignedWorkoutPlan_DB, addExercise_DB, getPersonalWorkoutPlan_DB, getLast5DaysOfWorkouts_DB} = require(
@@ -59,7 +59,7 @@ async function getAssignedWorkoutPlan(req, res) {
   }
 }
 
-async function addExercise(req, res) {
+async function clientAddExercise(req, res) {
   let errorStatus = 500;
   try {
     const insertedExercise = await addExercise_DB(req.body, req.userID);
@@ -187,7 +187,7 @@ async function getLast5DaysOfWorkouts(req, res){
 
 module.exports = {
   getAssignedWorkoutPlan,
-  addExercise,
+  clientAddExercise,
   getPersonalWorkoutPlan,
   getLast5DaysOfWorkouts
 };

@@ -278,7 +278,7 @@ describe("getUsersOfCoach", () => {
       userID: 1,
     };
     db_file.getUsersOfCoach_DB.mockImplementationOnce(() => clients);
-    db_file.getCoachFromUserID.mockImplementationOnce(() => ({
+    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => ({
       coachID: 123,
     }));
     await getUsersOfCoach(req, res);
@@ -287,7 +287,7 @@ describe("getUsersOfCoach", () => {
   });
 
   it("should return error when getting clients of coach", async () => {
-    db_file.getCoachFromUserID.mockImplementationOnce(() => ({
+    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => ({
       coachID: 123, // Add any necessary properties that your application expects
     }));
     db_file.getUsersOfCoach_DB.mockImplementationOnce(() => {
