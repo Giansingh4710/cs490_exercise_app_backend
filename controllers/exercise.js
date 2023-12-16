@@ -1,4 +1,4 @@
-const { getAllExercises_DB, searchExercise_DB, deleteExercise_DB } = require("../dataAccess/exercise_db.js");
+const { getAllExercises_DB, searchExercise_DB, deleteExercise_DB, createExercise_DB } = require("../dataAccess/exercise_db.js");
 
 async function getAllExercises(req, res) {
   try {
@@ -59,4 +59,23 @@ async function deleteExercise(req, res) {
   }
 }
 
-module.exports = { getAllExercises, searchExercise, deleteExercise };
+async function createExercise(req, res) {
+  try {
+    const mealInsert = await createExercise_DB(req.body);
+    res.status(201)
+    res.send({
+      message: "Exercise added to exercise bank",
+    });
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error inserting exercise into database",
+      },
+    });
+  }
+}
+
+module.exports = { getAllExercises, searchExercise, deleteExercise, createExercise };
