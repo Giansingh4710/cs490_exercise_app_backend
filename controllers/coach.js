@@ -110,8 +110,8 @@ async function searchCoachByAll(req, res) {
 
 async function getUsersOfCoach(req, res) {
   try {
-    let coachData = await getCoachIDFromUserID_DB(req.userID); // set in ../utils/security.js
-    const clients = await getUsersOfCoach_DB(coachData.coachID);
+    // let coachData = await getCoachIDFromUserID_DB(req.userID); // set in ../utils/security.js
+    const clients = await getUsersOfCoach_DB(req.userID);
     res.status(200);
     res.send(clients);
   } catch (error) {

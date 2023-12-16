@@ -111,18 +111,18 @@ async function getCoachOfUser_DB(userID){
 async function removeCoach_DB(userID, coachUserID){
   const connection = await createPool().getConnection();
   try{
-    connection.promise().beginTransaction();
+    connection.beginTransaction();
     // remove coachID from user data
     const removeCoachQuery = "UPDATE User SET coachID = null WHERE userID = ?";
-    await connection.promise().query(removeCoachQuery, [userID]);
+    await connection.execute(removeCoachQuery, [userID]);
 
     // delete coach assigned workouts from workout plan
     const deleteAssignedWorkoutQuery = "DELETE FROM WorkoutPlan WHERE userID = ? AND creator='Coach'";
-    await connection.promise().query(deleteAssignedWorkoutQuery, [userID]);
+    await connection.execute(deleteAssignedWorkoutQuery, [userID]);
 
     // delete messages with coach
     const deleteMessagesQuery = "DELETE FROM Message WHERE senderID = ? AND receiverID = ? OR senderID = ? AND receiverID = ?";
-    await connection.promise().query(deleteMessagesQuery, [userID, coachUserID, coachUserID, userID]);
+    await connection.execute(deleteMessagesQuery, [userID, coachUserID, coachUserID, userID]);
     connection.commit();
   }catch(error){
     connection.rollback();
@@ -134,6 +134,7 @@ async function removeCoach_DB(userID, coachUserID){
 }
 
 async function getUserData_DB(userID){
+  const connection = await createPool().getConnection();
   const query = `
   SELECT
     firstName,
@@ -157,13 +158,16 @@ async function getUserData_DB(userID){
   LEFT JOIN Goal on Goal.userID = User.userID 
   LEFT JOIN Coach ON Coach.userID = User.userID
   WHERE User.userID = ?`;
-  const [rows, _] = await connection.promise().query(query, [userID]);
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
   return rows[0];
 }
 
 async function deleteAccount_DB(userID){
+  const connection = await createPool().getConnection();
   const query = "DELETE FROM User WHERE UserID = ?";
-  const [res, _] = await connection.promise().query(query, [userID]);
+  const [res, _] = await connection.execute(query, [userID]);
+  connection.release();
   return res;
 }
 

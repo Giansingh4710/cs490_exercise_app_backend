@@ -39,17 +39,19 @@ async function getMessages(req, res){
         })
     }
     
-    try{
+    // try{
+        console.log(req.params.userID);
+        console.log(req.userID);
         const messages = await getMessages_DB(req.params.userID, req.userID, limit, offset);
         return res.status(200).send(messages);
-    }catch(error){
-        return res.status(500).send({
-            error: {
-                status: 500,
-                message: "Error accessing database."
-            }
-        })
-    }
+    // }catch(error){
+    //     return res.status(500).send({
+    //         error: {
+    //             status: 500,
+    //             message: "Error accessing database."
+    //         }
+    //     })
+    // }
 }
 
 module.exports = {

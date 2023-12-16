@@ -38,7 +38,7 @@ async function searchCoachByName_DB(name) {
   return rows;
 }
 
-async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
+async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice2, state, city) {
   const connection = await createPool().getConnection();
   const query = `
       SELECT c.coachID, u.firstName, u.lastName, c.cost

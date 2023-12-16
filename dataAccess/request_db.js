@@ -104,20 +104,28 @@ async function unansweredRequestsByCoach_DB(userID) {
 }
 
 async function acceptRequest_DB(requestID) {
+  const connection = await createPool().getConnection();
   const query = `UPDATE request SET status = 'Accepted' WHERE requestID = ?`;
-  const [res, _] = await connection.promise().query(query, [requestID]);
+  const [res, _] = await connection.execute(query, [requestID]);
+  const updateCoachInUserTableQuery = "UPDATE User SET User.coachID = (SELECT coachID FROM request WHERE requestID = ?) WHERE User.userID = (SELECT userID FROM Request WHERE RequestID = ?)"
+  const [userRes, __] = await connection.execute(query, [requestID]);
+  connection.release();
   return res;
 }
 
 async function declineRequest_DB(requestID) {
+  const connection = await createPool().getConnection();
   const query = `UPDATE request SET status = 'Denied' WHERE requestID = ?`;
-  const [res, _] = await connection.promise().query(query, [requestID]);
+  const [res, _] = await connection.execute(query, [requestID]);
+  connection.release();
   return res;
 }
 
 async function cancelRequest_DB(requestID) {
+  const connection = await createPool().getConnection();
   const query = "DELETE FROM Request WHERE requestID = ?";
-  const [res, _] = await connection.promise().query(query, [requestID]);
+  const [res, _] = await connection.execute(query, [requestID]);
+  connection.release();
   return res;
 }
 
