@@ -2,7 +2,15 @@ const moment = require("moment");
 const { getUsersOfCoach_DB } = require(
   "../dataAccess/coach_db_access",
 );
-const { getAssignedWorkoutPlan_DB, deleteExercise_DB, addExercise_DB, getPersonalWorkoutPlan_DB, getLast5DaysOfWorkouts_DB, getExerciseDataFromPlan_DB} = require(
+const {
+  getAssignedWorkoutPlan_DB,
+  deleteExercise_DB,
+  addExercise_DB,
+  getPersonalWorkoutPlan_DB,
+  getLast5DaysOfWorkouts_DB,
+  getExerciseDataFromPlan_DB,
+  recordWorkout_DB
+} = require(
   "../dataAccess/workout_plan_db",
 );
 
@@ -62,7 +70,6 @@ async function getAssignedWorkoutPlan(req, res) {
 }
 
 async function clientAddExercise(req, res) {
-  console.log(req.body);
   try {
     const insertedExercise = await addExercise_DB(req.body, req.userID, "Client");
     res.status(201);
@@ -256,6 +263,33 @@ async function clientDeleteExercise(req, res){
 
 }
 
+async function recordWorkout(req, res){
+  try{
+    const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
+
+    const insertWorkout = {
+      planID: req.body.planID,
+      sets: req.body.sets,
+      date: req.body.date,
+      metric: exerciseData.metric,
+      dayOfWeek: exerciseData.dayOfWeek,
+      exerciseID: exerciseData.exerciseID,
+    }
+    const recordedWorkout = await recordWorkout_DB(insertWorkout);
+    res.status(201);
+    return res.send({
+      status: 201,
+      message: "Workout recorded",
+    });
+  }catch(error){
+    res.status(500);
+    return res.send({
+      status: 500,
+      message: "Error recording workout",
+    });
+  }
+}
+
 module.exports = {
   getAssignedWorkoutPlan,
   clientAddExercise,
@@ -263,5 +297,6 @@ module.exports = {
   getLast5DaysOfWorkouts,
   coachAddExercise,
   clientEditExercise,
-  clientDeleteExercise
+  clientDeleteExercise,
+  recordWorkout
 };

@@ -100,11 +100,52 @@ async function getExerciseDataFromPlan_DB(planID){
 
 async function deleteExercise_DB(exerciseID, dayOfWeek, userID, client){
   const connection = createPool().getConnection();
-  console.log("delete");
 
   const query = "DELETE FROM WorkoutPlan WHERE exerciseID = ? AND dayOfWeek = ? AND userID = ? AND creator = ?";
   (await connection).execute(query, [exerciseID, dayOfWeek, userID, client]);
   (await connection).release();
+}
+
+async function recordWorkout_DB(data){
+  const connection = await createPool().getConnection();
+  try {
+    connection.beginTransaction();
+    const sets = data.sets.length;
+    console.log(data);
+    data.sets.forEach(async (element) => {
+      console.log(element);
+      let query = "";
+      if (data.metric === "Reps") {
+        query =
+          "INSERT INTO Record(planID, exerciseID, date, reps, sets, weight) values(?, ?, ?, ?, ?, ?);";
+        await connection.execute(query, [
+          data.planID,
+          data.exerciseID,
+          data.date,
+          element.reps,
+          sets,
+          element.weight,
+        ]);
+      } else {
+        query =
+          "INSERT INTO Record(planID, exerciseID, date, reps, sets, duration) values(?, ?, ?, ?, ?, ?);";
+        await connection.execute(query, [
+          data.planID,
+          data.exerciseID,
+          data.date,
+          element.reps,
+          sets,
+          element.duration,
+        ]);
+      }
+    });
+    connection.commit();
+  } catch (error) {
+    connection.rollback();
+    throw new Error("Error entering exercise to record table");
+  }finally{
+    connection.release();
+  }
 }
 
 module.exports = {
@@ -113,5 +154,6 @@ module.exports = {
   getPersonalWorkoutPlan_DB,
   getLast5DaysOfWorkouts_DB,
   getExerciseDataFromPlan_DB,
-  deleteExercise_DB
+  deleteExercise_DB,
+  recordWorkout_DB
 };

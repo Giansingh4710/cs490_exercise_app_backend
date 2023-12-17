@@ -11,7 +11,8 @@ const {
     getLast5DaysOfWorkouts,
     coachAddExercise,
     clientEditExercise,
-    clientDeleteExercise
+    clientDeleteExercise,
+    recordWorkout
 } = require("../controllers/workoutPlan.js");
 
 /**
@@ -82,5 +83,7 @@ router.delete("/client/deleteExercise", requireAuthedUser, clientDeleteExercise)
 router.post("/coach/addExercise", requireAuthedUser, coachAddExercise);
 
 router.get("/getPastWorkouts", requireAuthedUser, getLast5DaysOfWorkouts);
+
+router.post("/recordWorkout", requireAuthedUser, recordWorkout);
 
 module.exports = router;
