@@ -18,13 +18,6 @@ const { getCoachOfUser, removeCoach, getUserData, deleteAccount } = require(
  *  get:
  *      summary: Get coach information for a user
  *      tags: [Users]
- *      parameters:
- *        - in: query
- *          name: userID
- *          schema:
- *            type: integer
- *          required: true
- *          description: The unique identifier for the user
  *      responses:
  *          200:
  *              description: Coach information retrieved successfully
@@ -100,13 +93,6 @@ router.get("/coach", requireAuthedUser, getCoachOfUser);
  *  delete:
  *      summary: Remove coach from user
  *      tags: [Users]
- *      parameters:
- *        - in: query
- *          name: userID
- *          schema:
- *            type: integer
- *          required: true
- *          description: The unique identifier for the user
  *      responses:
  *          200:
  *              description: Coach removed successfully
@@ -170,13 +156,6 @@ router.delete("/coach", requireAuthedUser, removeCoach);
  *  get:
  *      summary: Get user data
  *      tags: [Users]
- *      parameters:
- *        - in: query
- *          name: userID
- *          schema:
- *            type: integer
- *          required: true
- *          description: The unique identifier for the user
  *      responses:
  *          200:
  *              description: User data retrieved successfully
@@ -302,13 +281,6 @@ router.get("/data", requireAuthedUser, getUserData);
  *  delete:
  *      summary: Delete user account
  *      tags: [Users]
- *      parameters:
- *        - in: query
- *          name: userID
- *          schema:
- *            type: integer
- *          required: true
- *          description: The unique identifier for the user
  *      responses:
  *          200:
  *              description: User account deleted successfully

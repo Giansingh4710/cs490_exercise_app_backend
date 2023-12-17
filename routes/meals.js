@@ -172,18 +172,23 @@ router.delete("/:mealID", requireAuthedUser, deleteMeal);
  *                      properties:
  *                          mealName:
  *                              type: string
+ *                              example: Pizza
  *                              description: The name of the meal
  *                          calories:
  *                              type: integer
+ *                              example: 1204
  *                              description: The number of calories in the meal
  *                          protein:
  *                              type: integer
+ *                              example: 12
  *                              description: The amount of protein in the meal
  *                          fat:
  *                              type: integer
+ *                              example: 52
  *                              description: The amount of fat in the meal
  *                          mealType:
  *                              type: string
+ *                              example: Dinner
  *                              description: The type of the meal
  *      responses:
  *          201:

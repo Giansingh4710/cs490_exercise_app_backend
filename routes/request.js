@@ -128,7 +128,6 @@ router.post("/", requireAuthedUser, requestCoach);
  *      tags: [request]
  *      responses:
  *          200:
- *              description: List of all coaches matching the name given in the query
  *              content:
  *                  application/json:
  *                      schema:
@@ -160,7 +159,6 @@ router.post("/", requireAuthedUser, requestCoach);
  *                              firstName: Gavin
  *                              lastName: Egger
  *          500:
- *              description: UserID of logged in user does not match userID in request
  *              content:
  *                  application/json:
  *                      schema:
@@ -187,7 +185,6 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  *      tags: [request]
  *      responses:
  *          200:
- *              description: List of all coaches matching the name given in the query
  *              content:
  *                  application/json:
  *                      schema:
@@ -219,7 +216,6 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  *                              firstName: Gavin
  *                              lastName: Egger
  *          500:
- *              description: UserID of logged in user does not match userID in request
  *              content:
  *                  application/json:
  *                      schema:
@@ -465,7 +461,7 @@ router.get("/decline", declineRequest);
 /**
  *  @swagger
  *  /request/cancel:
- *  post:
+ *  delete:
  *      summary: Cancel a coaching request
  *      tags: [request]
  *      parameters:

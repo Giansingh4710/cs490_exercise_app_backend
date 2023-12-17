@@ -15,7 +15,7 @@ const {
 
 /**
  *  @swagger
- *  /messages/store:
+ *  /messages:
  *  post:
  *      summary: Store a new message
  *      tags: [messages]

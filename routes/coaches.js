@@ -591,6 +591,9 @@ router.get("/terminate", terminateClient); // Unassign a user from their coach
  *                      schema:
  *                          type: object
  *                          properties:
+ *                              coachID:
+ *                                  type: integer
+ *                                  example: 1
  *                              userID:
  *                                  type: integer
  *                                  example: 1

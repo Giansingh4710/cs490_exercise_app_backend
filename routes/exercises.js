@@ -26,7 +26,6 @@ const {
  *  get:
  *      summary: Returns all exercises
  *      tags: [exercises]
- *      description: Returns coachID, firstName, lastName of all coaches
  *      responses:
  *          200:
  *              description: List of all coaches matching the name given in the query
@@ -292,21 +291,27 @@ router.get("/enableExercise", enableExercise);
  *                      properties:
  *                          name:
  *                              type: string
+ *                              example: "Push-ups"
  *                              description: The name of the exercise
  *                          type:
  *                              type: string
+ *                              example: Compound
  *                              description: The type of the exercise
  *                          difficulty:
  *                              type: string
+ *                              example: Beginner
  *                              description: The difficulty level of the exercise
  *                          muscleGroup:
  *                              type: string
+ *                              example: Chest
  *                              description: The muscle group targeted by the exercise
  *                          equipment:
  *                              type: string
+ *                              example: Bodyweight
  *                              description: The equipment used for the exercise
  *                          metric:
  *                              type: string
+ *                              example: reps
  *                              description: The way the exercise is counted. Reps or Duration
  *      responses:
  *          201:

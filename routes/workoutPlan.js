@@ -27,13 +27,6 @@ const {
  *  get:
  *      summary: Get assigned workout plan for the user
  *      tags: [Workout Plan]
- *      parameters:
- *        - in: query
- *          name: userID
- *          schema:
- *            type: integer
- *          required: true
- *          description: The unique identifier for the user
  *      responses:
  *          200:
  *              description: Workout plan retrieved successfully
@@ -136,13 +129,6 @@ router.get("/coach/Workouts", requireAuthedUser, getAssignedWorkoutPlan);
  *  get:
  *      summary: Get personal workout plan for the user
  *      tags: [Workout Plan]
- *      parameters:
- *        - in: query
- *          name: userID
- *          schema:
- *            type: integer
- *          required: true
- *          description: The unique identifier for the user
  *      responses:
  *          200:
  *              description: Personal workout plan retrieved successfully
@@ -245,7 +231,7 @@ router.get("/client/Workouts", requireAuthedUser, getPersonalWorkoutPlan);
  *  post:
  *      summary: User can add an exercise to their workout plan
  *      tags: [Workout Plan]
- *      description: This endpoint gets the workout plan of a user.
+ *      description: This endpoint adds an exercise to the user's workout plan.
  *      requestBody:
  *          required: true
  *          content:
@@ -253,25 +239,33 @@ router.get("/client/Workouts", requireAuthedUser, getPersonalWorkoutPlan);
  *                  schema:
  *                      type: object
  *                      properties:
- *                          userID:
- *                              type: integer
- *                              description: UserID of user to add exercise to workout plan for
- *                              example: 101
  *                          exerciseID:
  *                              type: integer
- *                              description: ExerciseID of exercise to be added to workout plan
+ *                              description: ExerciseID of the exercise to be added to the workout plan
  *                              example: 12
  *                          dayOfWeek:
  *                              type: string
- *                              description: Day of week to add exercise to
+ *                              description: Day of the week to add the exercise to
  *                              example: 'monday'
+ *                          sets:
+ *                              type: array
+ *                              description: List of sets for the exercise
+ *                              items:
+ *                                  type: object
+ *                                  properties:
+ *                                      reps:
+ *                                          type: integer
+ *                                          description: Number of repetitions for the set
+ *                                          example: 5
+ *                                      weight:
+ *                                          type: number
+ *                                          description: Weight used for the set
+ *                                          example: 110
  *      responses:
  *          201:
- *              description: Exercise has been added to workout plan
- *          403:
- *              description: Coach is signed in user and is trying to access workout plan of user that is not their client. Or User is not a coach.
+ *              description: Exercise has been added to the workout plan
  *          500:
- *              description: Error accessing Database.
+ *              description: Error accessing the database.
  */
 router.post("/client/addExercise", requireAuthedUser, clientAddExercise);
 
@@ -288,14 +282,9 @@ router.post("/client/addExercise", requireAuthedUser, clientAddExercise);
  *                  schema:
  *                      type: object
  *                      properties:
- *                          exerciseID:
+ *                          planID:
  *                              type: integer
- *                              description: The unique identifier for the exercise
- *                              example: 1
- *                          dayOfWeek:
- *                              type: string
- *                              description: The day of the week for the exercise (e.g., "Monday")
- *                              example: "Monday"
+ *                              example: 5
  *                          sets:
  *                              type: array
  *                              items:
@@ -309,10 +298,6 @@ router.post("/client/addExercise", requireAuthedUser, clientAddExercise);
  *                                          type: number
  *                                          description: The weight used for the exercise
  *                                          example: 20
- *                          metric:
- *                              type: string
- *                              description: The metric for the exercise (e.g., "Reps" or "Duration")
- *                              example: "Reps"
  *      responses:
  *          201:
  *              description: Exercise added to client's workout plan successfully
