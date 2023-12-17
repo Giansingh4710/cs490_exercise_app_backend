@@ -9,6 +9,15 @@ async function getAllExercises_DB() {
   return rows;
 }
 
+async function getAllActiveExercises_DB() {
+  const connection = await createPool().getConnection();
+  const query =
+    `SELECT exerciseID, name, type, difficulty, muscleGroup, equipment FROM Exercise WHERE status='Enabled'`;
+  const [rows, _] = await connection.execute(query); //res[0]=rows, res[1]=fields
+  connection.release();
+  return rows;
+}
+
 async function searchExercise_DB(muscleGroup, equipment) {
   const connection = await createPool().getConnection();
   const query =
@@ -61,5 +70,6 @@ module.exports = {
   disableExercise_DB, 
   enableExercise_DB, 
   createExercise_DB, 
-  getExerciseData_DB 
+  getExerciseData_DB,
+  getAllActiveExercises_DB
 };

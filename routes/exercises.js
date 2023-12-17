@@ -11,7 +11,8 @@ const {
   disableExercise,
   enableExercise,
   createExercise,
-  getExerciseData
+  getExerciseData,
+  getAllActiveExercises
  } = require("../controllers/exercise.js");
 
 /**
@@ -28,7 +29,6 @@ const {
  *      tags: [exercises]
  *      responses:
  *          200:
- *              description: List of all coaches matching the name given in the query
  *              content:
  *                  application/json:
  *                      schema:
@@ -81,6 +81,67 @@ const {
  *                                          example: Error trying to get all exercises from the database.
  */
 router.get("/allExercises", getAllExercises);
+
+/**
+ *  @swagger
+ *  /exercises/allActiveExercises:
+ *  get:
+ *      summary: Returns all active exercises
+ *      tags: [exercises]
+ *      responses:
+ *          200:
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  exerciseID:
+ *                                      type: integer
+ *                                  name:
+ *                                      type: string
+ *                                  type:
+ *                                      type: string
+ *                                  difficulty:
+ *                                      type: string
+ *                                  muscleGroup:
+ *                                    type: string
+ *                          example:
+ *                            - exerciseID: 1
+ *                              name: Push-up
+ *                              type: Compound
+ *                              difficulty: Beginner
+ *                              muscleGroup: Chest
+ *                            - exerciseID: 2
+ *                              name: Diamond Push Up
+ *                              type: Compound
+ *                              difficulty: Intermediate
+ *                              muscleGroup: Chest
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Error trying to get all exercises from the database.
+ */
+router.get("/allActiveExercises", getAllActiveExercises);
 
 /**
  *  @swagger

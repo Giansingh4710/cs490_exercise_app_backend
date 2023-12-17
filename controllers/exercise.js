@@ -1,8 +1,25 @@
-const { getAllExercises_DB, searchExercise_DB, disableExercise_DB, enableExercise_DB, createExercise_DB, getExerciseData_DB } = require("../dataAccess/exercise_db.js");
+const { getAllExercises_DB, searchExercise_DB, disableExercise_DB, enableExercise_DB, createExercise_DB, getExerciseData_DB, getAllActiveExercises_DB } = require("../dataAccess/exercise_db.js");
 
 async function getAllExercises(req, res) {
   try {
     const exerciseData = await getAllExercises_DB();
+    res.status(200);
+    res.send(exerciseData);
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to get all exercises from the database.",
+      },
+    });
+  }
+}
+
+async function getAllActiveExercises(req, res) {
+  try {
+    const exerciseData = await getAllActiveExercises_DB();
     res.status(200);
     res.send(exerciseData);
   } catch (error) {
@@ -80,24 +97,22 @@ async function enableExercise(req, res) {
 }
 
 async function createExercise(req, res) {
-  // try {
-    console.log(req.body);
-    req.body.difficulty = "Beginner"
+  try {
     const newExercise = await createExercise_DB(req.body);
     res.status(201)
     res.send({
       message: "Exercise added to exercise bank",
     });
-//   } catch (error) {
-//     res.status(500);
-//     res.send({
-//       error: {
-//         status: 500,
-//         message: error.message,
-//         details: "Error inserting exercise into database",
-//       },
-//     });
-//   }
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error inserting exercise into database",
+      },
+    });
+  }
 }
 
 async function getExerciseData(req, res){
@@ -122,5 +137,6 @@ module.exports = {
   disableExercise, 
   enableExercise, 
   createExercise, 
-  getExerciseData
+  getExerciseData,
+  getAllActiveExercises
  };
