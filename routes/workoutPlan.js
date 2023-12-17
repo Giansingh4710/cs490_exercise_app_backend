@@ -16,10 +16,17 @@ const {
 } = require("../controllers/workoutPlan.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: Workout Plan
+ */
+
+/**
  *  @swagger
  *  /workoutPlan/coach/workouts:
  *  get:
  *      summary: Get assigned workout plan for the user
+ *      tags: [Workout Plan]
  *      parameters:
  *        - in: query
  *          name: userID
@@ -128,6 +135,7 @@ router.get("/coach/Workouts", requireAuthedUser, getAssignedWorkoutPlan);
  *  /workoutPlan/client/workouts:
  *  get:
  *      summary: Get personal workout plan for the user
+ *      tags: [Workout Plan]
  *      parameters:
  *        - in: query
  *          name: userID
@@ -236,6 +244,7 @@ router.get("/client/Workouts", requireAuthedUser, getPersonalWorkoutPlan);
  *  workoutPlan/client/addExercise:
  *  post:
  *      summary: User can add an exercise to their workout plan
+ *      tags: [Workout Plan]
  *      description: This endpoint gets the workout plan of a user.
  *      requestBody:
  *          required: true
@@ -271,6 +280,7 @@ router.post("/client/addExercise", requireAuthedUser, clientAddExercise);
  *  /workoutPlan/client/editExercise:
  *  post:
  *      summary: Add exercise to client's workout plan
+ *      tags: [Workout Plan]
  *      requestBody:
  *          required: true
  *          content:
@@ -352,6 +362,7 @@ router.post("/client/editExercise", requireAuthedUser, clientEditExercise);
  *  /workoutPlan/client/deleteExercise:
  *  delete:
  *      summary: Delete exercise from client's workout plan
+ *      tags: [Workout Plan]
  *      parameters:
  *        - in: query
  *          name: planID
@@ -406,6 +417,7 @@ router.post("/coach/addExercise", requireAuthedUser, coachAddExercise);
  *  /workoutPlan/getPastWorkouts:
  *  get:
  *      summary: Get recorded workouts from the last 5 days
+ *      tags: [Workout Plan]
  *      responses:
  *          200:
  *              description: Recorded workouts from the last 5 days retrieved successfully
@@ -455,6 +467,7 @@ router.get("/getPastWorkouts", requireAuthedUser, getLast5DaysOfWorkouts);
  *  /workoutPlan/recordWorkout:
  *  post:
  *      summary: Record workout for a specific exercise plan
+ *      tags: [Workout Plan]
  *      requestBody:
  *          required: true
  *          content:

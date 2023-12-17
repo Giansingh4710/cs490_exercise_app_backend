@@ -18,10 +18,17 @@ const {
 } = require("../controllers/coach.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: coaches
+ */
+
+/**
  *  @swagger
  *  /coaches/searchByName:
  *  get:
  *      summary: Returns all coaches that match name in query
+ *      tags: [coaches]
  *      description: Returns coachID, firstName, lastName of all coaches with matching name in query
  *      parameters:
  *        - in: query
@@ -80,6 +87,7 @@ router.get("/searchByName", searchCoachByName);
  *  /coaches/search:
  *  get:
  *      summary: Returns all coaches that match fields in query
+ *      tags: [coaches]
  *      description: Returns coachID, firstName, lastName of all coaches with matching fields in query
  *      parameters:
  *        - in: query
@@ -166,6 +174,7 @@ router.get("/search", searchCoachByAll);
  *  /coaches/getAllCoaches:
  *  get:
  *      summary: Returns all coaches
+ *      tags: [coaches]
  *      description: Returns coachID, firstName, lastName of all coaches
  *      responses:
  *          200:
@@ -225,6 +234,7 @@ router.get("/getAllCoaches", getAllCoaches);
  *  /coaches/clients:
  *  get:
  *      summary: Returns all clients of coach
+ *      tags: [coaches]
  *      description: Returns userID, firstName, lastName of all clients
  *      responses:
  *          200:
@@ -282,6 +292,7 @@ router.get("/clients", requireAuthedUser, getUsersOfCoach); // get all clients o
  *  /coaches/clientInfo:
  *  get:
  *      summary: Returns all coaches that match name in query
+ *      tags: [coaches]
  *      description: Returns coachID, firstName, lastName of all coaches with matching name in query
  *      parameters:
  *        - in: query
@@ -342,6 +353,7 @@ router.get("/clientInfo", getClientInfo); // Get client info visible by a coach
  *  /coaches/specializations:
  *  get:
  *      summary: Returns all possible specializations of coaches
+ *      tags: [coaches]
  *      description: Returns list of specializations
  *      responses:
  *          200:
@@ -389,6 +401,7 @@ router.get("/specializations", getSpecializations); // Get specializations of av
  *  /coaches/cities:
  *  get:
  *      summary: Returns all cities in each state from our database
+ *      tags: [coaches]
  *      responses:
  *          200:
  *              description: List of all cities in each state
@@ -450,6 +463,7 @@ router.get("/cities", getCities); // Get specializations of available coaches
  *  /coaches/getCoachID:
  *  get:
  *      summary: Returns the coachID for a given userID from the database
+ *      tags: [coaches]
  *      parameters:
  *        - in: query
  *          name: coachID
@@ -513,6 +527,7 @@ router.get("/getCoachID", requireAuthedUser, getCoachIDFromUserID);
  *  /coaches/terminateClient:
  *  delete:
  *      summary: Terminate a client from a coach
+ *      tags: [coaches]
  *      parameters:
  *        - in: query
  *          name: userID
@@ -566,6 +581,7 @@ router.get("/terminate", terminateClient); // Unassign a user from their coach
  *  /coaches/{coachID}:
  *  get:
  *      summary: Returns data about coach
+ *      tags: [coaches]
  *      description: Returns coachID, firstName, lastName, city, state, and specialties of the coach
  *      responses:
  *          200:

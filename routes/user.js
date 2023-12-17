@@ -7,10 +7,17 @@ const { getCoachOfUser, removeCoach, getUserData, deleteAccount } = require(
 );
 
 /**
+ * @swagger
+ * tags:
+ *   name: Users
+ */
+
+/**
  *  @swagger
  *  /user/coach:
  *  get:
  *      summary: Get coach information for a user
+ *      tags: [Users]
  *      parameters:
  *        - in: query
  *          name: userID
@@ -92,6 +99,7 @@ router.get("/coach", requireAuthedUser, getCoachOfUser);
  *  /user/coach:
  *  delete:
  *      summary: Remove coach from user
+ *      tags: [Users]
  *      parameters:
  *        - in: query
  *          name: userID
@@ -161,6 +169,7 @@ router.delete("/coach", requireAuthedUser, removeCoach);
  *  /user/data:
  *  get:
  *      summary: Get user data
+ *      tags: [Users]
  *      parameters:
  *        - in: query
  *          name: userID
@@ -292,6 +301,7 @@ router.get("/data", requireAuthedUser, getUserData);
  *  /user/deleteAccount:
  *  delete:
  *      summary: Delete user account
+ *      tags: [Users]
  *      parameters:
  *        - in: query
  *          name: userID

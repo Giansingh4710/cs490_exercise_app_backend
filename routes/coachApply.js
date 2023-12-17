@@ -13,10 +13,17 @@ const {
 } = require("../controllers/coachApply.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: coachApply
+ */
+
+/**
  *  @swagger
  *  coachApply/allPending:
  *  get:
  *      summary: Returns all coach applications that are pending
+ *      tags: [coachApply]
  *      responses:
  *          200:
  *              description: Successfully returned all pending coach applications
@@ -83,6 +90,7 @@ router.get("/allPending", getAllPending);
  *          schema:
  *              type: integer
  *      summary: Get a pending request by request ID
+ *      tags: [coachApply]
  *      responses:
  *          200:
  *              description: Successfully returned the pending coach application
@@ -159,6 +167,7 @@ router.get("/pending", getPendingByID),
  *          schema:
  *              type: integer
  *      summary: Accepts coach request
+ *      tags: [coachApply]
  *      responses:
  *          200:
  *              description: Successfully accepted coach request
@@ -217,6 +226,7 @@ router.get("/accept", acceptCoach);
  *          schema:
  *              type: integer
  *      summary: Deny coach request
+ *      tags: [coachApply]
  *      responses:
  *          200:
  *              description: Successfully denied coach request
@@ -289,6 +299,7 @@ router.get("/deny", denyCoach);
  *                              type: integer
  *                              example: 120
  *      summary: Creates coach application. Created when user registers as coach
+ *      tags: [coachApply]
  *      responses:
  *          200:
  *              description: Successfully created coach request

@@ -15,10 +15,17 @@ const {
 );
 
 /**
+ * @swagger
+ * tags:
+ *   name: request
+ */
+
+/**
  *  @swagger
  *  /request:
  *  post:
  *      summary: Creates request on database of user requesting coach
+ *      tags: [request]
  *      requestBody:
  *          required: true
  *          content:
@@ -118,6 +125,7 @@ router.post("/", requireAuthedUser, requestCoach);
  *  /request/openClientRequest:
  *  get:
  *      summary: Returns all request from clients that have not been accepted by coach
+ *      tags: [request]
  *      responses:
  *          200:
  *              description: List of all coaches matching the name given in the query
@@ -176,6 +184,7 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  *  /request/openCoachRequests:
  *  get:
  *      summary: Returns all request from clients that have not been accepted by coach
+ *      tags: [request]
  *      responses:
  *          200:
  *              description: List of all coaches matching the name given in the query
@@ -234,6 +243,7 @@ router.get("/openCoachRequests", requireAuthedUser, unansweredRequestsByCoach);
  *  request/status:
  *  get:
  *      summary: Get status data for a user with a specific coach
+ *      tags: [request]
  *      parameters:
  *        - in: query
  *          name: userID
@@ -293,6 +303,7 @@ router.get("/status", getStatus);
  *  /requests/accept:
  *  get:
  *      summary: Accept a coaching request
+ *      tags: [request]
  *      parameters:
  *        - in: query
  *          name: requestID
@@ -374,6 +385,7 @@ router.get("/accept", acceptRequest);
  *  /requests/decline:
  *  get:
  *      summary: Decline a coaching request
+ *      tags: [request]
  *      parameters:
  *        - in: query
  *          name: requestID
@@ -455,6 +467,7 @@ router.get("/decline", declineRequest);
  *  /request/cancel:
  *  post:
  *      summary: Cancel a coaching request
+ *      tags: [request]
  *      parameters:
  *        - in: query
  *          name: requestID

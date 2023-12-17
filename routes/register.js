@@ -4,10 +4,17 @@ const router = express.Router();
 const { storeSurvey, registerAccount } = require("../controllers/register.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: register
+ */
+
+/**
  *  @swagger
  *  /register:
  *  post:
  *      summary: Registers user
+ *      tags: [register]
  *      description: Registers the user and returns jwt token and user data including userID, email, and role
  *      requestBody:
  *          required: true
@@ -84,6 +91,7 @@ router.post("/", registerAccount);
  *  /register/initalSurvey:
  *  post:
  *      summary: WORK IN PROGRESS. Updates user table with initial survey information
+ *      tags: [register]
  *      description: Updates user survey in database
  *      requestBody:
  *          required: true

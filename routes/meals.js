@@ -8,10 +8,17 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 const { getMeals, deleteMeal, createMeal } = require("../controllers/meals.js")
 
 /**
+ * @swagger
+ * tags:
+ *   name: meals
+ */
+
+/**
  *  @swagger
  *  /meals:
  *  get:
  *       summary: Returns all recorded meals of user from today
+ *       tags: [meals]
  *       responses:
  *            200:
  *                description: Successful response
@@ -62,6 +69,7 @@ router.get("/", requireAuthedUser, getMeals);
  *  /meals/{mealID}:
  *  delete:
  *      summary: Delete a meal by meal ID
+ *      tags: [meals]
  *      parameters:
  *        - in: path
  *          name: mealID
@@ -147,6 +155,7 @@ router.delete("/:mealID", requireAuthedUser, deleteMeal);
  *  /meals:
  *  post:
  *      summary: Record a new meal
+ *      tags: [meals]
  *      requestBody:
  *          description: Object containing meal details
  *          required: true

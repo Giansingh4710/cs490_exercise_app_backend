@@ -4,10 +4,17 @@ const router = express.Router();
 const { login } = require("../controllers/login.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: login
+ */
+
+/**
  *  @swagger
  *  /login:
  *  post:
  *      summary: Logins user in
+ *      tags: [login]
  *      description: Logs in the user and returns jwt token and user data including userID, email, and role
  *      requestBody:
  *          required: true

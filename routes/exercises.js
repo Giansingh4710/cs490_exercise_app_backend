@@ -15,10 +15,17 @@ const {
  } = require("../controllers/exercise.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: exercises
+ */
+
+/**
  *  @swagger
  *  /exercises/allExercises:
  *  get:
  *      summary: Returns all exercises
+ *      tags: [exercises]
  *      description: Returns coachID, firstName, lastName of all coaches
  *      responses:
  *          200:
@@ -81,6 +88,7 @@ router.get("/allExercises", getAllExercises);
  *  /exercises/search:
  *  get:
  *      summary: Search for exercises based on muscle group and equipment
+ *      tags: [exercises]
  *      parameters:
  *        - in: query
  *          name: muscleGroup
@@ -165,6 +173,7 @@ router.get("/search", searchExercise);
  *  /exercises/disable:
  *  get:
  *      summary: Disable an exercise by exercise ID
+ *      tags: [exercises]
  *      parameters:
  *        - in: query
  *          name: exerciseID
@@ -218,6 +227,7 @@ router.get("/disableExercise", disableExercise);
  *  /exercises/enable:
  *  get:
  *      summary: Enable an exercise by exercise ID
+ *      tags: [exercises]
  *      parameters:
  *        - in: query
  *          name: exerciseID
@@ -271,6 +281,7 @@ router.get("/enableExercise", enableExercise);
  *  /exercises/create:
  *  post:
  *      summary: Create a new exercise and add it to the exercise bank
+ *      tags: [exercises]
  *      requestBody:
  *          description: Object containing exercise details
  *          required: true
@@ -339,6 +350,7 @@ router.post("/createExercise", createExercise);
  *  /exercises/{exerciseID}:
  *  get:
  *      summary: Get data for a specific exercise by exercise ID
+ *      tags: [exercises]
  *      parameters:
  *        - in: path
  *          name: exerciseID

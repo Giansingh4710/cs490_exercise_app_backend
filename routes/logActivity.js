@@ -7,10 +7,18 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 const { recordDailySurvey, userDailyWeight } = require("../controllers/logActivity.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: logActivity
+ */
+
+
+/**
  *  @swagger
  *  /logActivity/recordDailySurvey:
  *  post:
  *      summary: Records daily survey data into database
+ *      tags: [logActivity]
  *      requestBody:
  *          required: true
  *          content:
@@ -94,6 +102,7 @@ router.post("/recordDailySurvey", requireAuthedUser, recordDailySurvey);
  *  /logActivity/dailyWeight:
  *  get:
  *      summary: Retrieve daily weight data for a user
+ *      tags: [logActivity]
  *      responses:
  *          200:
  *              description: Daily weight data retrieved successfully

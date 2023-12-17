@@ -8,10 +8,17 @@ const {
 } = require("../controllers/messages.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: messages
+ */
+
+/**
  *  @swagger
  *  /messages/store:
  *  post:
  *      summary: Store a new message
+ *      tags: [messages]
  *      requestBody:
  *          required: true
  *          content:
@@ -69,6 +76,7 @@ router.post("/", requireAuthedUser, storeMessage)
  *  /messages/{userID}:
  *  get:
  *      summary: Get messages for a specific user
+ *      tags: [messages]
  *      parameters:
  *          - in: path
  *            name: userID
