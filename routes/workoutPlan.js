@@ -12,7 +12,8 @@ const {
     coachAddExercise,
     clientEditExercise,
     clientDeleteExercise,
-    recordWorkout
+    recordWorkout,
+    getAssignedWorkoutPlanForCoach
 } = require("../controllers/workoutPlan.js");
 
 /**
@@ -121,7 +122,9 @@ const {
  *                                          description: Additional details about error
  *                                          example: Database connection error.
  */
-router.get("/coach/Workouts", requireAuthedUser, getAssignedWorkoutPlan);
+router.get("/coach/Workouts", requireAuthedUser, getAssignedWorkoutPlan); // this is for user to get their assigned workoutplan
+
+router.get("/coach/WorkoutsFromCoach", requireAuthedUser, getAssignedWorkoutPlanForCoach)
 
 /**
  *  @swagger
