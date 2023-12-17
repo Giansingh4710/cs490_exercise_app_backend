@@ -106,9 +106,13 @@ async function unansweredRequestsByCoach_DB(userID) {
 async function acceptRequest_DB(requestID) {
   const connection = await createPool().getConnection();
   const query = `UPDATE request SET status = 'Accepted' WHERE requestID = ?`;
+  const coachQuery = 
+    `UPDATE User SET User.coachID = 
+    (SELECT coachID FROM request WHERE requestID = ${requestID}) 
+    WHERE User.userID = (SELECT userID FROM Request 
+    WHERE RequestID = ${requestID})`;
   const [res, _] = await connection.execute(query, [requestID]);
-  const updateCoachInUserTableQuery = "UPDATE User SET User.coachID = (SELECT coachID FROM request WHERE requestID = ?) WHERE User.userID = (SELECT userID FROM Request WHERE RequestID = ?)"
-  const [userRes, __] = await connection.execute(query, [requestID]);
+  const [userRes, __] = await connection.execute(coachQuery, [requestID]);
   connection.release();
   return res;
 }
