@@ -13,7 +13,8 @@ const {
   getClientInfo,
   getSpecializations,
   getCities,
-  getCoachIDFromUserID
+  getCoachIDFromUserID,
+  terminateClient,
 } = require("../controllers/coach.js");
 
 router.get("/searchByName", searchCoachByName);
@@ -24,6 +25,7 @@ router.get("/clientInfo", getClientInfo); // Get client info visible by a coach
 router.get("/specializations", getSpecializations); // Get specializations of available coaches
 router.get("/cities", getCities); // Get specializations of available coaches
 router.get("/getCoachID", requireAuthedUser, getCoachIDFromUserID);
+router.get("/terminate", terminateClient); // Unassign a user from their coach
 router.get("/:coachID", getCoachByID); // this needs to be last because it will catch all the other routes
 
 module.exports = router;

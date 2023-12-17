@@ -116,6 +116,14 @@ async function getCoachIDFromUserID_DB(userID) {
   return rows[0];
 }
 
+async function terminateClient_DB(userID) {
+  const connection = await createPool().getConnection();
+  const query = "UPDATE User SET coachID = NULL WHERE userID = ?";
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
+  return rows[0];
+}
+
 module.exports = {
   getCoachByID_DB,
   getAllCoaches_DB,
@@ -126,4 +134,5 @@ module.exports = {
   getClientInfo_DB,
   getUsersOfCoach_DB,
   getCoachIDFromUserID_DB,
+  terminateClient_DB,
 };
