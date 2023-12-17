@@ -70,7 +70,7 @@ async function requestCoach(req, res) {
     const createdRequest = await createRequest(requestData);
 
     // sending note to coach as first message
-    if(note.length === 0){
+    if(req.body.note.length === 0){
       message = {
         content: req.body.note,
         receiverID: coach.userID,

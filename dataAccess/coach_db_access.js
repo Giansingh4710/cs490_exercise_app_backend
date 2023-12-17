@@ -3,7 +3,7 @@ const { createPool } = require("../sql_config/database.js");
 async function getCoachByID_DB(coachID) {
   const connection = await createPool().getConnection();
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, u.userID FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
+    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, u.userID, ROUND(c.cost, 2) as cost FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
   const [rows, _] = await connection.execute(query, [coachID]);
   connection.release();
   return rows[0];

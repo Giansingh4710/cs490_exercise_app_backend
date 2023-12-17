@@ -80,22 +80,24 @@ async function enableExercise(req, res) {
 }
 
 async function createExercise(req, res) {
-  try {
+  // try {
+    console.log(req.body);
+    req.body.difficulty = "Beginner"
     const newExercise = await createExercise_DB(req.body);
     res.status(201)
     res.send({
       message: "Exercise added to exercise bank",
     });
-  } catch (error) {
-    res.status(500);
-    res.send({
-      error: {
-        status: 500,
-        message: error.message,
-        details: "Error inserting exercise into database",
-      },
-    });
-  }
+//   } catch (error) {
+//     res.status(500);
+//     res.send({
+//       error: {
+//         status: 500,
+//         message: error.message,
+//         details: "Error inserting exercise into database",
+//       },
+//     });
+//   }
 }
 
 async function getExerciseData(req, res){
