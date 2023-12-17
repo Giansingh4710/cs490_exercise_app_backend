@@ -21,10 +21,18 @@ async function searchExercise_DB(muscleGroup, equipment) {
   return rows;
 }
 
-async function deleteExercise_DB(exerciseID) {
+async function disableExercise_DB(exerciseID) {
   const connection = await createPool().getConnection();
   const query =
-  `DELETE FROM Exercise WHERE exerciseID = ?`;
+  `UPDATE Exercise SET status = 'Disabled' WHERE exerciseID = ?`
+  const [rows, _] = await connection.execute(query, [exerciseID]); //res[0]=rows, res[1]=fields
+  return rows;
+}
+
+async function enableExercise_DB(exerciseID) {
+  const connection = await createPool().getConnection();
+  const query =
+  `UPDATE Exercise SET status = 'Enabled' WHERE exerciseID = ?`
   const [rows, _] = await connection.execute(query, [exerciseID]); //res[0]=rows, res[1]=fields
   connection.release();
   return rows;
@@ -47,4 +55,11 @@ async function getExerciseData_DB(exerciseID){
   return res;
 }
 
-module.exports = { getAllExercises_DB, searchExercise_DB, deleteExercise_DB, createExercise_DB, getExerciseData_DB };
+module.exports = { 
+  getAllExercises_DB, 
+  searchExercise_DB, 
+  disableExercise_DB, 
+  enableExercise_DB, 
+  createExercise_DB, 
+  getExerciseData_DB 
+};

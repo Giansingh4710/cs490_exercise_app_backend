@@ -91,12 +91,12 @@ INSERT INTO MentalState VALUES
 
 -- Dumping data for Exercise table
 INSERT INTO Exercise VALUES
-    (1, 'Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (2, 'Bench press', 'Chest', 'Intermediate', 'Bench Press', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (3, 'Bicep curls', 'Arms', 'Beginner', 'Dmubells', 'Isolation', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (4, 'Tricep dips', 'Triceps', 'Intermediate', 'Bodyweight', 'Reps', 'Isolation', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (5, 'Squats', 'Legs', 'Intermediate', 'Bodyweight', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (6, 'Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', 'Reps', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (1, 'Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', 'Reps', 'Enabled', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (2, 'Bench press', 'Chest', 'Intermediate', 'Bench Press', 'Compound', 'Reps', 'Enabled', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 'Bicep curls', 'Arms', 'Beginner', 'Dmubells', 'Isolation', 'Reps', 'Enabled', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (4, 'Tricep dips', 'Triceps', 'Intermediate', 'Bodyweight', 'Reps', 'Isolation', 'Enabled', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (5, 'Squats', 'Legs', 'Intermediate', 'Bodyweight', 'Compound', 'Reps', 'Enabled', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (6, 'Deadlift', 'Back & legs', 'Advanced', 'Barbell', 'Compound', 'Reps', 'Enabled', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 
 -- Dumping data for WorkoutPlan table

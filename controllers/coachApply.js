@@ -61,7 +61,7 @@ async function acceptCoach(req, res) {
       error: {
         status: 500,
         message: error.message,
-        details: "Error trying to update coach request status in database.",
+        details: "Error trying to add coach to database.",
       },
     });
   }
