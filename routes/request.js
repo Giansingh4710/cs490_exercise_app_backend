@@ -175,7 +175,7 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  *  @swagger
  *  /request/openCoachRequests:
  *  get:
- *      summary: WORK IN PROGRESS, NEED TO CONFIRM ENDPOINT USE. Returns all request from clients that have not been accepted by coach
+ *      summary: Returns all request from clients that have not been accepted by coach
  *      responses:
  *          200:
  *              description: List of all coaches matching the name given in the query
@@ -291,7 +291,7 @@ router.get("/status", getStatus);
 /**
  *  @swagger
  *  /requests/accept:
- *  post:
+ *  get:
  *      summary: Accept a coaching request
  *      parameters:
  *        - in: query
@@ -372,7 +372,7 @@ router.get("/accept", acceptRequest);
 /**
  *  @swagger
  *  /requests/decline:
- *  post:
+ *  get:
  *      summary: Decline a coaching request
  *      parameters:
  *        - in: query
@@ -452,7 +452,7 @@ router.get("/decline", declineRequest);
 
 /**
  *  @swagger
- *  /requests/cancel:
+ *  /request/cancel:
  *  post:
  *      summary: Cancel a coaching request
  *      parameters:

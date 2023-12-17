@@ -17,7 +17,7 @@ const {
 
 /**
  *  @swagger
- *  /workouts/assigned-plan:
+ *  /workoutPlan/coach/workouts:
  *  get:
  *      summary: Get assigned workout plan for the user
  *      parameters:
@@ -125,7 +125,7 @@ router.get("/coach/Workouts", requireAuthedUser, getAssignedWorkoutPlan);
 
 /**
  *  @swagger
- *  /workouts/personal-plan:
+ *  /workoutPlan/client/workouts:
  *  get:
  *      summary: Get personal workout plan for the user
  *      parameters:
@@ -233,8 +233,8 @@ router.get("/client/Workouts", requireAuthedUser, getPersonalWorkoutPlan);
 
 /**
  *  @swagger
- *  /client/addExercise:
- *  get:
+ *  workoutPlan/client/addExercise:
+ *  post:
  *      summary: User can add an exercise to their workout plan
  *      description: This endpoint gets the workout plan of a user.
  *      requestBody:
@@ -268,7 +268,7 @@ router.post("/client/addExercise", requireAuthedUser, clientAddExercise);
 
 /**
  *  @swagger
- *  /workouts/client/editExercise:
+ *  /workoutPlan/client/editExercise:
  *  post:
  *      summary: Add exercise to client's workout plan
  *      requestBody:
@@ -349,7 +349,7 @@ router.post("/client/editExercise", requireAuthedUser, clientEditExercise);
 
 /**
  *  @swagger
- *  /workouts/client-delete-exercise:
+ *  /workoutPlan/client/deleteExercise:
  *  delete:
  *      summary: Delete exercise from client's workout plan
  *      parameters:
@@ -403,7 +403,7 @@ router.post("/coach/addExercise", requireAuthedUser, coachAddExercise);
 
 /**
  *  @swagger
- *  /workouts/get-last-5-days:
+ *  /workoutPlan/getPastWorkouts:
  *  get:
  *      summary: Get recorded workouts from the last 5 days
  *      responses:
@@ -452,7 +452,7 @@ router.get("/getPastWorkouts", requireAuthedUser, getLast5DaysOfWorkouts);
 
 /**
  *  @swagger
- *  /workouts/record:
+ *  /workoutPlan/recordWorkout:
  *  post:
  *      summary: Record workout for a specific exercise plan
  *      requestBody:

@@ -14,7 +14,6 @@ async function createMessage_DB(messageData, senderID) {
 }
 
 async function getMessages_DB(receiverID, senderID, limit, offset) {
-  console.log(limit+" "+offset);
   const connection = await createPool().getConnection();
   const query = "SELECT content, created, senderID, receiverID FROM Message WHERE (senderID=? AND receiverID=?) OR (senderID=? AND receiverID=?) ORDER BY created ASC";
   // might need to format date and time for frontend

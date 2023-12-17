@@ -74,10 +74,10 @@ router.get("/allPending", getAllPending);
 
 /**
  *  @swagger
- *  coachApply/pending/{coachRequestID}:
+ *  coachApply/pending:
  *  get:
  *      parameters:
- *        - in: path
+ *        - in: query
  *          name: coachRequestID
  *          required: true
  *          schema:
@@ -153,7 +153,7 @@ router.get("/pending", getPendingByID),
  *  coachApply/accept:
  *  get:
  *      parameters:
- *        - in: path
+ *        - in: query
  *          name: coachRequestID
  *          required: true
  *          schema:
@@ -211,7 +211,7 @@ router.get("/accept", acceptCoach);
  *  coachApply/deny:
  *  get:
  *      parameters:
- *        - in: path
+ *        - in: query
  *          name: coachRequestID
  *          required: true
  *          schema:

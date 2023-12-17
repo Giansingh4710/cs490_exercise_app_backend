@@ -450,6 +450,12 @@ router.get("/cities", getCities); // Get specializations of available coaches
  *  /coaches/getCoachID:
  *  get:
  *      summary: Returns the coachID for a given userID from the database
+ *      parameters:
+ *        - in: query
+ *          name: coachID
+ *          required: true
+ *          schema:
+ *              type: integer
  *      responses:
  *          200:
  *              description: CoachID for the given userID
@@ -553,12 +559,11 @@ router.get("/getCoachID", requireAuthedUser, getCoachIDFromUserID);
  *                                          description: Additional details about error
  *                                          example: Error trying to update user's coachID in database.
  */
-
 router.get("/terminate", terminateClient); // Unassign a user from their coach
 
 /**
  *  @swagger
- *  /coaches/:CoachID:
+ *  /coaches/{coachID}:
  *  get:
  *      summary: Returns data about coach
  *      description: Returns coachID, firstName, lastName, city, state, and specialties of the coach

@@ -91,7 +91,7 @@ router.post("/recordDailySurvey", requireAuthedUser, recordDailySurvey);
 
 /**
  *  @swagger
- *  /users/dailyWeight:
+ *  /logActivity/dailyWeight:
  *  get:
  *      summary: Retrieve daily weight data for a user
  *      responses:
@@ -139,7 +139,6 @@ router.post("/recordDailySurvey", requireAuthedUser, recordDailySurvey);
  *                                          description: Additional details about error
  *                                          example: Error trying to get weightData in database.
  */
-
 router.get("/dailyWeight", requireAuthedUser, userDailyWeight);
 
 module.exports = router;

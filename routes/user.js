@@ -8,7 +8,7 @@ const { getCoachOfUser, removeCoach, getUserData, deleteAccount } = require(
 
 /**
  *  @swagger
- *  /coaches/user:
+ *  /user/coach:
  *  get:
  *      summary: Get coach information for a user
  *      parameters:
@@ -89,7 +89,7 @@ router.get("/coach", requireAuthedUser, getCoachOfUser);
 
 /**
  *  @swagger
- *  /users/remove-coach:
+ *  /user/coach:
  *  delete:
  *      summary: Remove coach from user
  *      parameters:
@@ -158,7 +158,7 @@ router.delete("/coach", requireAuthedUser, removeCoach);
 
 /**
  *  @swagger
- *  /users/data:
+ *  /user/data:
  *  get:
  *      summary: Get user data
  *      parameters:
@@ -289,7 +289,7 @@ router.get("/data", requireAuthedUser, getUserData);
 
 /**
  *  @swagger
- *  /users/account:
+ *  /user/deleteAccount:
  *  delete:
  *      summary: Delete user account
  *      parameters:
