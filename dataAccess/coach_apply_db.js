@@ -12,14 +12,14 @@ async function getAllPending_DB() {
   return rows;
 }
 
-async function getPendingByID_DB(userID) {
+async function getPendingByID_DB(coachRequestID) {
   const connection = await createPool().getConnection();
   const query =
-    `SELECT c.coachRequestID, u.firstName, u.lastName, c.status, c.specialties, c.cost 
+    `SELECT c.coachRequestID, u.firstName, u.lastName, c.status, c.specialties, ROUND(cost, 2) AS cost
     FROM CoachRequest c JOIN User u ON c.userID = u.userID 
-    WHERE u.userID = ? AND c.status = 'Pending'`;
+    WHERE c.coachRequestID = ? AND c.status = 'Pending'`;
 
-  const [rows, _] = await connection.execute(query, [userID]);
+  const [rows, _] = await connection.execute(query, [coachRequestID]);
   connection.release();
   return rows;
   // return rows[0];
