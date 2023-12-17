@@ -89,6 +89,57 @@ const { recordDailySurvey, userDailyWeight } = require("../controllers/logActivi
  */
 router.post("/recordDailySurvey", requireAuthedUser, recordDailySurvey);
 
+/**
+ *  @swagger
+ *  /users/dailyWeight:
+ *  get:
+ *      summary: Retrieve daily weight data for a user
+ *      responses:
+ *          200:
+ *              description: Daily weight data retrieved successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  date:
+ *                                      type: string
+ *                                      format: date
+ *                                      description: The date for the weight entry
+ *                                  weight:
+ *                                      type: number
+ *                                      description: The weight recorded for the specified date
+ *                          example:
+ *                              - date: "2023-12-16"
+ *                                weight: 185
+ *                              - date: "2023-12-17"
+ *                                weight: 34
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Error trying to get weightData in database.
+ */
+
 router.get("/dailyWeight", requireAuthedUser, userDailyWeight);
 
 module.exports = router;
