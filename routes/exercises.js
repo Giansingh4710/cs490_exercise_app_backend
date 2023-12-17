@@ -9,6 +9,7 @@ const {
   getAllExercises,
   searchExercise,
   disableExercise,
+  enableExercise,
   createExercise,
   getExerciseData
  } = require("../controllers/exercise.js");
@@ -75,6 +76,7 @@ const {
 router.get("/allExercises", getAllExercises);
 router.get("/search", searchExercise);
 router.get("/disableExercise", disableExercise);
+router.get("/enableExercise", enableExercise);
 router.post("/createExercise", createExercise);
 router.get("/:exerciseID", getExerciseData);
 
