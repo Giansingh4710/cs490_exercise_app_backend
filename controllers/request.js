@@ -70,18 +70,20 @@ async function requestCoach(req, res) {
     const createdRequest = await createRequest(requestData);
 
     // sending note to coach as first message
-    message = {
-      content: req.body.note,
-      receiverID: coach.userID,
+    if(note.length === 0){
+      message = {
+        content: req.body.note,
+        receiverID: coach.userID,
+      }
+
+      await createMessage_DB(message, userID);
+
+      res.status(201);
+      res.send({
+        ...requestData,
+        requestID: createdRequest.insertId,
+      });
     }
-
-    await createMessage_DB(message, userID);
-
-    res.status(201);
-    res.send({
-      ...requestData,
-      requestID: createdRequest.insertId,
-    });
 
   } catch (error) {
     res.status(errorStatus);
