@@ -201,7 +201,7 @@ async function getLast5DaysOfWorkouts(req, res){
 }
 
 async function clientEditExercise(req, res){
-  // try{
+  try{
     // get exercise information like metrics to update properly
     const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
 
@@ -221,18 +221,38 @@ async function clientEditExercise(req, res){
 
     res.status(200);
     res.send(updatedExercise);
-  // }catch(error){
-  //   res.status(500);
-  //   res.send({
-  //     error: {
-  //       status: 500,
-  //       message: error.message
-  //     }
-  //   })
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
 
-  // }
+  }
+}
 
+async function clientDeleteExercise(req, res){
+  try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.query.planID);
 
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, req.userID, 'Client');
+    res.status(200);
+    res.send({
+      message: "Exercise Deleted"
+    })
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
+  }
 
 }
 
@@ -242,5 +262,6 @@ module.exports = {
   getPersonalWorkoutPlan,
   getLast5DaysOfWorkouts,
   coachAddExercise,
-  clientEditExercise
+  clientEditExercise,
+  clientDeleteExercise
 };
