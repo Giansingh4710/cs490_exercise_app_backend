@@ -9,8 +9,7 @@ async function getAssignedWorkoutPlan_DB(userID) {
   return rows;
 }
 
-//TODO begin transaction
-async function addExercise_DB(data, userID) {
+async function addExercise_DB(data, userID, creator) {
   const connection = await createPool().getConnection();
   try {
     connection.beginTransaction();
@@ -26,7 +25,7 @@ async function addExercise_DB(data, userID) {
           userID,
           data.exerciseID,
           data.dayOfWeek,
-          "Client",
+          creator,
           element.reps,
           sets,
           element.weight,
@@ -38,7 +37,7 @@ async function addExercise_DB(data, userID) {
           userID,
           data.exerciseID,
           data.dayOfWeek,
-          "Client",
+          creator,
           element.duration,
           sets,
           0,
@@ -82,9 +81,37 @@ async function getLast5DaysOfWorkouts_DB(userID, startDate, endDate) {
   return rows;
 }
 
+async function getExerciseDataFromPlan_DB(planID){
+  const connection = await createPool().getConnection();
+  const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.exerciseID = WorkoutPlan.exerciseID WHERE planID = ?";
+  const [res, _] = await connection.execute(query, [planID]);
+  connection.release();
+  return res[0];
+}
+
+// const updateExerciseData = {
+//   planID: req.body.planID,
+//   reps: req.body.reps,
+//   sets: req.body.sets,
+//   weight: req.body.weight,
+//   duration: req.body.duration,
+//   metric: exerciseData.metric
+// }
+
+async function deleteExercise_DB(exerciseID, dayOfWeek, userID, client){
+  const connection = createPool().getConnection();
+  console.log("delete");
+
+  const query = "DELETE FROM WorkoutPlan WHERE exerciseID = ? AND dayOfWeek = ? AND userID = ? AND creator = ?";
+  (await connection).execute(query, [exerciseID, dayOfWeek, userID, client]);
+  (await connection).release();
+}
+
 module.exports = {
   getAssignedWorkoutPlan_DB,
   addExercise_DB,
   getPersonalWorkoutPlan_DB,
   getLast5DaysOfWorkouts_DB,
+  getExerciseDataFromPlan_DB,
+  deleteExercise_DB
 };

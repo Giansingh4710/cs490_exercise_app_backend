@@ -8,7 +8,9 @@ const {
     getAssignedWorkoutPlan,
     clientAddExercise,
     getPersonalWorkoutPlan,
-    getLast5DaysOfWorkouts
+    getLast5DaysOfWorkouts,
+    coachAddExercise,
+    clientEditExercise
 } = require("../controllers/workoutPlan.js");
 
 /**
@@ -31,7 +33,9 @@ const {
  *          500:
  *              description: Error accessing Database.
  */
-router.get("/assignedWorkouts", requireAuthedUser, getAssignedWorkoutPlan);
+router.get("/coach/Workouts", requireAuthedUser, getAssignedWorkoutPlan);
+
+router.get("/client/Workouts", requireAuthedUser, getPersonalWorkoutPlan);
 
 /**
  *  @swagger
@@ -70,7 +74,9 @@ router.get("/assignedWorkouts", requireAuthedUser, getAssignedWorkoutPlan);
  */
 router.post("/client/addExercise", requireAuthedUser, clientAddExercise);
 
-router.get("/personalWorkouts", requireAuthedUser, getPersonalWorkoutPlan);
+router.post("/client/editWorkout", requireAuthedUser, clientEditExercise)
+
+router.post("/coach/addExercise", requireAuthedUser, coachAddExercise);
 
 router.get("/getPastWorkouts", requireAuthedUser, getLast5DaysOfWorkouts);
 

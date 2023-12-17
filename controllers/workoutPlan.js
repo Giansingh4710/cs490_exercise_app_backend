@@ -2,7 +2,7 @@ const moment = require("moment");
 const { getUsersOfCoach_DB } = require(
   "../dataAccess/coach_db_access",
 );
-const { getAssignedWorkoutPlan_DB, addExercise_DB, getPersonalWorkoutPlan_DB, getLast5DaysOfWorkouts_DB} = require(
+const { getAssignedWorkoutPlan_DB, deleteExercise_DB, addExercise_DB, getPersonalWorkoutPlan_DB, getLast5DaysOfWorkouts_DB, getExerciseDataFromPlan_DB} = require(
   "../dataAccess/workout_plan_db",
 );
 
@@ -62,9 +62,9 @@ async function getAssignedWorkoutPlan(req, res) {
 }
 
 async function clientAddExercise(req, res) {
-  let errorStatus = 500;
+  console.log(req.body);
   try {
-    const insertedExercise = await addExercise_DB(req.body, req.userID);
+    const insertedExercise = await addExercise_DB(req.body, req.userID, "Client");
     res.status(201);
     return res.send({
       status: 201,
@@ -80,6 +80,17 @@ async function clientAddExercise(req, res) {
       }
     });
   }
+}
+
+async function coachAddExercise(req, res){
+  // req.userID -> userid of caoch
+  // req.body.userID -> userid of client
+
+  // check if body.userID client is a client of coach
+    // if false -> error
+    // if true insert exercise
+  // insert using addExercise_DB() with creator as "Coach"
+
 }
 
 async function getPersonalWorkoutPlan(req, res){
@@ -189,9 +200,47 @@ async function getLast5DaysOfWorkouts(req, res){
   }
 }
 
+async function clientEditExercise(req, res){
+  // try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
+
+    const updateExerciseData = {
+      planID: req.body.planID,
+      sets: req.body.sets,
+      metric: exerciseData.metric,
+      dayOfWeek: exerciseData.dayOfWeek,
+      exerciseID: exerciseData.exerciseID,
+    }
+
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, req.userID, 'Client');
+    
+    // add back exercises
+    const updatedExercise = await addExercise_DB(updateExerciseData, req.userID, 'Client');
+
+    res.status(200);
+    res.send(updatedExercise);
+  // }catch(error){
+  //   res.status(500);
+  //   res.send({
+  //     error: {
+  //       status: 500,
+  //       message: error.message
+  //     }
+  //   })
+
+  // }
+
+
+
+}
+
 module.exports = {
   getAssignedWorkoutPlan,
   clientAddExercise,
   getPersonalWorkoutPlan,
-  getLast5DaysOfWorkouts
+  getLast5DaysOfWorkouts,
+  coachAddExercise,
+  clientEditExercise
 };
