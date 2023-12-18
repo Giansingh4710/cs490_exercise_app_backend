@@ -77,13 +77,13 @@ async function requestCoach(req, res) {
       }
 
       await createMessage_DB(message, userID);
-
-      res.status(201);
+    }
+    
+    res.status(201);
       res.send({
         ...requestData,
         requestID: createdRequest.insertId,
-      });
-    }
+    });
 
   } catch (error) {
     res.status(errorStatus);
