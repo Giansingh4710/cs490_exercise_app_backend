@@ -39,7 +39,7 @@ function createPool() {
 
     waitForConnections: true,
     connectionLimit: 100, // Adjust as needed based on your requirements
-    queueLimit: 0, //set higher to prevent errors
+    queueLimit: 100, //set higher to prevent errors
   });
 
   pool.on("error", (err) => {
