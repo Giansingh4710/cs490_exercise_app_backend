@@ -119,7 +119,9 @@ async function getCoachIDFromUserID_DB(userID) {
 async function terminateClient_DB(userID) {
   const connection = await createPool().getConnection();
   const query = "UPDATE User SET coachID = NULL WHERE userID = ?";
+  const requestQuery = "UPDATE Request SET status = 'Denied' WHERE userID = ?";
   const [rows, _] = await connection.execute(query, [userID]);
+  const [requestRows, __] = await connection.execute(requestQuery, [userID]);
   connection.release();
   return rows[0];
 }
