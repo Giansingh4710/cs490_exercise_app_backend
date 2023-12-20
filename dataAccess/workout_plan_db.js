@@ -67,7 +67,7 @@ async function getPersonalWorkoutPlan_DB(userID) {
 async function getLast5DaysOfWorkouts_DB(userID, startDate, endDate) {
   const connection = await pool.getConnection();
   const query = `
-    SELECT Record.exerciseID, Record.reps, Record.sets, Record.weight, Record.duration, Record.date, Exercise.name, Exercise.metric FROM Record
+    SELECT Record.exerciseID, Record.reps, Record.sets, Record.weight, Record.duration, Record.date, Exercise.name, Exercise.metric, Exercise.equipment FROM Record
         JOIN WorkoutPlan ON Record.planID = WorkoutPlan.planID
         JOIN Exercise ON Record.exerciseID = Exercise.exerciseID
         WHERE Record.date Between ? AND ? AND WorkoutPlan.userID = ?`;
@@ -99,10 +99,15 @@ async function getExerciseDataFromPlan_DB(planID){
 // }
 
 async function deleteExercise_DB(exerciseID, dayOfWeek, userID, client){
-  const connection = createPool().getConnection();
+  const connection = pool.getConnection();
 
+  // delete from workoutplan
   const query = "DELETE FROM WorkoutPlan WHERE exerciseID = ? AND dayOfWeek = ? AND userID = ? AND creator = ?";
   (await connection).execute(query, [exerciseID, dayOfWeek, userID, client]);
+
+  // delete from records
+
+
   (await connection).release();
 }
 
@@ -111,9 +116,8 @@ async function recordWorkout_DB(data){
   try {
     connection.beginTransaction();
     const sets = data.sets.length;
-    console.log(data);
+
     data.sets.forEach(async (element) => {
-      console.log(element);
       let query = "";
       if (data.metric === "Reps") {
         query =

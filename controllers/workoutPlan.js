@@ -227,6 +227,7 @@ async function getLast5DaysOfWorkouts(req, res){
     const today = moment().format("YYYY-MM-DD");
     const startDate = moment().subtract(5,'d').format('YYYY-MM-DD');
     const recordedWorkouts = await getLast5DaysOfWorkouts_DB(req.userID, startDate, today);
+    console.log(recordedWorkouts);
     let workoutPlanFormatted = {}
     recordedWorkouts.forEach(element => {
       element.date = new Date(element.date).toISOString().split("T")[0];
@@ -239,6 +240,7 @@ async function getLast5DaysOfWorkouts(req, res){
           reps: [element.reps],
           weight: [element.weight],
           metric: element.metric,
+          equipment: element.equipment,
           duration: [element.duration]
         })
       }else{
@@ -333,7 +335,9 @@ async function clientDeleteExercise(req, res){
 
 async function recordWorkout(req, res){
   try{
-    console.log(req.body);
+    if(req.body.date == ''){
+      throw new Error("Please select date");
+    }
     const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
 
     const insertWorkout = {
@@ -341,10 +345,8 @@ async function recordWorkout(req, res){
       sets: req.body.sets,
       date: req.body.date,
       metric: exerciseData.metric,
-      dayOfWeek: exerciseData.dayOfWeek,
       exerciseID: exerciseData.exerciseID,
     }
-    console.log(insertWorkout);
     const recordedWorkout = await recordWorkout_DB(insertWorkout);
     res.status(201);
     return res.send({
@@ -356,6 +358,7 @@ async function recordWorkout(req, res){
     return res.send({
       status: 500,
       message: "Error recording workout",
+      details: error.message
     });
   }
 }

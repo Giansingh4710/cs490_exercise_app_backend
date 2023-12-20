@@ -574,7 +574,7 @@ router.get("/getCoachID", requireAuthedUser, getCoachIDFromUserID);
  *                                          description: Additional details about error
  *                                          example: Error trying to update user's coachID in database.
  */
-router.get("/terminate", terminateClient); // Unassign a user from their coach
+router.get("/terminate", requireAuthedUser, terminateClient); // Unassign a user from their coach
 
 /**
  *  @swagger
