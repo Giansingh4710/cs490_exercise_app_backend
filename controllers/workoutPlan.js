@@ -308,6 +308,39 @@ async function clientEditExercise(req, res){
   }
 }
 
+async function coachEditExercise(req, res){
+  try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
+
+    const updateExerciseData = {
+      planID: req.body.planID,
+      sets: req.body.sets,
+      metric: exerciseData.metric,
+      dayOfWeek: exerciseData.dayOfWeek,
+      exerciseID: exerciseData.exerciseID,
+    }
+
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, req.userID, 'Client');
+    
+    // add back exercises
+    const updatedExercise = await addExercise_DB(updateExerciseData, req.userID, 'Client');
+
+    res.status(200);
+    res.send(updatedExercise);
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
+
+  }
+}
+
 async function clientDeleteExercise(req, res){
   try{
     // get exercise information like metrics to update properly
@@ -315,6 +348,29 @@ async function clientDeleteExercise(req, res){
 
     // delete old exercises
     await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, req.userID, 'Client');
+    res.status(200);
+    res.send({
+      message: "Exercise Deleted"
+    })
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
+  }
+}
+
+async function coachDeleteExercise(req, res){
+  try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.query.planID);
+    const userID = req.query.userID
+
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, userID, 'Coach');
     res.status(200);
     res.send({
       message: "Exercise Deleted"
@@ -370,5 +426,7 @@ module.exports = {
   clientEditExercise,
   clientDeleteExercise,
   recordWorkout,
-  getAssignedWorkoutPlanForCoach
+  getAssignedWorkoutPlanForCoach,
+  coachDeleteExercise,
+  coachEditExercise
 };

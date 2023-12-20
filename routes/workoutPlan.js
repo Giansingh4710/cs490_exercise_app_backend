@@ -13,7 +13,9 @@ const {
     clientEditExercise,
     clientDeleteExercise,
     recordWorkout,
-    getAssignedWorkoutPlanForCoach
+    getAssignedWorkoutPlanForCoach,
+    coachDeleteExercise,
+    coachEditExercise
 } = require("../controllers/workoutPlan.js");
 
 /**
@@ -347,6 +349,82 @@ router.post("/client/editExercise", requireAuthedUser, clientEditExercise);
 
 /**
  *  @swagger
+ *  /workoutPlan/coach/editExercise:
+ *  post:
+ *      summary: Adding exercise to client's workout plan by coach
+ *      tags: [Workout Plan]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          planID:
+ *                              type: integer
+ *                              example: 5
+ *                          sets:
+ *                              type: array
+ *                              items:
+ *                                  type: object
+ *                                  properties:
+ *                                      reps:
+ *                                          type: integer
+ *                                          description: The number of repetitions for the exercise
+ *                                          example: 10
+ *                                      weight:
+ *                                          type: number
+ *                                          description: The weight used for the exercise
+ *                                          example: 20
+ *                          userID:
+ *                              type: integer
+ *                              example: 10
+ *      responses:
+ *          201:
+ *              description: Exercise added to client's workout plan successfully by coach
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              status:
+ *                                  type: integer
+ *                                  description: HTTP status code of response
+ *                                  example: 201
+ *                              message:
+ *                                  type: string
+ *                                  description: Success message
+ *                                  example: "Exercise added to workout"
+ *                          example:
+ *                              status: 201
+ *                              message: "Exercise added to workout"
+ *          500:
+ *              description: Error adding exercise to client's workout plan by coach
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Database connection error.
+ */
+router.post("/coach/editExercise", requireAuthedUser, coachEditExercise);
+
+/**
+ *  @swagger
  *  /workoutPlan/client/deleteExercise:
  *  delete:
  *      summary: Delete exercise from client's workout plan
@@ -397,6 +475,63 @@ router.post("/client/editExercise", requireAuthedUser, clientEditExercise);
  */
 router.delete("/client/deleteExercise", requireAuthedUser, clientDeleteExercise)
 
+/**
+ *  @swagger
+ *  /workoutPlan/client/deleteExercise:
+ *  delete:
+ *      summary: Delete exercise from client's workout plan by coach
+ *      tags: [Workout Plan]
+ *      parameters:
+ *        - in: query
+ *          name: planID
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The unique identifier for the workout plan
+ *        - in: query
+ *          name: userID
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The unique identifier for the user
+ *      responses:
+ *          200:
+ *              description: Exercise deleted from client's workout plan successfully by coach
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: Success message
+ *                                  example: "Exercise Deleted"
+ *                          example:
+ *                              message: "Exercise Deleted"
+ *          500:
+ *              description: Error deleting exercise from client's workout plan by coach
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Database connection error.
+ */
+router.delete("/coach/deleteExercise", requireAuthedUser, coachDeleteExercise)
 
 router.post("/coach/addExercise", requireAuthedUser, coachAddExercise);
 
