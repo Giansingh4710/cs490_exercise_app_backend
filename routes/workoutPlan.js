@@ -276,6 +276,53 @@ router.post("/client/addExercise", requireAuthedUser, clientAddExercise);
 
 /**
  *  @swagger
+ *  workoutPlan/coach/addExercise:
+ *  post:
+ *      summary: coach can add an exercise to one of their client's workout plan
+ *      tags: [Workout Plan]
+ *      description: This endpoint adds an exercise to the user's workout plan by a coach
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          exerciseID:
+ *                              type: integer
+ *                              description: ExerciseID of the exercise to be added to the workout plan
+ *                              example: 12
+ *                          dayOfWeek:
+ *                              type: string
+ *                              description: Day of the week to add the exercise to
+ *                              example: 'monday'
+ *                          sets:
+ *                              type: array
+ *                              description: List of sets for the exercise
+ *                              items:
+ *                                  type: object
+ *                                  properties:
+ *                                      reps:
+ *                                          type: integer
+ *                                          description: Number of repetitions for the set
+ *                                          example: 5
+ *                                      weight:
+ *                                          type: number
+ *                                          description: Weight used for the set
+ *                                          example: 110
+ *                          userID:
+ *                              type: integer
+ *                              example: 50
+ *      responses:
+ *          201:
+ *              description: Exercise has been added to the workout plan
+ *          500:
+ *              description: Error accessing the database.
+ */
+router.post("/coach/addExercise", requireAuthedUser, coachAddExercise);
+
+/**
+ *  @swagger
  *  /workoutPlan/client/editExercise:
  *  post:
  *      summary: Add exercise to client's workout plan
@@ -477,7 +524,7 @@ router.delete("/client/deleteExercise", requireAuthedUser, clientDeleteExercise)
 
 /**
  *  @swagger
- *  /workoutPlan/client/deleteExercise:
+ *  /workoutPlan/coach/deleteExercise:
  *  delete:
  *      summary: Delete exercise from client's workout plan by coach
  *      tags: [Workout Plan]
@@ -532,8 +579,6 @@ router.delete("/client/deleteExercise", requireAuthedUser, clientDeleteExercise)
  *                                          example: Database connection error.
  */
 router.delete("/coach/deleteExercise", requireAuthedUser, coachDeleteExercise)
-
-router.post("/coach/addExercise", requireAuthedUser, coachAddExercise);
 
 /**
  *  @swagger
