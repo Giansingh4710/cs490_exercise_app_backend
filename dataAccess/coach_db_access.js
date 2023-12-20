@@ -116,11 +116,11 @@ async function getCoachIDFromUserID_DB(userID) {
   return rows[0];
 }
 
-async function terminateClient_DB(userID) {
+async function terminateClient_DB(userID, coachID) {
   const connection = await createPool().getConnection();
   const query = "UPDATE User SET coachID = NULL WHERE userID = ?";
-  const requestQuery = "UPDATE Request SET status = 'Denied' WHERE userID = ?";
-  const [rows, _] = await connection.execute(query, [userID]);
+  const requestQuery = "UPDATE Request SET status = 'Denied' WHERE userID = ? and coachID = ?"; // need coachID so all requests dont get set to denied for a user
+  const [rows, _] = await connection.execute(query, [userID, coachID]);
   const [requestRows, __] = await connection.execute(requestQuery, [userID]);
   connection.release();
   return rows[0];
