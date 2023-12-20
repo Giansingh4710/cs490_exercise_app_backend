@@ -1,7 +1,7 @@
-const { createPool } = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function getAssignedWorkoutPlan_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=? AND creator='Coach'";
   const [rows, _] = await connection.execute(query, [userID]);
@@ -10,7 +10,7 @@ async function getAssignedWorkoutPlan_DB(userID) {
 }
 
 async function addExercise_DB(data, userID, creator) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   try {
     connection.beginTransaction();
     const sets = data.sets.length;
@@ -55,7 +55,7 @@ async function addExercise_DB(data, userID, creator) {
 }
 
 async function getPersonalWorkoutPlan_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=? AND creator='Client'";
 
@@ -65,7 +65,7 @@ async function getPersonalWorkoutPlan_DB(userID) {
 }
 
 async function getLast5DaysOfWorkouts_DB(userID, startDate, endDate) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `
     SELECT Record.exerciseID, Record.reps, Record.sets, Record.weight, Record.duration, Record.date, Exercise.name, Exercise.metric FROM Record
         JOIN WorkoutPlan ON Record.planID = WorkoutPlan.planID
@@ -82,7 +82,7 @@ async function getLast5DaysOfWorkouts_DB(userID, startDate, endDate) {
 }
 
 async function getExerciseDataFromPlan_DB(planID){
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.exerciseID = WorkoutPlan.exerciseID WHERE planID = ?";
   const [res, _] = await connection.execute(query, [planID]);
   connection.release();
@@ -107,7 +107,7 @@ async function deleteExercise_DB(exerciseID, dayOfWeek, userID, client){
 }
 
 async function recordWorkout_DB(data){
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   try {
     connection.beginTransaction();
     const sets = data.sets.length;

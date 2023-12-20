@@ -1,7 +1,7 @@
-const { createPool } = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function getMealsForToday_DB(userID, date) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "SELECT foodID, foodName, mealType, calories, date from FoodIntake WHERE userID = ? AND date = ? ORDER BY mealType";
   const [rows, _] = await connection.execute(query, [userID, date]);
@@ -24,7 +24,7 @@ async function getMealsForToday_DB(userID, date) {
 }
 
 async function deleteMeal_DB(userID, mealID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "DELETE FROM FoodIntake WHERE userID = ? AND foodID = ?";
   const [rows, _] = await connection.execute(query, [userID, mealID]);
   connection.release();
@@ -32,7 +32,7 @@ async function deleteMeal_DB(userID, mealID) {
 }
 
 async function createMeal_DB(mealData, date, userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "INSERT INTO FoodIntake(userID, foodName, mealType, calories, protein, fat, date) VALUES(?, ?, ?, ?, ?, ?, ?)";
   const [res, _] = await connection.execute(query, [

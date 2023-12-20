@@ -1,7 +1,7 @@
-const { createPool } = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function createRequest(requestData) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "INSERT INTO Request (userID, coachID, status, goals, note) VALUES (?, ?, ?, ?, ?)";
   const [rows, _] = await connection.execute(query, [
@@ -16,7 +16,7 @@ async function createRequest(requestData) {
 }
 
 async function getRequests(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "SELECT * FROM Request WHERE userID = ?";
   const [rows, _] = await connection.execute(query, [userID]);
   connection.release();
@@ -24,7 +24,7 @@ async function getRequests(userID) {
 }
 
 async function getStatus_DB(userID, coachID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `SELECT status, requestID FROM Request 
     WHERE userID = '${userID}' AND coachID = '${coachID}'`;
   const [rows, fields] = await connection.execute(query);
@@ -45,7 +45,7 @@ async function getStatus_DB(userID, coachID) {
 }
 
 async function getPendingRequests(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `
             SELECT 
             R.requestID,
@@ -74,7 +74,7 @@ async function getPendingRequests(userID) {
 }
 
 async function unansweredRequestsByCoach_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `
     SELECT 
           R.requestID,
@@ -104,7 +104,7 @@ async function unansweredRequestsByCoach_DB(userID) {
 }
 
 async function acceptRequest_DB(requestID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `UPDATE request SET status = 'Accepted' WHERE requestID = ?`;
   const coachQuery = 
     `UPDATE User SET User.coachID = 
@@ -118,7 +118,7 @@ async function acceptRequest_DB(requestID) {
 }
 
 async function declineRequest_DB(requestID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `UPDATE request SET status = 'Denied' WHERE requestID = ?`;
   const [res, _] = await connection.execute(query, [requestID]);
   connection.release();
@@ -126,7 +126,7 @@ async function declineRequest_DB(requestID) {
 }
 
 async function cancelRequest_DB(requestID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "DELETE FROM Request WHERE requestID = ?";
   const [res, _] = await connection.execute(query, [requestID]);
   connection.release();

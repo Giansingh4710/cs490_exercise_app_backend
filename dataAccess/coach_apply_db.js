@@ -1,7 +1,7 @@
-const { createPool } = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function getAllPending_DB() {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     `SELECT c.coachRequestID, u.userID, u.firstName, u.lastName, c.status, c.specialties, ROUND(cost, 2) AS cost
     FROM CoachRequest c INNER JOIN User u ON u.userID = c.userID
@@ -13,7 +13,7 @@ async function getAllPending_DB() {
 }
 
 async function getPendingByID_DB(coachRequestID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     `SELECT c.coachRequestID, u.firstName, u.lastName, c.status, c.specialties, ROUND(cost, 2) AS cost
     FROM CoachRequest c JOIN User u ON c.userID = u.userID 
@@ -26,7 +26,7 @@ async function getPendingByID_DB(coachRequestID) {
 }
 
 async function acceptCoach_DB(coachRequestID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     `UPDATE coachRequest SET status = 'Accepted' WHERE coachRequestID = ?`;
   const roleQuery =
@@ -44,7 +44,7 @@ async function acceptCoach_DB(coachRequestID) {
 }
 
 async function denyCoach_DB(coachRequestID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     `UPDATE coachRequest SET status = 'Denied' WHERE coachRequestID = ?`;
   const [rows, _] = await connection.execute(query, [coachRequestID]);
@@ -53,7 +53,7 @@ async function denyCoach_DB(coachRequestID) {
 }
 
 async function createCoachRequest_DB(coachRequestData) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     `INSERT INTO CoachRequest(userID, status, specialties, cost) VALUES(?, ?, ?, ?)`;
   const [rows, _] = await connection.execute(query, [

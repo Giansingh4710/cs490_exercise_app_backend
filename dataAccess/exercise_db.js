@@ -1,7 +1,7 @@
-const {createPool} = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function getAllExercises_DB() {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     `SELECT exerciseID, name, type, difficulty, muscleGroup, equipment FROM Exercise`;
   const [rows, _] = await connection.execute(query); //res[0]=rows, res[1]=fields
@@ -10,7 +10,7 @@ async function getAllExercises_DB() {
 }
 
 async function getAllActiveExercises_DB() {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     `SELECT exerciseID, name, type, difficulty, muscleGroup, equipment FROM Exercise WHERE status='Enabled'`;
   const [rows, _] = await connection.execute(query); //res[0]=rows, res[1]=fields
@@ -19,7 +19,7 @@ async function getAllActiveExercises_DB() {
 }
 
 async function searchExercise_DB(muscleGroup, equipment) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
   `SELECT exerciseID, name, type, difficulty, muscleGroup, equipment 
   FROM Exercise 
@@ -31,7 +31,7 @@ async function searchExercise_DB(muscleGroup, equipment) {
 }
 
 async function disableExercise_DB(exerciseID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
   `UPDATE Exercise SET status = 'Disabled' WHERE exerciseID = ?`
   const [rows, _] = await connection.execute(query, [exerciseID]); //res[0]=rows, res[1]=fields
@@ -39,7 +39,7 @@ async function disableExercise_DB(exerciseID) {
 }
 
 async function enableExercise_DB(exerciseID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
   `UPDATE Exercise SET status = 'Enabled' WHERE exerciseID = ?`
   const [rows, _] = await connection.execute(query, [exerciseID]); //res[0]=rows, res[1]=fields
@@ -48,7 +48,7 @@ async function enableExercise_DB(exerciseID) {
 }
 
 async function createExercise_DB(exerciseData){
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `INSERT INTO Exercise(name, muscleGroup, difficulty, equipment, type, metric) VALUES(?, ?, ?, ?, ?, ?)`
   const [rows, _] = await connection.execute(query, [exerciseData.name, exerciseData.muscleGroup,
      exerciseData.difficulty, exerciseData.equipment, exerciseData.type, exerciseData.metric])
@@ -57,7 +57,7 @@ async function createExercise_DB(exerciseData){
 }
 
 async function getExerciseData_DB(exerciseID){
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "SELECT * FROM Exercise WHERE ExerciseID = ?";
   const [res, _] = await connection.execute(query, [exerciseID]);
   connection.release();

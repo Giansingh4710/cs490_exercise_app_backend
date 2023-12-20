@@ -53,8 +53,10 @@ function createPool() {
   return pool;
 }
 
+const pool = createPool();
+
 module.exports = {
-  createPool,
+  pool,
   PORT,
   SECRET_KEY,
   BCRYPT_WORK_FACTOR,

@@ -1,7 +1,7 @@
-const {createPool} = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function insertWaterIntake_DB(obj) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const { userID, intakeUnit, intakeAmount, date } = obj;
   const query =
     "INSERT INTO WaterIntake (userID,date,intakeAmount,intakeUnit) VALUES (?,?,?,?)";
@@ -16,7 +16,7 @@ async function insertWaterIntake_DB(obj) {
 }
 
 async function insertMentalState_DB({ userID, state, date }) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "INSERT INTO MentalState(userID, state, date) VALUES (?, ?, ?)";
   const [insertData, _] = await connection.execute(query, [
     userID,
@@ -29,7 +29,7 @@ async function insertMentalState_DB({ userID, state, date }) {
 
 // waiting on goal progress table to created in DB
 async function insertGoalProgress_DB({ userID, weight, date }) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "INSERT INTO WeightProgress(userID, weight, date) VALUES (?, ?, ?)";
   const [insertData, _] = await connection.execute(query, [
@@ -42,7 +42,7 @@ async function insertGoalProgress_DB({ userID, weight, date }) {
 }
 
 async function dailySurveyIsCompleted_DB(userID, date) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   // only checking insert of goal progress b/c daily survey is inserted using a transaction
   const query = "SELECT * FROM WeightProgress WHERE userID = ? AND date = ?";
   const [surveyData, _] = await connection.execute(query, [
@@ -54,7 +54,7 @@ async function dailySurveyIsCompleted_DB(userID, date) {
 }
 
 async function dailyWeight_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = 
     `SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date, weight FROM weightProgress 
     WHERE userID = ?
@@ -68,7 +68,7 @@ async function dailyWeight_DB(userID) {
 
 // TODO: anything with transaction
 async function insertDailySurvey_DB(dailySurveyData, userID, date) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   try {
     connection.beginTransaction();
     const waterIntakeInsert = await insertWaterIntake_DB({
