@@ -3,7 +3,7 @@ const { pool } = require("../sql_config/database.js");
 async function getAllExercises_DB() {
   const connection = await pool.getConnection();
   const query =
-    `SELECT exerciseID, name, type, difficulty, muscleGroup, equipment FROM Exercise`;
+    `SELECT exerciseID, name, type, difficulty, muscleGroup, equipment, status FROM Exercise`;
   const [rows, _] = await connection.execute(query); //res[0]=rows, res[1]=fields
   connection.release();
   return rows;
