@@ -207,6 +207,7 @@ async function terminateClient(req, res) {
     const userID = req.query.userID; // set in ../utils/security.js
     const coachID = await getCoachIDFromUserID_DB(req.userID);
     const userData = await terminateClient_DB(userID, coachID); 
+    res.status(200);
     res.send({
       status: 200,
       message: "User terminated from coach"

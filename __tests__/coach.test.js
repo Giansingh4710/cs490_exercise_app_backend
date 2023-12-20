@@ -6,6 +6,9 @@ const {
   getSpecializations,
   getCities,
   getUsersOfCoach,
+  getClientInfo,
+  getCoachIDFromUserID,
+  terminateClient,
 } = require("../controllers/coach.js");
 
 jest.mock("../sql_config/database.js"); // need this so it don't actually connect to the database
@@ -18,6 +21,7 @@ const req = {
   },
   "query": {
     "name": "a",
+    "userID": 1,
   },
   "userID": 1,
 };
@@ -273,23 +277,21 @@ describe("getUsersOfCoach", () => {
       "lastName": "Heggman",
     },
   ];
+
+  db_file.getCoachIDFromUserID_DB.mockImplementation(() => ({
+    coachID: 123,
+  }));
   it("should return all clients of coach", async () => {
     const req = {
       userID: 1,
     };
     db_file.getUsersOfCoach_DB.mockImplementationOnce(() => clients);
-    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => ({
-      coachID: 123,
-    }));
     await getUsersOfCoach(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.send).toHaveBeenCalledWith(clients);
   });
 
   it("should return error when getting clients of coach", async () => {
-    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => ({
-      coachID: 123, // Add any necessary properties that your application expects
-    }));
     db_file.getUsersOfCoach_DB.mockImplementationOnce(() => {
       throw new Error("DB error");
     });
@@ -304,3 +306,78 @@ describe("getUsersOfCoach", () => {
     });
   });
 });
+
+describe("getClientInfo", () => {
+  const req = {
+    query: {
+      userID: 1,
+    },
+  };
+  it("200 with client info", async () => {
+    db_file.getClientInfo_DB.mockImplementationOnce(() => {});
+    await getClientInfo(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+  });
+  it("500 error getting client info", async () => {
+    db_file.getClientInfo_DB.mockImplementationOnce(() => {
+      throw new Error("DB error");
+    });
+    await getClientInfo(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+  });
+});
+
+describe("getCities", () => {
+  it("200 getting cities", async () => {
+    db_file.getCities_DB.mockImplementationOnce(() => {});
+    await getCities(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+  });
+
+  it("500 error getting cities", async () => {
+    db_file.getCities_DB.mockImplementationOnce(() => {
+      throw new Error("DB error");
+    });
+    await getCities(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+  });
+});
+
+describe("getCoachIDFromUserID", () => {
+  it("400 user not coach", async () => {
+    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => null);
+    await getCoachIDFromUserID(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+  });
+
+  it("500 error user not coach", async () => {
+    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => {
+      throw new Error("DB error");
+    });
+    await getCoachIDFromUserID(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+  });
+
+  it("200 got user coach", async () => {
+    db_file.getCoachIDFromUserID_DB.mockImplementationOnce(() => 1);
+    await getCoachIDFromUserID(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+  });
+});
+
+describe("terminateClient", () => {
+  it("200 terminated coach", async () => {
+    db_file.terminateClient_DB.mockImplementationOnce(() => {});
+    await terminateClient(req, res);
+    expect(res.status).toHaveBeenCalledWith(200);
+  });
+
+  it("500 error terminated coach", async () => {
+    db_file.terminateClient_DB.mockImplementationOnce(() => {
+      throw new Error("DB error");
+    });
+    await terminateClient(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+  });
+});
+

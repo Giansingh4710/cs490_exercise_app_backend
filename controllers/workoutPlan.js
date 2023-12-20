@@ -148,7 +148,6 @@ async function coachAddExercise(req, res){
   // req.body.userID -> userid of client
 
   try {
-    console.log(req.body);
     const insertedExercise = await addExercise_DB(req.body, req.body.userID, "Coach");
     res.status(201);
     return res.send({
@@ -333,7 +332,6 @@ async function clientDeleteExercise(req, res){
 
 async function recordWorkout(req, res){
   try{
-    console.log(req.body);
     const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
 
     const insertWorkout = {
@@ -344,7 +342,6 @@ async function recordWorkout(req, res){
       dayOfWeek: exerciseData.dayOfWeek,
       exerciseID: exerciseData.exerciseID,
     }
-    console.log(insertWorkout);
     const recordedWorkout = await recordWorkout_DB(insertWorkout);
     res.status(201);
     return res.send({
