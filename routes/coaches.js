@@ -524,7 +524,7 @@ router.get("/getCoachID", requireAuthedUser, getCoachIDFromUserID);
 
 /**
  *  @swagger
- *  /coaches/terminateClient:
+ *  /coaches/terminate:
  *  delete:
  *      summary: Terminate a client from a coach
  *      tags: [coaches]
