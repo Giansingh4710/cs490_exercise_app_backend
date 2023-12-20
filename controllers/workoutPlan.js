@@ -148,7 +148,6 @@ async function coachAddExercise(req, res){
   // req.body.userID -> userid of client
 
   try {
-    console.log(req.body);
     const insertedExercise = await addExercise_DB(req.body, req.body.userID, "Coach");
     res.status(201);
     return res.send({
@@ -227,7 +226,6 @@ async function getLast5DaysOfWorkouts(req, res){
     const today = moment().format("YYYY-MM-DD");
     const startDate = moment().subtract(5,'d').format('YYYY-MM-DD');
     const recordedWorkouts = await getLast5DaysOfWorkouts_DB(req.userID, startDate, today);
-    console.log(recordedWorkouts);
     let workoutPlanFormatted = {}
     recordedWorkouts.forEach(element => {
       element.date = new Date(element.date).toISOString().split("T")[0];

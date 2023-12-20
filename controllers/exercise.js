@@ -1,4 +1,12 @@
-const { getAllExercises_DB, searchExercise_DB, disableExercise_DB, enableExercise_DB, createExercise_DB, getExerciseData_DB, getAllActiveExercises_DB } = require("../dataAccess/exercise_db.js");
+const {
+  getAllExercises_DB,
+  searchExercise_DB,
+  disableExercise_DB,
+  enableExercise_DB,
+  createExercise_DB,
+  getExerciseData_DB,
+  getAllActiveExercises_DB,
+} = require("../dataAccess/exercise_db.js");
 
 async function getAllExercises(req, res) {
   try {
@@ -99,7 +107,7 @@ async function enableExercise(req, res) {
 async function createExercise(req, res) {
   try {
     const newExercise = await createExercise_DB(req.body);
-    res.status(201)
+    res.status(201);
     res.send({
       message: "Exercise added to exercise bank",
     });
@@ -115,28 +123,28 @@ async function createExercise(req, res) {
   }
 }
 
-async function getExerciseData(req, res){
-  try{
+async function getExerciseData(req, res) {
+  try {
     const exerciseData = await getExerciseData_DB(req.params.exerciseID);
     res.status(200);
-    return res.send(exerciseData);
-  }catch(error){
-    res.send(500);
+    res.send(exerciseData);
+  } catch (error) {
+    res.status(500);
     res.send({
-      error:{
+      error: {
         status: 500,
-        message: "Error accessing database"
-      }
-    })
+        message: "Error accessing database",
+      },
+    });
   }
 }
 
-module.exports = { 
-  getAllExercises, 
-  searchExercise, 
-  disableExercise, 
-  enableExercise, 
-  createExercise, 
+module.exports = {
+  getAllExercises,
+  searchExercise,
+  disableExercise,
+  enableExercise,
+  createExercise,
   getExerciseData,
-  getAllActiveExercises
- };
+  getAllActiveExercises,
+};
