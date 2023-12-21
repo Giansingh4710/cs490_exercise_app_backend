@@ -37,7 +37,8 @@ async function recordDailySurvey(req, res) {
       error: {
         status: errorStatus,
         message: error.message,
-        details: "Error inserting into database",
+        details: "Error trying to recordDailySurvey",
+        givenData: req.body,
       },
     });
   }
