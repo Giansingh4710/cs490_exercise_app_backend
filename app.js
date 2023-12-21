@@ -7,7 +7,7 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerDefinition = {
   openapi: "3.0.0",
   info: {
-    title: "Express API for JSONPlaceholder",
+    title: "Express API for FitFusion",
     version: "1.0.0",
   },
 };
