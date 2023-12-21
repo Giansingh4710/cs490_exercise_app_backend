@@ -28,15 +28,15 @@ async function getAllPending(req, res) {
 async function getPendingByID(req, res) {
   let errorStatusCode = 500;
   try {
-    const userID = req.query.userID;
+    const coachRequestID = req.query.coachRequestID;
 
-    const userData = await getPendingByID_DB(userID);
-    if (userData == undefined) {
+    const requestData = await getPendingByID_DB(coachRequestID);
+    if (requestData == undefined) {
       errorStatusCode = 404;
-      throw new Error(`No user currently applying for coach found with userID:${userID}`);
+      throw new Error(`No pending coach application found with coachRequestID:${coachRequestID}`);
     }
     res.status(200);
-    res.send(userData);
+    res.send(requestData);
   } catch (error) {
     res.status(errorStatusCode);
     res.send({
@@ -61,7 +61,7 @@ async function acceptCoach(req, res) {
       error: {
         status: 500,
         message: error.message,
-        details: "Error trying to update coach request status in database.",
+        details: "Error trying to add coach to database.",
       },
     });
   }

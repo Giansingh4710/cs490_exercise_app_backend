@@ -1,16 +1,16 @@
-const { createPool } = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function getCoachByID_DB(coachID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
-    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, u.userID FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
+    "SELECT c.coachID, u.firstName, u.lastName, u.city, u.state, c.specialties, u.userID, ROUND(c.cost, 2) as cost FROM Coach c JOIN User u ON c.userID = u.userID WHERE c.coachID = ?";
   const [rows, _] = await connection.execute(query, [coachID]);
   connection.release();
   return rows[0];
 }
 
 async function getAllCoaches_DB() {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "SELECT c.coachID, u.firstName, u.lastName FROM Coach c INNER JOIN User u ON u.userID = c.userID ORDER BY c.coachID";
   const [rows, _] = await connection.execute(query);
@@ -19,7 +19,7 @@ async function getAllCoaches_DB() {
 }
 
 async function getSpecializations_DB() {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `SELECT DISTINCT specialties FROM Coach`;
   const [rows, _] = await connection.execute(query);
   connection.release();
@@ -27,7 +27,7 @@ async function getSpecializations_DB() {
 }
 
 async function searchCoachByName_DB(name) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `SELECT c.coachID, u.firstName, u.lastName 
       FROM Coach c INNER JOIN User u ON u.userID = c.userID 
       WHERE CONCAT(u.firstName, ' ', u.lastName) LIKE ?
@@ -38,8 +38,8 @@ async function searchCoachByName_DB(name) {
   return rows;
 }
 
-async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
-  const connection = await createPool().getConnection();
+async function searchCoachByAll_DB(name, specialty, maxPrice, maxPrice2, state, city) {
+  const connection = await pool.getConnection();
   const query = `
       SELECT c.coachID, u.firstName, u.lastName, c.cost
       FROM Coach c INNER JOIN User u ON u.UserID = c.userID 
@@ -61,7 +61,7 @@ async function searchCoachByAll_DB(name, specialty, maxPrice, state, city) {
 }
 
 async function getUsersOfCoach_DB(userId) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `
       SELECT 
           R.requestID,
@@ -70,7 +70,7 @@ async function getUsersOfCoach_DB(userId) {
           U.lastName
         FROM Request R
         JOIN User U ON R.userID = U.userID
-        WHERE R.Status = "Pending" AND 
+        WHERE R.Status = "Accepted" AND 
         R.coachID in (
             SELECT coachID From Coach WHERE UserID=?
         );
@@ -81,7 +81,7 @@ async function getUsersOfCoach_DB(userId) {
 }
 
 async function getClientInfo_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = 
     `SELECT u.userID, u.firstName, u.lastName, g.goalType AS goal,
     JSON_ARRAY('surveyDate', f.date, 'mentalState', m.state, 'waterIntake', TRUNCATE(w.intakeAmount, 1), 'waterUnits', w.intakeUnit,
@@ -99,7 +99,7 @@ async function getClientInfo_DB(userID) {
 }
 
 async function getCities_DB() {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `SELECT state, JSON_ARRAYAGG(city) AS cities
     FROM User WHERE role = 'coach'
     GROUP BY state ORDER BY state ASC`;
@@ -109,9 +109,27 @@ async function getCities_DB() {
 }
 
 async function getCoachIDFromUserID_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "SELECT * FROM Coach WHERE UserID = ?";
   const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
+  return rows[0];
+}
+
+async function terminateClient_DB(userID, coachID, coachUserID) {
+  const connection = await pool.getConnection();
+  const query = "UPDATE User SET coachID = NULL WHERE userID = ?";
+  const [rows, _] = await connection.execute(query, [userID]);
+
+  const requestQuery = "UPDATE Request SET status = 'Denied' WHERE userID = ? AND coachID = ?"; // need coachID so all requests dont get set to denied for a user
+  const [requestRows, __] = await connection.execute(requestQuery, [userID, coachID]);
+
+  const deleteAssignedWorkoutQuery = "DELETE FROM WorkoutPlan WHERE userID = ? AND creator='Coach'";
+  await connection.execute(deleteAssignedWorkoutQuery, [userID]);
+  
+  const deleteMessagesQuery = "DELETE FROM Message WHERE senderID = ? AND receiverID = ? OR senderID = ? AND receiverID = ?";
+  await connection.execute(deleteMessagesQuery, [userID, coachUserID, coachUserID, userID]);
+
   connection.release();
   return rows[0];
 }
@@ -126,4 +144,5 @@ module.exports = {
   getClientInfo_DB,
   getUsersOfCoach_DB,
   getCoachIDFromUserID_DB,
+  terminateClient_DB,
 };

@@ -7,81 +7,18 @@ const { requireAuthedUser, fakeAuthedUser } = require(
 const { recordDailySurvey, userDailyWeight } = require("../controllers/logActivity.js");
 
 /**
- *  /logActivity/logWaterIntake:
- *  post:
- *      summary: Logs water intake recorded by user into the database
- *      description: Logs the water intake of a user for the daily survey and stores into the database. NOTE User token is required for this endpoint
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          amount:
- *                              type: integer
- *                              description: Amount of water
- *                              example: 100
- *                          unit:
- *                              type: string
- *                              description: Unit of water
- *                              example: fl oz
- *      responses:
- *          200:
- *              description: Water intake logged successfully
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
- *                                  example: "Water Input Recorded"
- *                              info:
- *                                  type: object
- *                                  properties:
- *                                      fieldCount:
- *                                          type: integer
- *                                          example: 5
- *                                      affectedRows:
- *                                          type: integer
- *                                          example: 1
- *                                      insertId:
- *                                          type: integer
- *                                          example: 250
- *                                      info:
- *                                          type: string
- *                                          example: ""
- *                                      serverStatus:
- *                                          type: integer
- *                                          example: 2
- *                                      warningStatus:
- *                                          type: integer
- *                                          exmaple: 0
- *                                      changedRows:
- *                                          type: integer              
- *                                          example: 0
- *          500:
- *              description: Error accessing Database.
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              error:
- *                                  type: string
- *                                  example: Invalid Date Format
- *                              details: 
- *                                  type: string
- *                                  example: "Error logging water intake"                             
+ * @swagger
+ * tags:
+ *   name: logActivity
  */
-// router.post("/logWaterIntake", requireAuthedUser, logWaterIntake);
+
 
 /**
  *  @swagger
  *  /logActivity/recordDailySurvey:
  *  post:
  *      summary: Records daily survey data into database
+ *      tags: [logActivity]
  *      requestBody:
  *          required: true
  *          content:
@@ -160,6 +97,57 @@ const { recordDailySurvey, userDailyWeight } = require("../controllers/logActivi
  */
 router.post("/recordDailySurvey", requireAuthedUser, recordDailySurvey);
 
+/**
+ *  @swagger
+ *  /logActivity/dailyWeight:
+ *  get:
+ *      summary: Retrieve daily weight data for a user
+ *      tags: [logActivity]
+ *      responses:
+ *          200:
+ *              description: Daily weight data retrieved successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  date:
+ *                                      type: string
+ *                                      format: date
+ *                                      description: The date for the weight entry
+ *                                  weight:
+ *                                      type: number
+ *                                      description: The weight recorded for the specified date
+ *                          example:
+ *                              - date: "2023-12-16"
+ *                                weight: 185
+ *                              - date: "2023-12-17"
+ *                                weight: 34
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Error trying to get weightData in database.
+ */
 router.get("/dailyWeight", requireAuthedUser, userDailyWeight);
 
 module.exports = router;

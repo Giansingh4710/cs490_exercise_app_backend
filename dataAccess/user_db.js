@@ -1,10 +1,10 @@
-const {createPool} = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 const {
   getCoachByID_DB
 } = require("../dataAccess/coach_db_access.js")
 
 async function findUserByEmail(email) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "SELECT * FROM User WHERE email = ?";
   const [rows, _] = await connection.execute(query, [email]);
   connection.release();
@@ -12,14 +12,12 @@ async function findUserByEmail(email) {
 }
 
 async function registerAccount_DB({ email, hashedPass }) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const q = "INSERT INTO User (email, password) VALUES (?, ?)";
-  console.log("registerAccount_DB");
   const [insertInfoObj, _] = await connection.execute(q, [
     email,
     hashedPass,
   ]);
-  console.log(insertInfoObj);
   connection.release();
   return insertInfoObj;
 }
@@ -48,7 +46,7 @@ async function updateUser(data) {
     }
   */
 
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `UPDATE User SET 
         firstName = ?,
         lastName = ?,
@@ -87,15 +85,15 @@ async function updateUser(data) {
   const q = "INSERT INTO Goal (userID, goalType) VALUES (?, ?)";
   res = await connection.execute(q, [userID, data.goal]);
   if (data.role.toLowerCase() === "Coach".toLowerCase()) {
-    const q = "INSERT INTO Coach (userID, cost, specialties) VALUES (?, ?, ?)";
-    res = await connection.execute(q, [userID,data.cost, data.specialties]);
+    const q = "INSERT INTO CoachRequest (userID, status, cost, specialties) VALUES (?, ?, ?, ?)";
+    res = await connection.execute(q, [userID, "Pending", data.cost,data.specialties]);
   }
   connection.release();
   return res[0];
 }
 
 async function getCoachOfUser_DB(userID){
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = "SELECT coachID from User WHERE userID = ?";
   const [rows, _] = await connection.execute(query, [userID]);
   connection.release();
@@ -109,20 +107,20 @@ async function getCoachOfUser_DB(userID){
 
 // TODO: connection.promise() isn't a thing so beginTransaction() and commit() aren't working
 async function removeCoach_DB(userID, coachUserID){
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   try{
-    connection.promise().beginTransaction();
+    connection.beginTransaction();
     // remove coachID from user data
     const removeCoachQuery = "UPDATE User SET coachID = null WHERE userID = ?";
-    await connection.promise().query(removeCoachQuery, [userID]);
+    await connection.execute(removeCoachQuery, [userID]);
 
     // delete coach assigned workouts from workout plan
     const deleteAssignedWorkoutQuery = "DELETE FROM WorkoutPlan WHERE userID = ? AND creator='Coach'";
-    await connection.promise().query(deleteAssignedWorkoutQuery, [userID]);
+    await connection.execute(deleteAssignedWorkoutQuery, [userID]);
 
     // delete messages with coach
     const deleteMessagesQuery = "DELETE FROM Message WHERE senderID = ? AND receiverID = ? OR senderID = ? AND receiverID = ?";
-    await connection.promise().query(deleteMessagesQuery, [userID, coachUserID, coachUserID, userID]);
+    await connection.execute(deleteMessagesQuery, [userID, coachUserID, coachUserID, userID]);
     connection.commit();
   }catch(error){
     connection.rollback();
@@ -134,6 +132,7 @@ async function removeCoach_DB(userID, coachUserID){
 }
 
 async function getUserData_DB(userID){
+  const connection = await pool.getConnection();
   const query = `
   SELECT
     firstName,
@@ -157,13 +156,16 @@ async function getUserData_DB(userID){
   LEFT JOIN Goal on Goal.userID = User.userID 
   LEFT JOIN Coach ON Coach.userID = User.userID
   WHERE User.userID = ?`;
-  const [rows, _] = await connection.promise().query(query, [userID]);
+  const [rows, _] = await connection.execute(query, [userID]);
+  connection.release();
   return rows[0];
 }
 
 async function deleteAccount_DB(userID){
+  const connection = await pool.getConnection();
   const query = "DELETE FROM User WHERE UserID = ?";
-  const [res, _] = await connection.promise().query(query, [userID]);
+  const [res, _] = await connection.execute(query, [userID]);
+  connection.release();
   return res;
 }
 

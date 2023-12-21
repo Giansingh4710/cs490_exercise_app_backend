@@ -2,7 +2,15 @@ const moment = require("moment");
 const { getUsersOfCoach_DB } = require(
   "../dataAccess/coach_db_access",
 );
-const { getAssignedWorkoutPlan_DB, addExercise_DB, getPersonalWorkoutPlan_DB, getLast5DaysOfWorkouts_DB} = require(
+const {
+  getAssignedWorkoutPlan_DB,
+  deleteExercise_DB,
+  addExercise_DB,
+  getPersonalWorkoutPlan_DB,
+  getLast5DaysOfWorkouts_DB,
+  getExerciseDataFromPlan_DB,
+  recordWorkout_DB
+} = require(
   "../dataAccess/workout_plan_db",
 );
 
@@ -16,6 +24,7 @@ async function getAssignedWorkoutPlan(req, res) {
           if(!(element.dayOfWeek in workoutPlanFormatted)){
             workoutPlanFormatted[element.dayOfWeek] = []
             workoutPlanFormatted[element.dayOfWeek].push({
+              planID: element.planID,
               "exercise": element.name,
               sets: element.sets,
               reps: [element.reps],
@@ -29,6 +38,61 @@ async function getAssignedWorkoutPlan(req, res) {
 
             if (!existingExercise) {
               workoutPlanFormatted[element.dayOfWeek].push({
+                planID: element.planID,
+                "exercise": element.name,
+                sets: element.sets,
+                reps: [element.reps],
+                weight: [element.weight],
+                metric: element.metric,
+                equipment: element.equipment,
+                duration: [element.duration]
+              });
+            } else {
+              existingExercise.reps.push(element.reps);
+              existingExercise.weight.push(element.weight);
+              existingExercise.weight.push(element.duration);
+            }
+          }
+
+        });
+
+    res.status(200);
+    return res.send(workoutPlanFormatted);
+  } catch (error) {
+    res.status(500);
+    return res.send({
+      "error": {
+        status: 500,
+        message: "Error accessing database.",
+      },
+    });
+  }
+}
+
+async function getAssignedWorkoutPlanForCoach(req, res){
+  try {
+    const workoutPlan = await getAssignedWorkoutPlan_DB(req.query.userID);
+        let workoutPlanFormatted = {}
+        workoutPlan.forEach(element => {
+          element.dayOfWeek = element.dayOfWeek.toLowerCase();
+          if(!(element.dayOfWeek in workoutPlanFormatted)){
+            workoutPlanFormatted[element.dayOfWeek] = []
+            workoutPlanFormatted[element.dayOfWeek].push({
+              planID: element.planID,
+              "exercise": element.name,
+              sets: element.sets,
+              reps: [element.reps],
+              weight: [element.weight],
+              metric: element.metric,
+              equipment: element.equipment,
+              duration: [element.duration]
+            })
+          }else{
+            const existingExercise = workoutPlanFormatted[element.dayOfWeek].find(exercise => exercise.exercise === element.name);
+
+            if (!existingExercise) {
+              workoutPlanFormatted[element.dayOfWeek].push({
+                planID: element.planID,
                 "exercise": element.name,
                 sets: element.sets,
                 reps: [element.reps],
@@ -60,9 +124,8 @@ async function getAssignedWorkoutPlan(req, res) {
 }
 
 async function clientAddExercise(req, res) {
-  let errorStatus = 500;
   try {
-    const insertedExercise = await addExercise_DB(req.body, req.userID);
+    const insertedExercise = await addExercise_DB(req.body, req.userID, "Client");
     res.status(201);
     return res.send({
       status: 201,
@@ -80,6 +143,30 @@ async function clientAddExercise(req, res) {
   }
 }
 
+async function coachAddExercise(req, res){
+  // req.userID -> userid of caoch
+  // req.body.userID -> userid of client
+
+  try {
+    const insertedExercise = await addExercise_DB(req.body, req.body.userID, "Coach");
+    res.status(201);
+    return res.send({
+      status: 201,
+      message: "Exercise added to workout",
+    });
+  } catch (error) {
+    res.status(500);
+    return res.send({
+      "error": {
+        status: 500,
+        message: "Error accessing database.",
+        details: error.message
+      }
+    });
+  }
+
+}
+
 async function getPersonalWorkoutPlan(req, res){
   try {
     const workoutPlan = await getPersonalWorkoutPlan_DB(req.userID);
@@ -89,6 +176,7 @@ async function getPersonalWorkoutPlan(req, res){
           if(!(element.dayOfWeek in workoutPlanFormatted)){
             workoutPlanFormatted[element.dayOfWeek] = []
             workoutPlanFormatted[element.dayOfWeek].push({
+              planID: element.planID,
               "exercise": element.name,
               sets: element.sets,
               reps: [element.reps],
@@ -102,6 +190,7 @@ async function getPersonalWorkoutPlan(req, res){
 
             if (!existingExercise) {
               workoutPlanFormatted[element.dayOfWeek].push({
+                planID: element.planID,
                 "exercise": element.name,
                 sets: element.sets,
                 reps: [element.reps],
@@ -149,6 +238,7 @@ async function getLast5DaysOfWorkouts(req, res){
           reps: [element.reps],
           weight: [element.weight],
           metric: element.metric,
+          equipment: element.equipment,
           duration: [element.duration]
         })
       }else{
@@ -185,9 +275,158 @@ async function getLast5DaysOfWorkouts(req, res){
   }
 }
 
+async function clientEditExercise(req, res){
+  try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
+
+    const updateExerciseData = {
+      planID: req.body.planID,
+      sets: req.body.sets,
+      metric: exerciseData.metric,
+      dayOfWeek: exerciseData.dayOfWeek,
+      exerciseID: exerciseData.exerciseID,
+    }
+
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, req.userID, 'Client');
+    
+    // add back exercises
+    const updatedExercise = await addExercise_DB(updateExerciseData, req.userID, 'Client');
+
+    res.status(200);
+    res.send(updatedExercise);
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
+
+  }
+}
+
+async function coachEditExercise(req, res){
+  try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
+
+    const updateExerciseData = {
+      planID: req.body.planID,
+      sets: req.body.sets,
+      metric: exerciseData.metric,
+      dayOfWeek: exerciseData.dayOfWeek,
+      exerciseID: exerciseData.exerciseID,
+    }
+
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, req.userID, 'Client');
+    
+    // add back exercises
+    const updatedExercise = await addExercise_DB(updateExerciseData, req.userID, 'Client');
+
+    res.status(200);
+    res.send(updatedExercise);
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
+
+  }
+}
+
+async function clientDeleteExercise(req, res){
+  try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.query.planID);
+
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, req.userID, 'Client');
+    res.status(200);
+    res.send({
+      message: "Exercise Deleted"
+    })
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
+  }
+}
+
+async function coachDeleteExercise(req, res){
+  try{
+    // get exercise information like metrics to update properly
+    const exerciseData = await getExerciseDataFromPlan_DB(req.query.planID);
+    const userID = req.query.userID
+
+    // delete old exercises
+    await deleteExercise_DB(exerciseData.exerciseID, exerciseData.dayOfWeek, userID, 'Coach');
+    res.status(200);
+    res.send({
+      message: "Exercise Deleted"
+    })
+  }catch(error){
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message
+      }
+    })
+  }
+
+}
+
+async function recordWorkout(req, res){
+  try{
+    if(req.body.date == ''){
+      throw new Error("Please select date");
+    }
+    const exerciseData = await getExerciseDataFromPlan_DB(req.body.planID);
+
+    const insertWorkout = {
+      planID: req.body.planID,
+      sets: req.body.sets,
+      date: req.body.date,
+      metric: exerciseData.metric,
+      exerciseID: exerciseData.exerciseID,
+    }
+    const recordedWorkout = await recordWorkout_DB(insertWorkout);
+    res.status(201);
+    return res.send({
+      status: 201,
+      message: "Workout recorded",
+    });
+  }catch(error){
+    res.status(500);
+    return res.send({
+      status: 500,
+      message: "Error recording workout",
+      details: error.message
+    });
+  }
+}
+
 module.exports = {
   getAssignedWorkoutPlan,
   clientAddExercise,
   getPersonalWorkoutPlan,
-  getLast5DaysOfWorkouts
+  getLast5DaysOfWorkouts,
+  coachAddExercise,
+  clientEditExercise,
+  clientDeleteExercise,
+  recordWorkout,
+  getAssignedWorkoutPlanForCoach,
+  coachDeleteExercise,
+  coachEditExercise
 };

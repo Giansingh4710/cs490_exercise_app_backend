@@ -1,7 +1,7 @@
-const { createPool } = require("../sql_config/database.js");
+const { pool } = require("../sql_config/database.js");
 
 async function getAssignedWorkoutPlan_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=? AND creator='Coach'";
   const [rows, _] = await connection.execute(query, [userID]);
@@ -9,21 +9,23 @@ async function getAssignedWorkoutPlan_DB(userID) {
   return rows;
 }
 
-//TODO begin transaction
-async function addExercise_DB(data, userID) {
+async function addExercise_DB(data, userID, creator) {
+  const connection = await pool.getConnection();
   try {
-    connection.promise().beginTransaction();
+    connection.beginTransaction();
     const sets = data.sets.length;
+    console.log(data);
     data.sets.forEach(async (element) => {
-      let query = null;
+      console.log(element);
+      let query = "";
       if (data.metric === "Reps") {
         query =
           "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Reps, Sets, Weight) VALUES(?, ?, ?, ?, ?, ?, ?)";
-        await connection.promise().query(query, [
+        await connection.execute(query, [
           userID,
           data.exerciseID,
           data.dayOfWeek,
-          "Client",
+          creator,
           element.reps,
           sets,
           element.weight,
@@ -31,14 +33,14 @@ async function addExercise_DB(data, userID) {
       } else {
         query =
           "INSERT INTO WorkoutPlan(UserID, ExerciseID, DayOfWeek, Creator, Duration, Sets, Weight, Reps) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        await connection.promise().query(query, [
+        await connection.execute(query, [
           userID,
           data.exerciseID,
           data.dayOfWeek,
-          "Client",
+          creator,
           element.duration,
           sets,
-          element.weight,
+          0,
           0,
         ]);
       }
@@ -47,11 +49,13 @@ async function addExercise_DB(data, userID) {
   } catch (error) {
     connection.rollback();
     throw new Error("Error entering exercise to workout plan");
+  }finally{
+    connection.release();
   }
 }
 
 async function getPersonalWorkoutPlan_DB(userID) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query =
     "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.ExerciseID = WorkoutPlan.ExerciseID where userID=? AND creator='Client'";
 
@@ -61,9 +65,9 @@ async function getPersonalWorkoutPlan_DB(userID) {
 }
 
 async function getLast5DaysOfWorkouts_DB(userID, startDate, endDate) {
-  const connection = await createPool().getConnection();
+  const connection = await pool.getConnection();
   const query = `
-    SELECT Record.exerciseID, Record.reps, Record.sets, Record.weight, Record.duration, Record.date, Exercise.name, Exercise.metric FROM Record
+    SELECT Record.exerciseID, Record.reps, Record.sets, Record.weight, Record.duration, Record.date, Exercise.name, Exercise.metric, Exercise.equipment FROM Record
         JOIN WorkoutPlan ON Record.planID = WorkoutPlan.planID
         JOIN Exercise ON Record.exerciseID = Exercise.exerciseID
         WHERE Record.date Between ? AND ? AND WorkoutPlan.userID = ?`;
@@ -77,9 +81,83 @@ async function getLast5DaysOfWorkouts_DB(userID, startDate, endDate) {
   return rows;
 }
 
+async function getExerciseDataFromPlan_DB(planID){
+  const connection = await pool.getConnection();
+  const query = "SELECT * FROM WorkoutPlan JOIN Exercise ON Exercise.exerciseID = WorkoutPlan.exerciseID WHERE planID = ?";
+  const [res, _] = await connection.execute(query, [planID]);
+  connection.release();
+  return res[0];
+}
+
+// const updateExerciseData = {
+//   planID: req.body.planID,
+//   reps: req.body.reps,
+//   sets: req.body.sets,
+//   weight: req.body.weight,
+//   duration: req.body.duration,
+//   metric: exerciseData.metric
+// }
+
+async function deleteExercise_DB(exerciseID, dayOfWeek, userID, client){
+  const connection = pool.getConnection();
+
+  // delete from workoutplan
+  const query = "DELETE FROM WorkoutPlan WHERE exerciseID = ? AND dayOfWeek = ? AND userID = ? AND creator = ?";
+  (await connection).execute(query, [exerciseID, dayOfWeek, userID, client]);
+
+  // delete from records
+
+
+  (await connection).release();
+}
+
+async function recordWorkout_DB(data){
+  const connection = await pool.getConnection();
+  try {
+    connection.beginTransaction();
+    const sets = data.sets.length;
+
+    data.sets.forEach(async (element) => {
+      let query = "";
+      if (data.metric === "Reps") {
+        query =
+          "INSERT INTO Record(planID, exerciseID, date, reps, sets, weight) values(?, ?, ?, ?, ?, ?);";
+        await connection.execute(query, [
+          data.planID,
+          data.exerciseID,
+          data.date,
+          element.reps,
+          sets,
+          element.weight,
+        ]);
+      } else {
+        query =
+          "INSERT INTO Record(planID, exerciseID, date, reps, sets, duration) values(?, ?, ?, ?, ?, ?);";
+        await connection.execute(query, [
+          data.planID,
+          data.exerciseID,
+          data.date,
+          element.reps,
+          sets,
+          element.duration,
+        ]);
+      }
+    });
+    connection.commit();
+  } catch (error) {
+    connection.rollback();
+    throw new Error("Error entering exercise to record table");
+  }finally{
+    connection.release();
+  }
+}
+
 module.exports = {
   getAssignedWorkoutPlan_DB,
   addExercise_DB,
   getPersonalWorkoutPlan_DB,
   getLast5DaysOfWorkouts_DB,
+  getExerciseDataFromPlan_DB,
+  deleteExercise_DB,
+  recordWorkout_DB
 };

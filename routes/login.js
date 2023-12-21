@@ -4,10 +4,17 @@ const router = express.Router();
 const { login } = require("../controllers/login.js");
 
 /**
+ * @swagger
+ * tags:
+ *   name: login
+ */
+
+/**
  *  @swagger
  *  /login:
  *  post:
  *      summary: Logins user in
+ *      tags: [login]
  *      description: Logs in the user and returns jwt token and user data including userID, email, and role
  *      requestBody:
  *          required: true
@@ -65,10 +72,5 @@ const { login } = require("../controllers/login.js");
  *                                  example: "Unable to login"                             
  */
 router.post("/", login);
-
-router.get("/test", (req, res) => {
-    res.status(200);
-    res.send("works without db call");
-})
 
 module.exports = router

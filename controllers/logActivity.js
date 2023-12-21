@@ -19,6 +19,11 @@ async function recordDailySurvey(req, res) {
       throw new Error("User already completed daily survey for today");
     }
 
+    if(chosenUnit === 'cups' && req.body.waterData.amount >= 30 || chosenUnit === 'gallons' && req.body.waterData.amount >= 2 || chosenUnit === 'fl oz' && req.body.waterData.amount >= 240){
+      errorStatus = 400;
+      throw new Error("Water intake is too high.");
+    }
+
     await insertDailySurvey_DB(req.body, req.userID, date);
     res.status(201);
     res.send({

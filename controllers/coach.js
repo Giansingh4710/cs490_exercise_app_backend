@@ -7,7 +7,8 @@ const {
   getCities_DB,
   getUsersOfCoach_DB,
   getClientInfo_DB,
-  getCoachIDFromUserID_DB
+  getCoachIDFromUserID_DB,
+  terminateClient_DB,
 } = require(
   "../dataAccess/coach_db_access",
 );
@@ -110,8 +111,8 @@ async function searchCoachByAll(req, res) {
 
 async function getUsersOfCoach(req, res) {
   try {
-    let coachData = await getCoachIDFromUserID_DB(req.userID); // set in ../utils/security.js
-    const clients = await getUsersOfCoach_DB(coachData.coachID);
+    // let coachData = await getCoachIDFromUserID_DB(req.userID); // set in ../utils/security.js
+    const clients = await getUsersOfCoach_DB(req.userID);
     res.status(200);
     res.send(clients);
   } catch (error) {
@@ -201,6 +202,28 @@ async function getCoachIDFromUserID(req, res){
   }
 }
 
+async function terminateClient(req, res) {
+  try {
+    const userID = req.query.userID; // set in ../utils/security.js
+    const coachID = (await getCoachIDFromUserID_DB(req.userID)).coachID;
+    const userData = await terminateClient_DB(userID, coachID, req.userID); 
+    res.status(200);
+    res.send({
+      status: 200,
+      message: "User terminated from coach"
+    });
+  } catch (error) {
+    res.status(500);
+    res.send({
+      error: {
+        status: 500,
+        message: error.message,
+        details: "Error trying to update user's coachID in database.",
+      },
+    });
+  }
+}
+
 module.exports = {
   getCoachByID,
   getAllCoaches,
@@ -210,5 +233,6 @@ module.exports = {
   getCities,
   getUsersOfCoach,
   getClientInfo,
-  getCoachIDFromUserID
+  getCoachIDFromUserID,
+  terminateClient
 };

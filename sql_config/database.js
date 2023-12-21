@@ -38,8 +38,8 @@ function createPool() {
     database: "fitnessDB",
 
     waitForConnections: true,
-    connectionLimit: 10, // Adjust as needed based on your requirements
-    queueLimit: 0, //set higher to prevent errors
+    connectionLimit: 100, // Adjust as needed based on your requirements
+    queueLimit: 100, //set higher to prevent errors
   });
 
   pool.on("error", (err) => {
@@ -53,8 +53,10 @@ function createPool() {
   return pool;
 }
 
+const pool = createPool();
+
 module.exports = {
-  createPool,
+  pool,
   PORT,
   SECRET_KEY,
   BCRYPT_WORK_FACTOR,

@@ -15,10 +15,17 @@ const {
 );
 
 /**
+ * @swagger
+ * tags:
+ *   name: request
+ */
+
+/**
  *  @swagger
  *  /request:
  *  post:
  *      summary: Creates request on database of user requesting coach
+ *      tags: [request]
  *      requestBody:
  *          required: true
  *          content:
@@ -118,9 +125,9 @@ router.post("/", requireAuthedUser, requestCoach);
  *  /request/openClientRequest:
  *  get:
  *      summary: Returns all request from clients that have not been accepted by coach
+ *      tags: [request]
  *      responses:
  *          200:
- *              description: List of all coaches matching the name given in the query
  *              content:
  *                  application/json:
  *                      schema:
@@ -152,7 +159,6 @@ router.post("/", requireAuthedUser, requestCoach);
  *                              firstName: Gavin
  *                              lastName: Egger
  *          500:
- *              description: UserID of logged in user does not match userID in request
  *              content:
  *                  application/json:
  *                      schema:
@@ -175,10 +181,10 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  *  @swagger
  *  /request/openCoachRequests:
  *  get:
- *      summary: WORK IN PROGRESS, NEED TO CONFIRM ENDPOINT USE. Returns all request from clients that have not been accepted by coach
+ *      summary: Returns all request from clients that have not been accepted by coach
+ *      tags: [request]
  *      responses:
  *          200:
- *              description: List of all coaches matching the name given in the query
  *              content:
  *                  application/json:
  *                      schema:
@@ -210,7 +216,6 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  *                              firstName: Gavin
  *                              lastName: Egger
  *          500:
- *              description: UserID of logged in user does not match userID in request
  *              content:
  *                  application/json:
  *                      schema:
@@ -229,10 +234,310 @@ router.get("/openClientRequest", requireAuthedUser, getOpenRequests);
  */
 router.get("/openCoachRequests", requireAuthedUser, unansweredRequestsByCoach);
 
+/**
+ *  @swagger
+ *  request/status:
+ *  get:
+ *      summary: Get status data for a user with a specific coach
+ *      tags: [request]
+ *      parameters:
+ *        - in: query
+ *          name: userID
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The unique identifier for the user
+ *        - in: query
+ *          name: coachID
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The unique identifier for the coach
+ *      responses:
+ *          200:
+ *              description: Status data retrieved successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              status:
+ *                                  type: string
+ *                                  description: The status of the user-coach relationship
+ *                                  example: Active
+ *                              requestID:
+ *                                  type: integer
+ *                                  description: The unique identifier for the status request
+ *                                  example: 123
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Error trying to get status in database.
+ */
 router.get("/status", getStatus);
 
+/**
+ *  @swagger
+ *  /requests/accept:
+ *  get:
+ *      summary: Accept a coaching request
+ *      tags: [request]
+ *      parameters:
+ *        - in: query
+ *          name: requestID
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The unique identifier for the coaching request
+ *      responses:
+ *          200:
+ *              description: Coaching request accepted successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              fieldCount:
+ *                                  type: integer
+ *                                  description: Number of columns affected
+ *                                  example: 0
+ *                              affectedRows:
+ *                                  type: integer
+ *                                  description: Number of rows affected
+ *                                  example: 1
+ *                              insertId:
+ *                                  type: integer
+ *                                  description: ID of the last inserted row
+ *                                  example: 0
+ *                              info:
+ *                                  type: string
+ *                                  description: Additional information
+ *                                  example: ""
+ *                              serverStatus:
+ *                                  type: integer
+ *                                  description: Server status code
+ *                                  example: 2
+ *                              warningStatus:
+ *                                  type: integer
+ *                                  description: Warning status code
+ *                                  example: 0
+ *                              changedRows:
+ *                                  type: integer
+ *                                  description: Number of changed rows
+ *                                  example: 0
+ *                          example:
+ *                              fieldCount: 0
+ *                              affectedRows: 1
+ *                              insertId: 0
+ *                              info: ""
+ *                              serverStatus: 2
+ *                              warningStatus: 0
+ *                              changedRows: 0
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Error trying to update request status in database.
+ */
 router.get("/accept", acceptRequest);
+
+/**
+ *  @swagger
+ *  /requests/decline:
+ *  get:
+ *      summary: Decline a coaching request
+ *      tags: [request]
+ *      parameters:
+ *        - in: query
+ *          name: requestID
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The unique identifier for the coaching request
+ *      responses:
+ *          200:
+ *              description: Coaching request declined successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              fieldCount:
+ *                                  type: integer
+ *                                  description: Number of columns affected
+ *                                  example: 0
+ *                              affectedRows:
+ *                                  type: integer
+ *                                  description: Number of rows affected
+ *                                  example: 1
+ *                              insertId:
+ *                                  type: integer
+ *                                  description: ID of the last inserted row
+ *                                  example: 0
+ *                              info:
+ *                                  type: string
+ *                                  description: Additional information
+ *                                  example: ""
+ *                              serverStatus:
+ *                                  type: integer
+ *                                  description: Server status code
+ *                                  example: 2
+ *                              warningStatus:
+ *                                  type: integer
+ *                                  description: Warning status code
+ *                                  example: 0
+ *                              changedRows:
+ *                                  type: integer
+ *                                  description: Number of changed rows
+ *                                  example: 0
+ *                          example:
+ *                              fieldCount: 0
+ *                              affectedRows: 1
+ *                              insertId: 0
+ *                              info: ""
+ *                              serverStatus: 2
+ *                              warningStatus: 0
+ *                              changedRows: 0
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Error trying to update request status in database.
+ */
 router.get("/decline", declineRequest);
+
+/**
+ *  @swagger
+ *  /request/cancel:
+ *  delete:
+ *      summary: Cancel a coaching request
+ *      tags: [request]
+ *      parameters:
+ *        - in: query
+ *          name: requestID
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: The unique identifier for the coaching request
+ *      responses:
+ *          200:
+ *              description: Coaching request canceled successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              fieldCount:
+ *                                  type: integer
+ *                                  description: Number of columns affected
+ *                                  example: 0
+ *                              affectedRows:
+ *                                  type: integer
+ *                                  description: Number of rows affected
+ *                                  example: 1
+ *                              insertId:
+ *                                  type: integer
+ *                                  description: ID of the last inserted row
+ *                                  example: 0
+ *                              info:
+ *                                  type: string
+ *                                  description: Additional information
+ *                                  example: "Rows matched: 1  Changed: 1  Warnings: 0"
+ *                              serverStatus:
+ *                                  type: integer
+ *                                  description: Server status code
+ *                                  example: 2
+ *                              warningStatus:
+ *                                  type: integer
+ *                                  description: Warning status code
+ *                                  example: 0
+ *                              changedRows:
+ *                                  type: integer
+ *                                  description: Number of changed rows
+ *                                  example: 1
+ *                          example:
+ *                              fieldCount: 0
+ *                              affectedRows: 1
+ *                              insertId: 0
+ *                              info: "Rows matched: 1  Changed: 1  Warnings: 0"
+ *                              serverStatus: 2
+ *                              warningStatus: 0
+ *                              changedRows: 1
+ *          500:
+ *              description: Error accessing Database.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: object
+ *                                  properties:
+ *                                      status:
+ *                                          type: integer
+ *                                          description: HTTP status code of response
+ *                                          example: 500
+ *                                      message:
+ *                                          type: string
+ *                                          description: Error message
+ *                                          example: Error accessing database
+ *                                      details:
+ *                                          type: string
+ *                                          description: Additional details about error
+ *                                          example: Error trying to delete request from database.
+ */
 router.delete("/cancel", cancelRequest);
 
 module.exports = router;
