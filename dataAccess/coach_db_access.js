@@ -116,12 +116,20 @@ async function getCoachIDFromUserID_DB(userID) {
   return rows[0];
 }
 
-async function terminateClient_DB(userID, coachID) {
+async function terminateClient_DB(userID, coachID, coachUserID) {
   const connection = await pool.getConnection();
   const query = "UPDATE User SET coachID = NULL WHERE userID = ?";
-  const requestQuery = "UPDATE Request SET status = 'Denied' WHERE userID = ? AND coachID = ?"; // need coachID so all requests dont get set to denied for a user
   const [rows, _] = await connection.execute(query, [userID]);
+
+  const requestQuery = "UPDATE Request SET status = 'Denied' WHERE userID = ? AND coachID = ?"; // need coachID so all requests dont get set to denied for a user
   const [requestRows, __] = await connection.execute(requestQuery, [userID, coachID]);
+
+  const deleteAssignedWorkoutQuery = "DELETE FROM WorkoutPlan WHERE userID = ? AND creator='Coach'";
+  await connection.execute(deleteAssignedWorkoutQuery, [userID]);
+  
+  const deleteMessagesQuery = "DELETE FROM Message WHERE senderID = ? AND receiverID = ? OR senderID = ? AND receiverID = ?";
+  await connection.execute(deleteMessagesQuery, [userID, coachUserID, coachUserID, userID]);
+
   connection.release();
   return rows[0];
 }
