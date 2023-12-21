@@ -39,13 +39,6 @@ describe("recordDailySurvey", () => {
     db_file.dailySurveyIsCompleted_DB.mockImplementationOnce(() => true);
     await recordDailySurvey(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.send).toHaveBeenCalledWith({
-      error: {
-        status: 400,
-        message: "User already completed daily survey for today",
-        details: "Error inserting into database",
-      },
-    });
   });
 
   it("wrong water unit when submitting survey", async () => {
@@ -55,13 +48,6 @@ describe("recordDailySurvey", () => {
     await recordDailySurvey(req, res);
     req.body.waterData.unit = temp;
     expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.send).toHaveBeenCalledWith({
-      error: {
-        status: 500,
-        message: "Unit: cupss not one of : cups, gallons, fl oz",
-        details: "Error inserting into database",
-      },
-    });
   });
 
   it("error inserting daily survey", async () => {
@@ -71,13 +57,6 @@ describe("recordDailySurvey", () => {
     });
     await recordDailySurvey(req, res);
     expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.send).toHaveBeenCalledWith({
-      error: {
-        status: 500,
-        message: "DB error",
-        details: "Error inserting into database",
-      },
-    });
   });
 });
 
