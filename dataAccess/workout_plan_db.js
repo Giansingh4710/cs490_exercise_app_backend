@@ -14,9 +14,7 @@ async function addExercise_DB(data, userID, creator) {
   try {
     connection.beginTransaction();
     const sets = data.sets.length;
-    console.log(data);
     data.sets.forEach(async (element) => {
-      console.log(element);
       let query = "";
       if (data.metric === "Reps") {
         query =
